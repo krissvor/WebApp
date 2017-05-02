@@ -17,14 +17,15 @@ User Registration
 <form action="UserRegistration" onsubmit="return testUserForm(this);" METHOD="POST">
     <input type="hidden" name="action" value="UserRegistration">
 
-    First Name: <input type="text" name="firstname" placeholder="First name"></br>
-    Last Name: <input type="text" name="lastname" placeholder="Last name"></br>
-    Year of birth: <input id="year" type="text" name="Birthyear"></br>
-    Username: <input type="text" name="username" placeholder="Username"></br>
-    Nickname: <input type="text" name="nickname" placeholder="Nickname"></br>
-    Email: <input id = "email" type="text" name="email" placeholder="name@example.com"></br>
-    Password: <input id="password" type="password" name="password" placeholder="********"></br>
-    Credit card number: <input type="text" name="credit" placeholder="1234 5678 9101 1121"></br>
+    First Name: <input type="text" class="UserRegInput" name="firstname" placeholder="First name"></br>
+    Last Name: <input type="text" class="UserRegInput" name="lastname" placeholder="Last name"></br>
+    Year of birth: <input id="year" class="UserRegInput" type="text" name="Birthyear"></br>
+    Username: <input type="text" class="UserRegInput" name="username" placeholder="Username"></br>
+    Nickname: <input type="text" class="UserRegInput" name="nickname" placeholder="Nickname"></br>
+    Email: <input id = "email" class="UserRegInput" type="text" name="email" placeholder="name@example.com"></br>
+    Password: <input id="password" class="UserRegInput" type="password" name="password" placeholder="********"></br>
+    Password: <input id="password2" class="UserRegInput" type="password" name="password2" placeholder="********"></br>
+    Credit card number: <input id = "creditCard" type="text" class="UserRegInput" name="credit" placeholder="1234 5678 9101 1121"></br>
     <input type="submit">
 </form>
 <button onClick="testUserForm()">Test skjemaet</button>
