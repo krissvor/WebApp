@@ -28,7 +28,6 @@ User Registration
     Credit card number: <input id = "creditCard" type="text" class="UserRegInput" name="credit" placeholder="1234 5678 9101 1121"></br>
     <input type="submit">
 </form>
-<button onClick="testUserForm()">Test skjemaet</button>
 
 </body>
 </html>

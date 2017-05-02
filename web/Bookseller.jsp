@@ -13,15 +13,17 @@
 <body>
 Bookseller
 
-Add booke
-<form action="addBook" METHOD="POST">
+Add books
+<form action="addBook"  METHOD="POST">
 
     <input type="hidden" name="action" value="addBook">
     <input type="text" name="title" placeholder="title">
     <input type="text" name="author" placeholder="author">
     <input type="text" name="publicationType" placeholder="Publication type">
     <input type="text" name="publicationDate" placeholder="Publication Date">
-    <input type="text" name="venue" placeholder="author">
+    <input type="text" name="venue" placeholder="venue">
+    <input type="text" name="price" placeholder="price">
+    <input type="file" name="picture" accept="image/jpg,image/png" placeholder="picture">
     <input type="submit" >
 
 </form>
