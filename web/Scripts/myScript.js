@@ -1,13 +1,16 @@
 /**
  * Created by kriss on 01-May-17.
  */
-
+var formIsValid;
 function testUserForm(){
-    everythingFilled();
+    formIsValid = true;
+   everythingFilled();
    validateYear();
    validateEmail();
    validatePassword();
    validateCredit();
+
+   return formIsValid;
 
 }
 
@@ -30,12 +33,16 @@ function validateCredit(){
         if(creditCardnumber.length==16){
             console.log("Credit card number valid");
         }
-        else
-            console.log("wrong lengt")
-    }
-    else
-        console.log("Only use numbers");
+        else {
+            console.log("wrong length");
+            formIsValid = false;
+        }
 
+    }
+    else {
+        console.log("Only use numbers");
+        formIsValid = false;
+    }
 }
 
 function everythingFilled(){
@@ -44,6 +51,7 @@ function everythingFilled(){
     for(var i = 0; i<inputArray.length;i++){
         if(inputArray[i].value.trim() == null || inputArray[i].value.trim() == ""){
             console.log(inputArray[i].getAttribute("name") + " isEmpty");
+            formIsValid = false;
         }
     }
 }
@@ -59,11 +67,14 @@ function validatePassword(){
         if(value === value2){
             console.log("Approved password");
         }
-        else
+        else {
             console.log("Passwords don't match");
+            formIsValid = false;
+        }
     }
     else{
         console.log("Password does not meet criteria");
+        formIsValid = false;
     }
 }
 
@@ -73,6 +84,7 @@ function validateEmail(){
 
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if(!re.test(value)){
+        formIsValid = false;
         field.value="Enter valid";
     }
 
@@ -98,6 +110,7 @@ function validateYear(){
     }
 
     if(!valid){
+        formIsValid = false;
         field.value="Enter valid Year";
     }
 }

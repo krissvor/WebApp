@@ -15,8 +15,8 @@ Bookseller
 
 Add booke
 <form action="addBook" METHOD="POST">
+    
     <input type="hidden" name="action" value="addBook">
-
     <input type="text" name="title" placeholder="title">
     <input type="text" name="author" placeholder="author">
     <input type="submit" >
