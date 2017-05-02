@@ -2,14 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="91b6a734-5f3e-48dd-8240-576b803d5fb1" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.gitignore.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/artifacts/WebApp2_war_exploded/Scripts/myScript.js" afterPath="$PROJECT_DIR$/out/artifacts/WebApp2_war_exploded/Scripts/myScript.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/artifacts/WebApp2_war_exploded/UserRegistration.jsp" afterPath="$PROJECT_DIR$/out/artifacts/WebApp2_war_exploded/UserRegistration.jsp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/artifacts/WebApp2_war_exploded/Bookseller.jsp" afterPath="$PROJECT_DIR$/out/artifacts/WebApp2_war_exploded/Bookseller.jsp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/Bookseller.jsp" afterPath="$PROJECT_DIR$/web/Bookseller.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/Scripts/myScript.js" afterPath="$PROJECT_DIR$/web/Scripts/myScript.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/UserRegistration.jsp" afterPath="$PROJECT_DIR$/web/UserRegistration.jsp" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -22,7 +17,7 @@
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.5">
+    <splitter split-orientation="horizontal" split-proportion="0.2945552">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="600">
           <file leaf-file-name="myScript.js" pinned="false" current-in-tab="false">
@@ -68,8 +63,8 @@
           <file leaf-file-name="UserRegistration.jsp" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/web/UserRegistration.jsp">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="400">
-                  <caret line="15" column="0" lean-forward="true" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+                <state relative-caret-position="1000">
+                  <caret line="30" column="0" lean-forward="true" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
@@ -92,8 +87,8 @@
           <file leaf-file-name="Bookseller.jsp" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/web/Bookseller.jsp">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="680">
-                  <caret line="17" column="4" lean-forward="false" selection-start-line="17" selection-start-column="4" selection-end-line="17" selection-end-column="4" />
+                <state relative-caret-position="520">
+                  <caret line="16" column="37" lean-forward="true" selection-start-line="16" selection-start-column="37" selection-end-line="16" selection-end-column="37" />
                   <folding />
                 </state>
               </provider>
@@ -130,8 +125,8 @@
         <option value="$PROJECT_DIR$/web/WEB-INF/Bookseller.jsp" />
         <option value="$PROJECT_DIR$/src/server/StaticServlet.java" />
         <option value="$PROJECT_DIR$/web/WEB-INF/web.xml" />
-        <option value="$PROJECT_DIR$/web/UserRegistration.jsp" />
         <option value="$PROJECT_DIR$/web/Scripts/myScript.js" />
+        <option value="$PROJECT_DIR$/web/UserRegistration.jsp" />
         <option value="$PROJECT_DIR$/web/Bookseller.jsp" />
       </list>
     </option>
@@ -305,7 +300,46 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Tomcat Server.Tomcat 7.0.42">
+  <component name="RunManager" selected="Tomcat Server.Bookseller.jsp">
+    <configuration default="false" name="Bookseller.jsp" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" temporary="true" APPLICATION_SERVER_NAME="Tomcat 7.0.42" ALTERNATIVE_JRE_ENABLED="false">
+      <option name="OPEN_IN_BROWSER_URL" value="http://localhost:8080/Bookseller.jsp" />
+      <deployment>
+        <artifact name="WebApp2:war exploded">
+          <settings>
+            <option name="CONTEXT_PATH" value="/" />
+          </settings>
+        </artifact>
+      </deployment>
+      <server-settings>
+        <option name="BASE_DIRECTORY_NAME" value="Bookseller_jsp_WebApp2" />
+      </server-settings>
+      <predefined_log_file id="Tomcat" enabled="true" />
+      <predefined_log_file id="Tomcat Catalina" enabled="true" />
+      <predefined_log_file id="Tomcat Manager" enabled="false" />
+      <predefined_log_file id="Tomcat Host Manager" enabled="false" />
+      <predefined_log_file id="Tomcat Localhost Access" enabled="false" />
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Run">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <method>
+        <option name="BuildArtifacts" enabled="true">
+          <artifact name="WebApp2:war exploded" />
+        </option>
+      </method>
+    </configuration>
     <configuration default="true" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" ALTERNATIVE_JRE_ENABLED="false">
       <deployment />
       <server-settings />
@@ -793,9 +827,15 @@
         </option>
       </method>
     </configuration>
-    <list size="1">
+    <list size="2">
       <item index="0" class="java.lang.String" itemvalue="Tomcat Server.Tomcat 7.0.42" />
+      <item index="1" class="java.lang.String" itemvalue="Tomcat Server.Bookseller.jsp" />
     </list>
+    <recent_temporary>
+      <list size="1">
+        <item index="0" class="java.lang.String" itemvalue="Tomcat Server.Bookseller.jsp" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="ShelveChangesManager" show_recycled="false">
     <option name="remove_strategy" value="false" />
@@ -809,12 +849,12 @@
       <updated>1493623811757</updated>
       <workItem from="1493623818861" duration="8099000" />
       <workItem from="1493698053404" duration="2395000" />
-      <workItem from="1493704085576" duration="5420000" />
+      <workItem from="1493704085576" duration="6758000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="15914000" />
+    <option name="totallyTimeSpent" value="17252000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-16" y="-16" width="3872" height="2092" extended-state="6" />
@@ -998,14 +1038,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/UserRegistration.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="400">
-          <caret line="15" column="0" lean-forward="true" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/web/Scripts/myScript.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="902">
@@ -1014,10 +1046,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/web/UserRegistration.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1000">
+          <caret line="30" column="0" lean-forward="true" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/web/Bookseller.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="680">
-          <caret line="17" column="4" lean-forward="false" selection-start-line="17" selection-start-column="4" selection-end-line="17" selection-end-column="4" />
+        <state relative-caret-position="520">
+          <caret line="16" column="37" lean-forward="true" selection-start-line="16" selection-start-column="37" selection-end-line="16" selection-end-column="37" />
           <folding />
         </state>
       </provider>
