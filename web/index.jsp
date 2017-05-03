@@ -15,6 +15,7 @@
   <body>
   <a href="UserRegistration.jsp"> User Registration</a>
   <a href="Bookseller.jsp"> Bookseller</a>
+  <a href="Login.jsp">Log in</a>
 
   <form action="test">
     <input type="submit">

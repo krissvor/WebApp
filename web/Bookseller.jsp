@@ -28,7 +28,7 @@ Add books
     <input type="text" name="url" placeholder="url">
     <input type="text" name="ee" placeholder="ee">
     <input type="file" name="picture" accept="image/*" placeholder="picture">
-    <input type="submit" >
+    <input type="submit">
 
 </form>
 
