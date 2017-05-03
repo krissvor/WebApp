@@ -26,13 +26,13 @@ public class 	SqlHandler {
 
 	public SqlHandler() {
 
-//		try {
-//			System.out.println("Loading MYSQL driver...");
-//			Class.forName("com.mysql.jdbc.Driver");
-//			System.out.println("MYSQL Driver loaded!");
-//		} catch (ClassNotFoundException e) {
-//			throw new RuntimeException("Cannot find the driver in the classpath!", e);
-//		}
+		try {
+			System.out.println("Loading MYSQL driver...");
+			Class.forName("com.mysql.jdbc.Driver");
+			System.out.println("MYSQL Driver loaded!");
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Cannot find the driver in the classpath!", e);
+		}
 	}
 
 	public void connect() {
@@ -81,7 +81,7 @@ public class 	SqlHandler {
 			statement = connection.createStatement();
 
 			java.sql.PreparedStatement add = connection.prepareStatement(
-					"INSERT INTO book (publicationtype, publicationdate,title,pages,url,ee,price,picture) VALUES(?, ?, ? ,? ,?, ?,?,?)", Statement.RETURN_GENERATED_KEYS);
+					"INSERT INTO book (publicationtype, publicationdate,title,pages,url,ee,price) VALUES(?, ?, ? ,? ,?, ?,?)", Statement.RETURN_GENERATED_KEYS);
 			add.setString(1, book.getPublicationType());
 			add.setString(2, book.getPublicationDate());
 			add.setString(3, book.getTitle());
@@ -89,7 +89,7 @@ public class 	SqlHandler {
 			add.setString(5, book.getUrl());
 			add.setString(6, book.getEe());
 			add.setString(7, book.getPrice());
-			add.setString(8, book.getPicture());
+//			add.setString(8, book.getPicture());
 
 			int affectedRows = add.executeUpdate();
 
