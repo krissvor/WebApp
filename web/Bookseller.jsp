@@ -23,7 +23,7 @@ Add books
     <input type="text" name="publicationDate" placeholder="Publication Date">
     <input type="text" name="venue" placeholder="venue">
     <input type="text" name="price" placeholder="price">
-    <input type="file" name="picture" accept="image/jpg,image/png" placeholder="picture">
+    <input type="file" name="picture" accept="image/*" placeholder="picture">
     <input type="submit" >
 
 </form>

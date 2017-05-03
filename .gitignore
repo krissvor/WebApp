@@ -1,4 +1,4 @@
-out/
+**/out/
 **/logs/
 **/.idea/
 .DS_Store
