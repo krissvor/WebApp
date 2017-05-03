@@ -1,6 +1,7 @@
 package controllers;
 
 import Beans.UserBean;
+import server.SqlHandler;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -26,6 +27,11 @@ public class UserRegController {
         userBean.setNickname(request.getParameter("nickname"));
         userBean.setPassword(request.getParameter("password"));
         userBean.setUsername(request.getParameter("username"));
+
+        SqlHandler sqlHandler = new SqlHandler();
+        sqlHandler.connect();
+        sqlHandler.addUser(userBean);
+        sqlHandler.closeConnection();
 
         System.out.println(userBean.toString());
 

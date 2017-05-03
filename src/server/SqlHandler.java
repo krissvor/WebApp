@@ -1,6 +1,7 @@
 package server;
 
 import Beans.BookBean;
+import Beans.UserBean;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.Statement;
 
@@ -90,6 +91,45 @@ public class 	SqlHandler {
 			add.setString(6, book.getEe());
 			add.setString(7, book.getPrice());
 			add.setString(8, book.getPicture());
+
+			int affectedRows = add.executeUpdate();
+
+
+
+			ResultSet generatedKeys = add.getGeneratedKeys();
+			if (generatedKeys.next()) {
+
+				System.out.println(generatedKeys.getInt(1));
+				return generatedKeys.getInt(1);
+			}
+
+		} catch (SQLException e) {
+			System.out.println("failed to add user to database");
+			e.printStackTrace();
+			return -1;
+		} finally {
+			closeConnection();
+		}
+
+		return -1;
+	}
+
+	public int addUser(UserBean user) {
+
+
+		try {
+			statement = connection.createStatement();
+
+			java.sql.PreparedStatement add = connection.prepareStatement(
+					"INSERT INTO user (username, password,email,nickname,firstname,lastname,creditcardnumber) VALUES(?, ?, ? ,? ,?, ?,?)", Statement.RETURN_GENERATED_KEYS);
+			add.setString(1, user.getUsername());
+			add.setString(2, user.getPassword());
+			add.setString(3, user.getEmail());
+			add.setString(4, user.getNickname());
+			add.setString(5, user.getFirstName());
+			add.setString(6, user.getLastName());
+			add.setString(7, user.getCreditCard());
+
 
 			int affectedRows = add.executeUpdate();
 
