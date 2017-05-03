@@ -1,5 +1,8 @@
 package Beans;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 /**
  * Created by david on 03/05/2017.
  */
@@ -8,8 +11,36 @@ public class BookBean {
     private String publicationType, publicationDate, venues, year, title, pages, journal, url, ee, price, picture;
     private int id;
 
-    public BookBean(){
+    @Override
+    public String toString() {
+        return "BookBean{" +
+                "publicationType='" + publicationType + '\'' +
+                ", publicationDate='" + publicationDate + '\'' +
+                ", venues='" + venues + '\'' +
+                ", year='" + year + '\'' +
+                ", title='" + title + '\'' +
+                ", pages='" + pages + '\'' +
+                ", journal='" + journal + '\'' +
+                ", url='" + url + '\'' +
+                ", ee='" + ee + '\'' +
+                ", price='" + price + '\'' +
+                ", picture='" + picture + '\'' +
+                ", id=" + id +
+                ", author=" + Arrays.toString(author) +
+                '}';
+    }
 
+    public String[] getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String[] author) {
+        this.author = author;
+    }
+
+    private String[] author;
+
+    public BookBean(){
     }
 
     public BookBean(String publicationType, String publicationDate, String venues,

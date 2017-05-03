@@ -3,7 +3,6 @@ package server;
 import Beans.BookBean;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.Statement;
-import model.Book;
 
 import java.sql.DriverManager;
 import java.sql.ResultSet;
