@@ -7,16 +7,21 @@ import com.mysql.jdbc.Statement;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Properties;
 
 
 public class 	SqlHandler {
 
-	private String url = "127.0.0.1:8081";
+	private String url = "jdbc:mysql://127.0.0.1:3306/webApp";
 	private String username = "root";
 	private String passwd = "password";
 	private Connection connection = null;
 	private java.sql.Statement statement = null;
 	private ResultSet resultSet = null;
+
+
+
+
 
 
 	public SqlHandler() {
@@ -34,7 +39,12 @@ public class 	SqlHandler {
 
 		System.out.println("Connecting to SQLdatabase...");
 		try {
-			connection = (Connection) DriverManager.getConnection(url, username, passwd);
+
+			Properties connectionProps = new Properties();
+			connectionProps.put("user", "root");
+			connectionProps.put("password", "password");
+
+			connection = (Connection) DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/webApp", connectionProps);
 		} catch (SQLException e) {
 			System.out.println("Could not establish a connection to the SQL database");
 			e.printStackTrace();
@@ -71,24 +81,24 @@ public class 	SqlHandler {
 			statement = connection.createStatement();
 
 			java.sql.PreparedStatement add = connection.prepareStatement(
-					"INSERT INTO book (publicationtype, publicationdate,year,title,pages,journal,url,ee,price,picture) VALUES(?, ?, ?, ?, ? ,? ,?, ?,?,?)", Statement.RETURN_GENERATED_KEYS);
+					"INSERT INTO book (publicationtype, publicationdate,title,pages,url,ee,price,picture) VALUES(?, ?, ? ,? ,?, ?,?,?)", Statement.RETURN_GENERATED_KEYS);
 			add.setString(1, book.getPublicationType());
 			add.setString(2, book.getPublicationDate());
-			add.setString(3, book.getYear());
-			add.setString(4, book.getTitle());
-			add.setString(5, book.getPages());
-			add.setString(6, book.getJournal());
-			add.setString(7, book.getUrl());
-			add.setString(8, book.getEe());
-			add.setString(9, book.getPrice());
-			add.setString(10, book.getPicture());
-
+			add.setString(3, book.getTitle());
+			add.setString(4, book.getPages());
+			add.setString(5, book.getUrl());
+			add.setString(6, book.getEe());
+			add.setString(7, book.getPrice());
+			add.setString(8, book.getPicture());
 
 			int affectedRows = add.executeUpdate();
 
 
-			ResultSet generatedKeys = statement.getGeneratedKeys();
+
+			ResultSet generatedKeys = add.getGeneratedKeys();
 			if (generatedKeys.next()) {
+
+				System.out.println(generatedKeys.getInt(1));
 				return generatedKeys.getInt(1);
 			}
 
