@@ -12,6 +12,8 @@ function testUserForm(){
 
    return formIsValid;
 
+    document.getelementById("firstname").invalid.bs.validator();
+
 }
 
 function validateCredit(){
@@ -50,14 +52,14 @@ function everythingFilled(){
 
     for(var i = 0; i<inputArray.length;i++){
         if(inputArray[i].value.trim() == null || inputArray[i].value.trim() == ""){
-            console.log(inputArray[i].getAttribute("name") + " isEmpty");
+            console.log(inputArray[i].getAttribute("type") + " isEmpty");
             formIsValid = false;
         }
     }
 }
 
 function validatePassword(){
-    var field = document.getElementById("password");
+    var field = document.getElementById("password1");
     var field2 = document.getElementById("password2");
     var value = field.value;
     var value2 = field2.value;
@@ -85,7 +87,6 @@ function validateEmail(){
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if(!re.test(value)){
         formIsValid = false;
-        field.value="Enter valid";
     }
 
 }
@@ -110,7 +111,6 @@ function validateYear(){
     }
 
     if(!valid){
-        formIsValid = false;
         field.value="Enter valid Year";
     }
 }
