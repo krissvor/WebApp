@@ -1,5 +1,6 @@
 package server;
 
+import controllers.UserRegController;
 import org.xml.sax.SAXException;
 
 import javax.servlet.ServletException;
@@ -35,8 +36,8 @@ public class StaticServlet extends HttpServlet {
 
                 case("UserRegistration"):
                     System.out.println("Recieved User registration request");
-                    System.out.println("firstname = " +request.getParameter("firstname"));
-
+                    UserRegController userReg = new UserRegController();
+                    userReg.registerNewUser(request);
                     break;
 
                 case("addBook"):

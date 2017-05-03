@@ -17,50 +17,50 @@
 </head>
 <body>
 
-<form action="UserRegistration" data-toggle="validator" onsubmit="return testUserForm(this);" METHOD="POST">
-
+<form action="UserRegistration" data-toggle="validator" METHOD="POST">
+    <input type="hidden" name = "action" value = "UserRegistration">
     <div class="form-horizontal">
         <h1>User Registration</h1>
         <div class="form-group" >
             <label for="firstName" class="col-sm-2 control-label">First Name</label>
             <div class="col-lg-6">
-                <input id = firstname" type="firstName" class="form-control UserRegInput" id="firstName" placeholder="First Name">
+                <input id = firstname" name="firstname" type="firstName" class="form-control UserRegInput" id="firstName" placeholder="First Name">
             </div>
         </div>
         <div class="form-group">
             <label for="lastname" class="col-sm-2 control-label">Last Name</label>
             <div class="col-lg-6">
-                <input type="lastname" class="form-control UserRegInput" id="lastname" placeholder="Last Name">
+                <input type="lastname" name="lastname"class="form-control UserRegInput" id="lastname" placeholder="Last Name">
             </div>
         </div>
         <div class="form-group" >
             <label for="year" class="col-sm-2 control-label">Year of birth</label>
             <div class="col-lg-6">
-                <input type="year" class="form-control UserRegInput" id="year" placeholder="Year">
+                <input type="year" name="year" class="form-control UserRegInput" id="year" placeholder="Year">
             </div>
         </div>
         <div class="form-group" >
             <label for="username" class="col-sm-2 control-label">Username</label>
             <div class="col-lg-6">
-                <input type="username" class="form-control UserRegInput" id="username" placeholder="Username">
+                <input type="username" name="username" class="form-control UserRegInput" id="username" placeholder="Username">
             </div>
         </div>
         <div class="form-group" >
             <label for="nickname" class="col-sm-2 control-label">Nickname</label>
             <div class="col-lg-6">
-                <input type="nickname" class="form-control UserRegInput" id="nickname" placeholder="Nickname">
+                <input type="nickname" name="nickname" class="form-control UserRegInput" id="nickname" placeholder="Nickname">
             </div>
         </div>
         <div class="form-group" >
             <label for="email" class="col-sm-2 control-label">Email</label>
             <div class="col-lg-6">
-                <input type="email" class="form-control UserRegInput" id="email" placeholder="Email">
+                <input type="email" name="email"class="form-control UserRegInput" id="email" placeholder="Email">
             </div>
         </div>
         <div class="form-group">
-            <label for="password" class="col-sm-2 control-label">Password</label>
+            <label for="password1" class="col-sm-2 control-label">Password</label>
             <div class="col-lg-6">
-                <input type="password" class="form-control UserRegInput" id="password1" placeholder="********">
+                <input type="password" name="password"class="form-control UserRegInput" id="password1" placeholder="********">
             </div>
         </div>
         <div class="form-group">
@@ -72,7 +72,7 @@
         <div class="form-group" >
             <label for="creditCard" class="col-sm-2 control-label">Creditcard Number</label>
             <div class="col-lg-6">
-                <input type="creditCard" class="form-control UserRegInput" id="creditCard" placeholder="1234 5678 9101 1121">
+                <input type="creditCard" name="creditcard"class="form-control UserRegInput" id="creditCard" placeholder="1234 5678 9101 1121">
             </div>
         </div>
         <div class="form-group">
