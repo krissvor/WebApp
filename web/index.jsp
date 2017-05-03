@@ -81,7 +81,6 @@
           </ul>
         </div>
         <input type="text" class="form-control" name="searchText" placeholder="Seach term...">
-
         <span class="input-group-btn">
                 <button type="submit" class="btn btn-secondary"><i class="fa fa-search" aria-hidden="true"></i></button>
             </span>
