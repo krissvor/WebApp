@@ -1,5 +1,6 @@
 package server;
 
+import controllers.BookController;
 import controllers.UserRegController;
 import org.xml.sax.SAXException;
 
@@ -42,6 +43,8 @@ public class StaticServlet extends HttpServlet {
 
                 case("addBook"):
                     System.out.println("trying to add book");
+                    BookController bookController = new BookController();
+                    bookController.addBook(request);
             }
 
         }

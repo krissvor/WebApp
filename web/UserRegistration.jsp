@@ -83,7 +83,6 @@
     </div>
 
 </form>
-<button onClick="testUserForm()">Test skjemaet</button>
 
 </body>
 </html>
