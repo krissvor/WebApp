@@ -26,13 +26,13 @@ public class 	SqlHandler {
 
 	public SqlHandler() {
 
-		try {
-			System.out.println("Loading MYSQL driver...");
-			Class.forName("com.mysql.jdbc.Driver");
-			System.out.println("MYSQL Driver loaded!");
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Cannot find the driver in the classpath!", e);
-		}
+//		try {
+//			System.out.println("Loading MYSQL driver...");
+//			Class.forName("com.mysql.jdbc.Driver");
+//			System.out.println("MYSQL Driver loaded!");
+//		} catch (ClassNotFoundException e) {
+//			throw new RuntimeException("Cannot find the driver in the classpath!", e);
+//		}
 	}
 
 	public void connect() {
@@ -48,8 +48,8 @@ public class 	SqlHandler {
 		} catch (SQLException e) {
 			System.out.println("Could not establish a connection to the SQL database");
 			e.printStackTrace();
+			System.out.println("connection to Mysql established");
 		}
-		System.out.println("connection to Mysql established");
 	}
 
 	public void closeConnection() {

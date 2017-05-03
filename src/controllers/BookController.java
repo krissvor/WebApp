@@ -1,6 +1,7 @@
 package controllers;
 
 import Beans.BookBean;
+import server.SqlHandler;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -31,6 +32,12 @@ public class BookController {
             authors[i] = authors[i].trim();
         }
         book.setAuthor(authors);
+
+        SqlHandler sq = new SqlHandler();
+        sq.connect();
+        int bookId = sq.addBook(book);
+        System.out.println(bookId);
+
         System.out.println(book.toString());
     }
 }
