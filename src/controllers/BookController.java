@@ -27,16 +27,20 @@ public class BookController {
         book.setEe(request.getParameter("ee"));
 
 
+        ArrayList<String> usrs = new ArrayList<String>();
+
         String[] authors = request.getParameter("author").split(",");
         for (int i = 0; i <authors.length ; i++) {
-            authors[i] = authors[i].trim();
+            usrs.add(authors[i].trim());
         }
-        book.setAuthor(authors);
+
+        book.setAuthor(usrs);
 
         SqlHandler sq = new SqlHandler();
         sq.connect();
-        int bookId = sq.addBook(book);
-        System.out.println(bookId);
+        sq.addBook(book);
+        sq.closeConnection();
+
 
         System.out.println(book.toString());
     }

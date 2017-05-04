@@ -5,8 +5,10 @@ import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.Statement;
 
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Properties;
 
 
@@ -26,13 +28,13 @@ public class 	SqlHandler {
 
 	public SqlHandler() {
 
-//		try {
-//			System.out.println("Loading MYSQL driver...");
-//			Class.forName("com.mysql.jdbc.Driver");
-//			System.out.println("MYSQL Driver loaded!");
-//		} catch (ClassNotFoundException e) {
-//			throw new RuntimeException("Cannot find the driver in the classpath!", e);
-//		}
+		try {
+			System.out.println("Loading MYSQL driver...");
+			Class.forName("com.mysql.jdbc.Driver");
+			System.out.println("MYSQL Driver loaded!");
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Cannot find the driver in the classpath!", e);
+		}
 	}
 
 	public void connect() {
@@ -76,8 +78,26 @@ public class 	SqlHandler {
 
 	public int addBook(BookBean book) {
 
+		int bookKey = -1;
+		int authorKey = -1;
+
+		ArrayList<Integer> generatedAuthorKeys = new ArrayList<Integer>();
+
+		if(book.getAuthor() == null){
+			throw new IllegalArgumentException("Error: author field can not be NULL when adding a book to the database");
+		}
+
+		for(String author : book.getAuthor()){
+
+			authorKey = addAuthor(author);
+
+			if(authorKey != -1){
+				generatedAuthorKeys.add(authorKey);
+			}
+		}
 
 		try {
+
 			statement = connection.createStatement();
 
 			java.sql.PreparedStatement add = connection.prepareStatement(
@@ -93,30 +113,91 @@ public class 	SqlHandler {
 
 			int affectedRows = add.executeUpdate();
 
-
-
 			ResultSet generatedKeys = add.getGeneratedKeys();
 			if (generatedKeys.next()) {
+				bookKey = generatedKeys.getInt(1);
+				System.out.println(bookKey);
+			}
+			else{return -1;}
 
-				System.out.println(generatedKeys.getInt(1));
-				return generatedKeys.getInt(1);
+			int res;
+			for(int key : generatedAuthorKeys){
+
+				res = addBookAuthorRelation(bookKey, key);
+
+				if(res == -1){
+					System.out.println("klarte ikke lage bookauthor relasjon");
+				}
 			}
 
 		} catch (SQLException e) {
-			System.out.println("failed to add user to database");
+			System.out.println("failed to add Book to database");
 			e.printStackTrace();
 			return -1;
 		} finally {
-			closeConnection();
+
 		}
 
 		return -1;
 	}
 
+	private int addAuthor(String author){
+
+		try {
+			statement = connection.createStatement();
+
+			PreparedStatement add = connection.prepareStatement("SELECT * FROM author WHERE name='"+author+"'", Statement.RETURN_GENERATED_KEYS);
+
+			add.execute();
+
+			ResultSet entries = add.getResultSet();
+
+			if(!entries.next()){
+				add = connection.prepareStatement("INSERT INTO author(name) VALUES(?)", Statement.RETURN_GENERATED_KEYS);
+				add.setString(1, author);
+				add.executeUpdate();
+
+				ResultSet generatedKeys = add.getGeneratedKeys();
+
+				if(generatedKeys.next()){
+					System.out.println(generatedKeys.getInt(1));
+					return generatedKeys.getInt(1);
+				}
+			}
+			else{return entries.getInt(1);}
+
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return -1;
+	}
+
+	private int addBookAuthorRelation(int bookID, int authorID){
+
+		try {
+			statement = connection.createStatement();
+
+			PreparedStatement add = connection.prepareStatement("INSERT INTO book_author(book_id, author_id) VALUES(?,?)");
+
+			add.setInt(1, bookID);
+			add.setInt(2, authorID);
+
+			int affectedRows = add.executeUpdate();
+
+			if(affectedRows >= 1){
+				return 1;
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return -1;
+
+	}
 }
-
-
-
 
 /*
 	public boolean validate(String Email, String password){
