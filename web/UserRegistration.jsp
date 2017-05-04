@@ -17,7 +17,7 @@
 </head>
 <body>
 
-<form action="UserRegistration" data-toggle="validator" METHOD="POST">
+<form action="UserRegistration" data-toggle="validator" onsubmit="return testUserForm()" METHOD="POST">
     <input type="hidden" name = "action" value = "UserRegistration">
     <div class="form-horizontal">
         <h1>User Registration</h1>
@@ -42,7 +42,7 @@
         <div class="form-group" >
             <label for="username" class="col-sm-2 control-label">Username</label>
             <div class="col-lg-6">
-                <input type="username" name="username" class="form-control UserRegInput" id="username" placeholder="Username">
+                <input type="username" name="username" class="form-control UserRegInput" onfocusout="validateUsername()" id="username" placeholder="Username">
             </div>
         </div>
         <div class="form-group" >

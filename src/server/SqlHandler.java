@@ -55,6 +55,7 @@ public class 	SqlHandler {
 		}
 	}
 
+
 	public void closeConnection() {
 
 		if (connection != null) {
@@ -74,6 +75,34 @@ public class 	SqlHandler {
 			}
 			System.out.println("Connection to Mysql closed!");
 		}
+	}
+
+
+	public boolean usernameExists(String username){
+		boolean exists = true;
+		try {
+			statement = connection.createStatement();
+
+			java.sql.PreparedStatement add = connection.prepareStatement(
+					"SELECT * FROM user WHERE username = ?");
+
+			add.setString(1, username);
+
+			ResultSet rs = add.executeQuery();
+
+
+			if(rs.next()){
+				exists = true;
+			}
+			else{
+				exists = false;
+			}
+		} catch(SQLException e){
+			System.out.println(e.getMessage());
+		}finally {
+			return exists;
+		}
+
 	}
 
 
