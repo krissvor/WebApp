@@ -1,5 +1,7 @@
 package controllers;
 
+import server.SqlHandler;
+
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -12,11 +14,13 @@ public class LoginController {
     }
 
     public boolean login(HttpServletRequest request){
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
+        String username = request.getParameter("username").trim();
+        String password = request.getParameter("password").trim();
 
-        System.out.println("Username = " + username + ".... Password = " + password +
-        "\n");
+        SqlHandler sqlHandler = new SqlHandler();
+        sqlHandler.connect();
+        sqlHandler.verifyPassword(username, password);
+        sqlHandler.closeConnection();
 
         return true;
     }
