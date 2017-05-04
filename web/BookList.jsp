@@ -32,7 +32,7 @@
         <td><c:out value="${bookBean.getPublicationDate()}" /></td>
         <td><c:out value="${bookBean.getVenues()}" /></td>
         <form action="/search" method="post">
-          <input type="hidden" value="${bookBean.key}">
+          <input type="hidden" value="${bookBean.getId()}">
           <td><input type="submit" class="btn btn-secondary btn-md" value="Add to cart"></td>
         </form>
       </tr>
