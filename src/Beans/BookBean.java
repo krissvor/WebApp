@@ -1,7 +1,6 @@
 package Beans;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Created by david on 03/05/2017.
@@ -10,6 +9,7 @@ public class BookBean {
 
     private String publicationType, publicationDate, venues, year, title, pages, journal, url, ee, price, picture;
     private int id;
+    private ArrayList<String> author;
 
     @Override
     public String toString() {
@@ -26,26 +26,24 @@ public class BookBean {
                 ", price='" + price + '\'' +
                 ", picture='" + picture + '\'' +
                 ", id=" + id +
-                ", author=" + Arrays.toString(author) +
+                ", author=" + author.toString() +
                 '}';
     }
 
-    public String[] getAuthor() {
+    public ArrayList<String> getAuthor() {
         return author;
     }
 
-    public void setAuthor(String[] author) {
+    public void setAuthor(ArrayList<String> author) {
         this.author = author;
     }
-
-    private String[] author;
 
     public BookBean(){
     }
 
     public BookBean(String publicationType, String publicationDate, String venues,
                 String year, String title, String pages, String journal,
-                String url, String ee, String price, String picture){
+                String url, String ee, String price, String picture, ArrayList<String> author){
 
         this.publicationType = publicationType;
         this. publicationDate = publicationDate;
@@ -58,6 +56,7 @@ public class BookBean {
         this.ee =  ee;
         this.price =  price;
         this.picture = picture;
+        this.author = author;
     }
 
     public String getPublicationType() {

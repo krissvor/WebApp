@@ -35,6 +35,7 @@ public class UserRegController {
         userBean.setPassword(request.getParameter("password").trim());
         userBean.setUsername(request.getParameter("username").trim());
 
+
         SqlHandler sqlHandler = new SqlHandler();
         sqlHandler.connect();
         sqlHandler.addUser(userBean);
@@ -44,11 +45,13 @@ public class UserRegController {
         sqlHandler.closeConnection();
     }
 
+
     public void deleteUser(int id){
         SqlHandler sqlHandler = new SqlHandler();
         sqlHandler.connect();
         sqlHandler.deleteUser(id);
         sqlHandler.closeConnection();
+
 
     }
 }
