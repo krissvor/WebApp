@@ -33,6 +33,7 @@ public class UserRegController {
         userBean.setPassword(request.getParameter("password"));
         userBean.setUsername(request.getParameter("username"));
 
+
         SqlHandler sqlHandler = new SqlHandler();
         sqlHandler.connect();
         sqlHandler.addUser(userBean);
@@ -41,6 +42,7 @@ public class UserRegController {
         System.out.println("har prøvd");
 
         sqlHandler.closeConnection();
+
 
         System.out.println(userBean.toString());
 
