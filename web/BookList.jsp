@@ -26,14 +26,14 @@
   <table class="table">
     <c:forEach items="${BookBeans}" var="bookBean">
       <tr>
-        <td><c:out value="${bookBean.title}" /></td>
-        <td><c:out value="${bookBean.author}" /></td>
-        <td><c:out value="${bookBean.publicationType}" /></td>
-        <td><c:out value="${bookBean.publicationDate}" /></td>
-        <td><c:out value="${bookBean.venues}" /></td>
+        <td><c:out value="${bookBean.getTitle()}" /></td>
+        <td><c:out value="${bookBean.getAuthor()}" /></td>
+        <td><c:out value="${bookBean.getPublicationType()}" /></td>
+        <td><c:out value="${bookBean.getPublicationDate()}" /></td>
+        <td><c:out value="${bookBean.getVenues()}" /></td>
         <form action="/search" method="post">
           <input type="hidden" value="${bookBean.key}">
-          <td><input type="submit" class="btn btn-secondary btn-md" value="Add to shopping cart"></td>
+          <td><input type="submit" class="btn btn-secondary btn-md" value="Add to cart"></td>
         </form>
       </tr>
     </c:forEach>
