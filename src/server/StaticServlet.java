@@ -2,6 +2,7 @@ package server;
 
 import controllers.BookController;
 import controllers.LoginController;
+import controllers.SearchController;
 import controllers.UserRegController;
 import org.xml.sax.SAXException;
 
@@ -25,8 +26,11 @@ public class StaticServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("Tok i mot et kall");
-
+        System.out.println(request.getRequestURI());
+        if(request.getRequestURI().startsWith("/search")) {
+            SearchController controller = new SearchController();
+            controller.search(request, response);
+        }
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

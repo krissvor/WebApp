@@ -113,6 +113,10 @@ public class SqlHandler {
 
 
 	public List<BookBean> findBooksByTitle(String searchTerm) {
+        if(this.connection == null) {
+            this.connect();
+        }
+
 		List<BookBean> resultList = new ArrayList<>();
 		try {
 			PreparedStatement bookStatement = connection.prepareStatement("SELECT DISTINCT(book.id), publicationtype, publicationdate, " +
@@ -134,12 +138,13 @@ public class SqlHandler {
 		} catch (SQLException e) {
 			System.err.println("An error occurred while selecting books by title");
 			e.printStackTrace();
-		}
+		} finally {
+            this.closeConnection();
+        }
 		return resultList;
 	}
 
 	private ArrayList<String> getAuthors(int bookId) throws SQLException {
-
 	    ArrayList<String> authors = new ArrayList<>();
 
         PreparedStatement authorStatement = connection.prepareStatement("SELECT name FROM author, book_author " +
@@ -153,8 +158,8 @@ public class SqlHandler {
         while(rs.next()) {
             authors.add(rs.getString("name"));
         }
-
         return authors;
+
 
     }
 
