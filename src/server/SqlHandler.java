@@ -5,10 +5,7 @@ import Beans.UserBean;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.Statement;
 
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Properties;
 
@@ -156,10 +153,13 @@ public class 	SqlHandler {
 		return -1;
 	}
 
+
 	public ArrayList<UserBean> getAllUsers(){
 		ArrayList<UserBean> users = new ArrayList<>();
 
 		try {
+			statement = connection.createStatement();
+
 			ResultSet rs = statement.executeQuery(
 					"SELECT id,username,email,nickname,firstname,lastname,creditcardnumber,yearofbirth FROM user;");
 			while(rs.next()){
@@ -179,7 +179,7 @@ public class 	SqlHandler {
 		}catch(Exception e){
 			System.out.println(e.getMessage());
 		}finally {
-			return null;
+			return users;
 		}
 
 	}
@@ -198,8 +198,6 @@ public class 	SqlHandler {
 		}
 
 	}
-
-
 
 }
 

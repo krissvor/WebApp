@@ -4,6 +4,8 @@ import Beans.UserBean;
 import server.SqlHandler;
 
 import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -37,7 +39,8 @@ public class UserRegController {
         sqlHandler.connect();
         sqlHandler.addUser(userBean);
         sqlHandler.deleteUser(2);
-        sqlHandler.getAllUsers();
+        ArrayList<UserBean> ar = sqlHandler.getAllUsers();
+        System.out.println(ar.toString());
         sqlHandler.closeConnection();
     }
 

@@ -35,6 +35,7 @@ public class StaticServlet extends HttpServlet {
         sqlHandler.connect();
         ArrayList users = sqlHandler.getAllUsers();
         sqlHandler.closeConnection();
+        System.out.println(users.toString());
 
 
         request.setAttribute("users", users);
@@ -68,6 +69,15 @@ public class StaticServlet extends HttpServlet {
                 System.out.println("trying to sign in");
                 LoginController loginController = new LoginController();
                 loginController.login(request);
+                break;
+            case("deleteUser"):
+                SqlHandler sqlHandler = new SqlHandler();
+                sqlHandler.connect();
+                int id = Integer.parseInt(request.getParameter("id"));
+                sqlHandler.deleteUser(id);
+                sqlHandler.closeConnection();
+
+                break;
         }
 
     }
