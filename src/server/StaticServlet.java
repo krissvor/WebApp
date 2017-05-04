@@ -1,5 +1,6 @@
 package server;
 
+import Beans.UserBean;
 import controllers.BookController;
 import controllers.LoginController;
 import controllers.SearchController;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Created by kriss on 01-May-17.
@@ -30,6 +32,23 @@ public class StaticServlet extends HttpServlet {
         if(request.getRequestURI().startsWith("/search")) {
             SearchController controller = new SearchController();
             controller.search(request, response);
+        } else {
+            System.out.println("Tok i mot et get kall");
+            String requestDispatcher = null;
+
+            request.getRequestURL();
+            SqlHandler sqlHandler = new SqlHandler();
+            sqlHandler.connect();
+            ArrayList users = sqlHandler.getAllUsers();
+            sqlHandler.closeConnection();
+            System.out.println(users.toString());
+
+
+            request.setAttribute("users", users);
+
+            requestDispatcher = "/UserList.jsp";
+
+            request.getRequestDispatcher(requestDispatcher).forward(request, response);
         }
     }
 
@@ -55,6 +74,15 @@ public class StaticServlet extends HttpServlet {
                 System.out.println("trying to sign in");
                 LoginController loginController = new LoginController();
                 loginController.login(request);
+                break;
+            case("deleteUser"):
+                SqlHandler sqlHandler = new SqlHandler();
+                sqlHandler.connect();
+                int id = Integer.parseInt(request.getParameter("id"));
+                sqlHandler.deleteUser(id);
+                sqlHandler.closeConnection();
+
+                break;
         }
 
     }

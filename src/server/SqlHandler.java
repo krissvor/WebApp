@@ -2,6 +2,10 @@ package server;
 
 import Beans.BookBean;
 
+import Beans.UserBean;
+import com.mysql.jdbc.Connection;
+import com.mysql.jdbc.Statement;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,13 +45,13 @@ public class SqlHandler {
 			connectionProps.put("user", "root");
 			connectionProps.put("password", "password");
 
-			connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/webApp", connectionProps);
+			connection = (Connection) DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/webApp", connectionProps);
 			System.out.println("connection to Mysql established");
 		} catch (SQLException e) {
 			System.out.println("Could not establish a connection to the SQL database");
 			e.printStackTrace();
+			System.out.println("connection to Mysql established");
 		}
-
 	}
 
 	public void closeConnection() {
@@ -78,8 +82,8 @@ public class SqlHandler {
 		try {
 			statement = connection.createStatement();
 
-			PreparedStatement add = connection.prepareStatement(
-					"INSERT INTO book (publicationtype, publicationdate,title,pages,url,ee,price,picture) VALUES(?, ?, ? ,? ,?, ?,?,?)", Statement.RETURN_GENERATED_KEYS);
+			java.sql.PreparedStatement add = connection.prepareStatement(
+					"INSERT INTO book (publicationtype, publicationdate,title,pages,url,ee,price) VALUES(?, ?, ? ,? ,?, ?,?)", Statement.RETURN_GENERATED_KEYS);
 			add.setString(1, book.getPublicationType());
 			add.setString(2, book.getPublicationDate());
 			add.setString(3, book.getTitle());
@@ -87,7 +91,7 @@ public class SqlHandler {
 			add.setString(5, book.getUrl());
 			add.setString(6, book.getEe());
 			add.setString(7, book.getPrice());
-			add.setString(8, book.getPicture());
+//			add.setString(8, book.getPicture());
 
 			int affectedRows = add.executeUpdate();
 
@@ -183,6 +187,92 @@ public class SqlHandler {
 
         return resultBean;
     }
+
+	public int addUser(UserBean user) {
+
+
+		try {
+			statement = connection.createStatement();
+
+			java.sql.PreparedStatement add = connection.prepareStatement(
+					"INSERT INTO user (username, password,email,nickname,firstname,lastname,creditcardnumber,yearofbirth) VALUES(?, ?, ? ,? ,?, ?,?,?)", Statement.RETURN_GENERATED_KEYS);
+			add.setString(1, user.getUsername());
+			add.setString(2, user.getPassword());
+			add.setString(3, user.getEmail());
+			add.setString(4, user.getNickname());
+			add.setString(5, user.getFirstName());
+			add.setString(6, user.getLastName());
+			add.setString(7, user.getCreditCard());
+			add.setInt(8, user.getBirthYear());
+
+
+
+			int affectedRows = add.executeUpdate();
+
+
+
+			ResultSet generatedKeys = add.getGeneratedKeys();
+			if (generatedKeys.next()) {
+
+				System.out.println(generatedKeys.getInt(1));
+				return generatedKeys.getInt(1);
+			}
+
+		} catch (SQLException e) {
+			System.out.println("failed to add user to database");
+			e.printStackTrace();
+			return -1;
+		} finally {
+		}
+
+		return -1;
+	}
+
+
+	public ArrayList<UserBean> getAllUsers(){
+		ArrayList<UserBean> users = new ArrayList<>();
+
+		try {
+			statement = connection.createStatement();
+
+			ResultSet rs = statement.executeQuery(
+					"SELECT id,username,email,nickname,firstname,lastname,creditcardnumber,yearofbirth FROM user;");
+			while(rs.next()){
+				UserBean user = new UserBean();
+				user.setBirthYear(rs.getInt("yearofbirth"));
+				user.setUsername(rs.getString("username"));
+				user.setNickname(rs.getString("nickname"));
+				user.setFirstName(rs.getString("firstname"));
+				user.setLastName(rs.getString("lastname"));
+				user.setEmail(rs.getString("email"));
+				user.setCreditCard(rs.getString("creditCardNumber"));
+				user.setId(rs.getInt("id"));
+
+				users.add(user);
+			}
+			return users;
+		}catch(Exception e){
+			System.out.println(e.getMessage());
+		}finally {
+			return users;
+		}
+
+	}
+
+	public void deleteUser(int id){
+
+		try {
+			String deleteSQL = "DELETE FROM user WHERE id = ?";
+			PreparedStatement preparedStatement = connection.prepareStatement(deleteSQL);
+			preparedStatement.setInt(1, id);
+			preparedStatement.executeUpdate();
+		}catch (SQLException e){
+			System.out.println(e.getMessage());
+		}finally {
+
+		}
+
+	}
 }
 
 

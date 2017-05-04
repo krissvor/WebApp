@@ -135,5 +135,7 @@
 
   });
 </script>
+
+<a href="Admin.jsp">ADMIIIIIN</a>
 </body>
 </html>
