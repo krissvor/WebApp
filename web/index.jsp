@@ -25,7 +25,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="containerNavbar">
-      <ul class="nav navbar-nav pull-sm-right" id="signInDropdown">
+      <%--<ul class="nav navbar-nav pull-sm-right" id="signInDropdown">--%>
         <%--<li class="dropdown">--%>
         <%--<button type="button" id="dropdownMenu1" data-toggle="dropdown" class="btn btn-secondary dropdown-toggle"><span><i class="fa fa-user" aria-hidden="true"></i></span>  Login <span class="caret"></span></button>--%>
         <%--<ul class="dropdown-menu">--%>
@@ -47,45 +47,8 @@
         <%--</li>--%>
         <%--</ul>--%>
         <%--</li>--%>
-          <button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Login</button>
+        <%--</ul>--%>
 
-
-          <div id="id01" class="modal">
-
-          <form class="modal-content animate" action="login" METHOD="POST">
-            <input type="hidden" name="action" value="login">
-
-            <div class="container">
-              <label><b>Username</b></label>
-              <input type="text" placeholder="Enter Username" name="username" required>
-
-              <label><b>Password</b></label>
-              <input type="password" placeholder="Enter Password" name="password" required>
-
-              <button type="submit">Login</button>
-              <input type="checkbox" checked="checked"> Remember me
-            </div>
-
-            <div class="container" style="background-color:#f1f1f1">
-              <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
-              <span class="register"> <a href="UserRegistration">Register</a></span>
-            </div>
-          </form>
-        </div>
-
-        <script>
-            // Get the modal
-            var modal = document.getElementById('id01');
-
-            // When the user clicks anywhere outside of the modal, close it
-            window.onclick = function(event) {
-                if (event.target == modal) {
-                    modal.style.display = "none";
-                }
-            }
-        </script>
-
-      </ul>
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
           <a class="nav-link" href="#">Digital Bibliographic Library <span class="sr-only">(current)</span></a>
@@ -97,6 +60,47 @@
           <a class="nav-link" href="Bookseller.jsp">Bookseller</a>
         </li>
       </ul>
+        <ul class="nav navbar-nav pull-sm-right" id="signInDropdown">
+
+          <button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Login</button>
+
+
+          <div id="id01" class="modal">
+
+            <form class="modal-content animate" action="login" METHOD="POST">
+              <input type="hidden" name="action" value="login">
+
+              <div class="container">
+                <label><b>Username</b></label>
+                <input type="text" placeholder="Enter Username" name="username" required>
+
+                <label><b>Password</b></label>
+                <input type="password" placeholder="Enter Password" name="password" required>
+
+                <button type="submit">Login</button>
+                <input type="checkbox" checked="checked"> Remember me
+              </div>
+
+              <div class="container" style="background-color:#f1f1f1">
+                <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+                <span class="register"> <a href="UserRegistration">Register</a></span>
+              </div>
+            </form>
+          </div>
+
+          <script>
+              // Get the modal
+              var modal = document.getElementById('id01');
+
+              // When the user clicks anywhere outside of the modal, close it
+              window.onclick = function(event) {
+                  if (event.target == modal) {
+                      modal.style.display = "none";
+                  }
+              }
+          </script>
+
+        </ul>
     </div>
   </nav>
   <!--<div class="jumbotron">
@@ -135,5 +139,7 @@
 
   });
 </script>
+
+<a href="Admin.jsp">ADMIIIIIN</a>
 </body>
 </html>
