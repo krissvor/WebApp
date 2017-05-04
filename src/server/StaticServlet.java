@@ -1,6 +1,7 @@
 package server;
 
 import controllers.BookController;
+import controllers.LoginController;
 import controllers.UserRegController;
 import org.xml.sax.SAXException;
 
@@ -33,22 +34,27 @@ public class StaticServlet extends HttpServlet {
         System.out.println(request.toString());
         String action = request.getParameter("action");
 
-            switch (action){
+        switch (action){
 
-                case("UserRegistration"):
-                    System.out.println("Recieved User registration request");
-                    UserRegController userReg = new UserRegController();
-                    userReg.registerNewUser(request);
-                    break;
+            case("UserRegistration"):
+                System.out.println("Recieved User registration request");
+                UserRegController userReg = new UserRegController();
+                userReg.registerNewUser(request);
+                break;
 
-                case("addBook"):
-                    System.out.println("trying to add book");
-                    BookController bookController = new BookController();
-                    bookController.addBook(request);
-            }
-
+            case("addBook"):
+                System.out.println("trying to add book");
+                BookController bookController = new BookController();
+                bookController.addBook(request);
+                break;
+            case("login"):
+                System.out.println("trying to sign in");
+                LoginController loginController = new LoginController();
+                loginController.login(request);
         }
 
     }
+
+}
 
 
