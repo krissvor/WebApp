@@ -210,11 +210,11 @@ public class 	SqlHandler {
 
 
 
-		
 
 
-  public int addUser(UserBean user) {
-    try {
+
+	public int addUser(UserBean user) {
+		try {
 			statement = connection.createStatement();
 			java.sql.PreparedStatement add = connection.prepareStatement(
 					"INSERT INTO user (username, password,email,nickname,firstname,lastname,creditcardnumber,yearofbirth) VALUES(?, ?, ? ,? ,?, ?,?,?)", Statement.RETURN_GENERATED_KEYS);
@@ -276,9 +276,10 @@ public class 	SqlHandler {
 
 	}
 
-}
 
-  private int addVenue(String venue){
+
+	private int addVenue(String venue){
+		try{
 			PreparedStatement add = connection.prepareStatement("SELECT * FROM venue WHERE name='"+venue+"'", Statement.RETURN_GENERATED_KEYS);
 
 			add.execute();
@@ -311,28 +312,28 @@ public class 	SqlHandler {
 	private int addVenueBook(int bookID, int venueID){
 
 
-			try {
-				statement = connection.createStatement();
+		try {
+			statement = connection.createStatement();
 
-				PreparedStatement add = connection.prepareStatement("INSERT INTO book_venue(book_id, venue_id) VALUES(?,?)");
+			PreparedStatement add = connection.prepareStatement("INSERT INTO book_venue(book_id, venue_id) VALUES(?,?)");
 
-				add.setInt(1, bookID);
-				add.setInt(2, venueID);
+			add.setInt(1, bookID);
+			add.setInt(2, venueID);
 
-				int affectedRows = add.executeUpdate();
+			int affectedRows = add.executeUpdate();
 
-				if(affectedRows >= 1){
-					return 1;
-				}
-
-			} catch (SQLException e) {
-				e.printStackTrace();
+			if(affectedRows >= 1){
+				return 1;
 			}
 
-			return -1;
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 
+		return -1;
 	}
+
+}
 
 
 /*
