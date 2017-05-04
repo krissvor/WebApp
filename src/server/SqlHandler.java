@@ -80,6 +80,7 @@ public class 	SqlHandler {
 
 		int bookKey = -1;
 		int authorKey = -1;
+		int venueKey = -1;
 
 		ArrayList<Integer> generatedAuthorKeys = new ArrayList<Integer>();
 
@@ -87,6 +88,14 @@ public class 	SqlHandler {
 			throw new IllegalArgumentException("Error: author field can not be NULL when adding a book to the database");
 		}
 
+		//Adds the venue to the database
+		venueKey = addVenue(book.getVenues());
+		if(venueKey == -1) {
+			System.out.println("Failed to add venue");
+		}
+
+
+		//Adds the authors to the database.
 		for(String author : book.getAuthor()){
 
 			authorKey = addAuthor(author);
@@ -101,7 +110,7 @@ public class 	SqlHandler {
 			statement = connection.createStatement();
 
 			java.sql.PreparedStatement add = connection.prepareStatement(
-					"INSERT INTO book (publicationtype, publicationdate,title,pages,url,ee,price) VALUES(?, ?, ? ,? ,?, ?,?)", Statement.RETURN_GENERATED_KEYS);
+					"INSERT INTO book (publicationtype, publicationdate,title,pages,url,ee,price,picture) VALUES(?, ?, ? ,? ,?, ?,?,?)", Statement.RETURN_GENERATED_KEYS);
 			add.setString(1, book.getPublicationType());
 			add.setString(2, book.getPublicationDate());
 			add.setString(3, book.getTitle());
@@ -109,20 +118,21 @@ public class 	SqlHandler {
 			add.setString(5, book.getUrl());
 			add.setString(6, book.getEe());
 			add.setString(7, book.getPrice());
-//			add.setString(8, book.getPicture());
+			add.setString(8, book.getPicture());
 
 			int affectedRows = add.executeUpdate();
 
 			ResultSet generatedKeys = add.getGeneratedKeys();
 			if (generatedKeys.next()) {
 				bookKey = generatedKeys.getInt(1);
-				System.out.println(bookKey);
+				System.out.println("addvenueBOOK: "+addVenueBook(bookKey, venueKey));
 			}
 			else{return -1;}
 
+
+			//Adding the relation between book and author.
 			int res;
 			for(int key : generatedAuthorKeys){
-
 				res = addBookAuthorRelation(bookKey, key);
 
 				if(res == -1){
@@ -195,9 +205,67 @@ public class 	SqlHandler {
 		}
 
 		return -1;
+	}
+
+	private int addVenue(String venue){
+
+		try {
+			statement = connection.createStatement();
+
+			PreparedStatement add = connection.prepareStatement("SELECT * FROM venue WHERE name='"+venue+"'", Statement.RETURN_GENERATED_KEYS);
+
+			add.execute();
+
+			ResultSet entries = add.getResultSet();
+
+			if(!entries.next()){
+				add = connection.prepareStatement("INSERT INTO venue(name) VALUES(?)", Statement.RETURN_GENERATED_KEYS);
+				add.setString(1, venue);
+				add.executeUpdate();
+
+				ResultSet generatedKeys = add.getGeneratedKeys();
+
+				if(generatedKeys.next()){
+					System.out.println(generatedKeys.getInt(1));
+					return generatedKeys.getInt(1);
+				}
+			}
+			else{return entries.getInt(1);}
+
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return -1;
+	}
+
+	private int addVenueBook(int bookID, int venueID){
+
+
+			try {
+				statement = connection.createStatement();
+
+				PreparedStatement add = connection.prepareStatement("INSERT INTO book_venue(book_id, venue_id) VALUES(?,?)");
+
+				add.setInt(1, bookID);
+				add.setInt(2, venueID);
+
+				int affectedRows = add.executeUpdate();
+
+				if(affectedRows >= 1){
+					return 1;
+				}
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+
+			return -1;
+		}
 
 	}
-}
+
 
 /*
 	public boolean validate(String Email, String password){
