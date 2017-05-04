@@ -34,6 +34,7 @@ public class BookController {
             usrs.add(authors[i].trim());
         }
 
+
         book.setAuthor(usrs);
 
         SqlHandler sq = new SqlHandler();
