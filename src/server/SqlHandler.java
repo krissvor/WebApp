@@ -4,7 +4,7 @@ import Beans.BookBean;
 import Beans.UserBean;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.Statement;
-
+import java.sql.*;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -119,7 +119,6 @@ public class 	SqlHandler {
 			add.setString(5, book.getUrl());
 			add.setString(6, book.getEe());
 			add.setString(7, book.getPrice());
-//			add.setString(8, book.getPicture());
 
 			int affectedRows = add.executeUpdate();
 
@@ -151,6 +150,48 @@ public class 	SqlHandler {
 
 		return -1;
 	}
+
+
+	public void verifyPassword(String username, String password){
+
+		int id;
+
+		try{
+			statement = connection.createStatement();
+
+		java.sql.PreparedStatement add = connection.prepareStatement(
+				"SELECT * FROM user WHERE username = ? AND password = ?");
+		add.setString(1, username);
+		add.setString(2, password);
+
+		ResultSet rs = add.executeQuery();
+
+		if(rs.next()){
+			UserBean user = new UserBean();
+			user.setBirthYear(rs.getInt("yearofbirth"));
+			user.setUsername(rs.getString("username"));
+			user.setNickname(rs.getString("nickname"));
+			user.setFirstName(rs.getString("firstname"));
+			user.setLastName(rs.getString("lastname"));
+			user.setEmail(rs.getString("email"));
+			user.setCreditCard(rs.getString("creditCardNumber"));
+			user.setId(rs.getInt("id"));
+
+			System.out.println(user.toString());
+		}
+		else
+			System.out.println("denne finnes ikke\n");
+
+		}catch (SQLException e){
+			System.out.println(e.getMessage());
+		}finally{
+
+		}
+
+
+	}
+
+	
 
 	private int addAuthor(String author){
 
@@ -184,6 +225,7 @@ public class 	SqlHandler {
 
 		return -1;
 	}
+
 
 	private int addBookAuthorRelation(int bookID, int authorID){
 
@@ -250,10 +292,13 @@ public class 	SqlHandler {
 		return -1;
 	}
 
-	public void getAllUsers(){
+
+	public ArrayList<UserBean> getAllUsers(){
 		ArrayList<UserBean> users = new ArrayList<>();
 
 		try {
+			statement = connection.createStatement();
+
 			ResultSet rs = statement.executeQuery(
 					"SELECT id,username,email,nickname,firstname,lastname,creditcardnumber,yearofbirth FROM user;");
 			while(rs.next()){
@@ -269,9 +314,27 @@ public class 	SqlHandler {
 
 				users.add(user);
 			}
-			System.out.println(users.toString());
+			return users;
 		}catch(Exception e){
 			System.out.println(e.getMessage());
+		}finally {
+			return users;
+		}
+
+	}
+
+	public void deleteUser(int id){
+
+		try {
+			String deleteSQL = "DELETE FROM user WHERE id = ?";
+			PreparedStatement preparedStatement = connection.prepareStatement(deleteSQL);
+			preparedStatement.setInt(1, id);
+			preparedStatement.executeUpdate();
+
+		}catch (SQLException e){
+			System.out.println(e.getMessage());
+		}finally {
+
 		}
 
 	}
