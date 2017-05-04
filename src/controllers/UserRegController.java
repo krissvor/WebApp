@@ -4,6 +4,8 @@ import Beans.UserBean;
 import server.SqlHandler;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by kriss on 03-May-17.
@@ -16,7 +18,10 @@ public class UserRegController {
         userBean.setLastName(request.getParameter("lastname"));
         try {
             int year = Integer.parseInt(request.getParameter("year"));
-            userBean.setBirthYear(year);
+            int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+            if(year <= currentYear && year>(currentYear-120)) {
+                userBean.setBirthYear(year);
+            }
         }catch(Exception e){
             System.out.println("noe skjedde med året");
             System.out.println(e.getMessage());
@@ -31,6 +36,10 @@ public class UserRegController {
         SqlHandler sqlHandler = new SqlHandler();
         sqlHandler.connect();
         sqlHandler.addUser(userBean);
+        System.out.println("prøver å få alle brukere");
+        sqlHandler.getAllUsers();
+        System.out.println("har prøvd");
+
         sqlHandler.closeConnection();
 
         System.out.println(userBean.toString());

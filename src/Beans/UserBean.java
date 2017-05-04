@@ -12,6 +12,17 @@ public class UserBean implements Serializable {
     private String username;
     private String nickname;
     private String email;
+    private int id;
+
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
 
     @Override
     public String toString() {
@@ -22,6 +33,7 @@ public class UserBean implements Serializable {
                 ", username='" + username + '\'' +
                 ", nickname='" + nickname + '\'' +
                 ", email='" + email + '\'' +
+                ", id=" + id +
                 ", password='" + password + '\'' +
                 ", creditCard='" + creditCard + '\'' +
                 '}';
