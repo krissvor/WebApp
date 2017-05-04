@@ -1,5 +1,6 @@
 package server;
 
+import Beans.UserBean;
 import controllers.BookController;
 import controllers.LoginController;
 import controllers.UserRegController;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Created by kriss on 01-May-17.
@@ -25,7 +27,22 @@ public class StaticServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("Tok i mot et kall");
+        System.out.println("Tok i mot et get kall");
+        String requestDispatcher = null;
+
+        request.getRequestURL();
+        SqlHandler sqlHandler = new SqlHandler();
+        sqlHandler.connect();
+        ArrayList users = sqlHandler.getAllUsers();
+        sqlHandler.closeConnection();
+
+
+        request.setAttribute("users", users);
+
+        requestDispatcher = "/UserList.jsp";
+
+        request.getRequestDispatcher(requestDispatcher).forward(request, response);
+
 
     }
 

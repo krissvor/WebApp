@@ -8,9 +8,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>$Title$</title>
+    <title>Do what you wanna</title>
 </head>
 <body>
-$END$
+
+<a href="inspectUsers">Users</a>
+
 </body>
 </html>

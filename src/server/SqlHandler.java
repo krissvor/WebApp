@@ -6,6 +6,7 @@ import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.Statement;
 
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -155,7 +156,7 @@ public class 	SqlHandler {
 		return -1;
 	}
 
-	public void getAllUsers(){
+	public ArrayList<UserBean> getAllUsers(){
 		ArrayList<UserBean> users = new ArrayList<>();
 
 		try {
@@ -174,12 +175,31 @@ public class 	SqlHandler {
 
 				users.add(user);
 			}
-			System.out.println(users.toString());
+			return users;
 		}catch(Exception e){
 			System.out.println(e.getMessage());
+		}finally {
+			return null;
 		}
 
 	}
+
+	public void deleteUser(int id){
+
+		try {
+			String deleteSQL = "DELETE FROM user WHERE id = ?";
+			PreparedStatement preparedStatement = connection.prepareStatement(deleteSQL);
+			preparedStatement.setInt(1, id);
+			preparedStatement.executeUpdate();
+		}catch (SQLException e){
+			System.out.println(e.getMessage());
+		}finally {
+
+		}
+
+	}
+
+
 
 }
 

@@ -36,13 +36,16 @@ public class UserRegController {
         SqlHandler sqlHandler = new SqlHandler();
         sqlHandler.connect();
         sqlHandler.addUser(userBean);
-        System.out.println("prøver å få alle brukere");
+        sqlHandler.deleteUser(2);
         sqlHandler.getAllUsers();
-        System.out.println("har prøvd");
-
         sqlHandler.closeConnection();
+    }
 
-        System.out.println(userBean.toString());
+    public void deleteUser(int id){
+        SqlHandler sqlHandler = new SqlHandler();
+        sqlHandler.connect();
+        sqlHandler.deleteUser(id);
+        sqlHandler.closeConnection();
 
     }
 }
