@@ -159,28 +159,28 @@ public class 	SqlHandler {
 		try{
 			statement = connection.createStatement();
 
-		java.sql.PreparedStatement add = connection.prepareStatement(
-				"SELECT * FROM user WHERE username = ? AND password = ?");
-		add.setString(1, username);
-		add.setString(2, password);
+			java.sql.PreparedStatement add = connection.prepareStatement(
+					"SELECT * FROM user WHERE username = ? AND password = ?");
+			add.setString(1, username);
+			add.setString(2, password);
 
-		ResultSet rs = add.executeQuery();
+			ResultSet rs = add.executeQuery();
 
-		if(rs.next()){
-			UserBean user = new UserBean();
-			user.setBirthYear(rs.getInt("yearofbirth"));
-			user.setUsername(rs.getString("username"));
-			user.setNickname(rs.getString("nickname"));
-			user.setFirstName(rs.getString("firstname"));
-			user.setLastName(rs.getString("lastname"));
-			user.setEmail(rs.getString("email"));
-			user.setCreditCard(rs.getString("creditCardNumber"));
-			user.setId(rs.getInt("id"));
+			if(rs.next()){
+				UserBean user = new UserBean();
+				user.setBirthYear(rs.getInt("yearofbirth"));
+				user.setUsername(rs.getString("username"));
+				user.setNickname(rs.getString("nickname"));
+				user.setFirstName(rs.getString("firstname"));
+				user.setLastName(rs.getString("lastname"));
+				user.setEmail(rs.getString("email"));
+				user.setCreditCard(rs.getString("creditCardNumber"));
+				user.setId(rs.getInt("id"));
 
-			System.out.println(user.toString());
-		}
-		else
-			System.out.println("denne finnes ikke\n");
+				System.out.println(user.toString());
+			}
+			else
+				System.out.println("denne finnes ikke\n");
 
 		}catch (SQLException e){
 			System.out.println(e.getMessage());
@@ -191,7 +191,7 @@ public class 	SqlHandler {
 
 	}
 
-	
+
 
 	private int addAuthor(String author){
 
