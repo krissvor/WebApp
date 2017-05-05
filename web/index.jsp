@@ -111,10 +111,10 @@
   <img src="books.jpg" class="img-fluid" alt="Responsive image">
   </div>
   <div class="">
-    <form action="test" method="POST">
+    <form action="/search" method="GET">
       <div class="input-group">
         <div class="input-group-btn">
-          <button type="button" class="btn btn-secondary dropdown-toggle" name="selectSearch" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Search By: <span class="selection" name="selection"></span><span class="caret"></span>
+          <button type="button" class="btn btn-secondary dropdown-toggle" name="selectSearch" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Search By: <span class="selection" name="attribute"></span><span class="caret"></span>
           </button>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" data-value="author" href="#">Author</a></li>
@@ -123,11 +123,12 @@
             <li><a class="dropdown-item" data-value="venue" href="#">Venue</a></li>
           </ul>
         </div>
-        <input type="text" class="form-control" name="searchText" placeholder="Seach term...">
+        <input type="text" class="form-control" name="term" placeholder="Seach term...">
         <span class="input-group-btn">
                 <button type="submit" class="btn btn-secondary"><i class="fa fa-search" aria-hidden="true"></i></button>
             </span>
-        <input type="hidden" class="hiddenInput" name="dropDownSelection">
+        <input type="hidden" class="hiddenInput" name="attribute">
+        <input type="hidden" name="page" value="0">
       </div>
     </form>
   </div>

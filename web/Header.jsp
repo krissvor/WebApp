@@ -1,8 +1,7 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-  <title>Booklist</title>
+  <title>Home</title>
   <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
   <script src="https://use.fontawesome.com/fe48c1e1ca.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
@@ -13,25 +12,24 @@
   <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
 </head>
 <body>
-<%@include file="Header.jsp"%>
 <div class="container">
-    <h1>Users</h1>
-  <table class="table">
-    <c:forEach items="${users}" var="userBean">
-      <tr>
-        <td><c:out value="${userBean.getFirstName()}" /></td>
-        <td><c:out value="${userBean.getLastName()}" /></td>
-        <td><c:out value="${userBean.getBirthYear()}" /></td>
-        <td><c:out value="${userBean.getUsername()}" /></td>
-        <td><c:out value="${userBean.getNickname()}" /></td>
-        <form action="/deleteUser" method="post">
-          <input type="hidden" name="id" value="${userBean.getId()}">
-          <input type="hidden" name="action" value="deleteUser">
-          <td><input type="submit" class="btn btn-secondary btn-md" value="Delete user"></td>
-        </form>
-      </tr>
-    </c:forEach>
-  </table>
-</div>
-</body>
-</html>
+  <nav class="navbar rounded navbar-toggleable-md navbar-inverse bg-inverse mb-4">
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#containerNavbar" aria-controls="containerNavbar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="containerNavbar">
+      <ul class="nav navbar-nav pull-sm-right" id="signInDropdown">
+      </ul>
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Digital Bibliographic Library <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="UserRegistration.jsp">User Registration</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="Bookseller.jsp">Bookseller</a>
+        </li>
+      </ul>
+    </div>
+  </nav>

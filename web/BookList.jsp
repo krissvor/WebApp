@@ -20,24 +20,52 @@
   <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
 </head>
 <body>
+<%@include file="Header.jsp"%>
 <div class="container">
-    <h1>Results</h1>
-  </div>
+  <h1>Results</h1>
   <table class="table">
     <c:forEach items="${BookBeans}" var="bookBean">
       <tr>
-        <td><c:out value="${bookBean.title}" /></td>
-        <td><c:out value="${bookBean.author}" /></td>
-        <td><c:out value="${bookBean.publicationType}" /></td>
-        <td><c:out value="${bookBean.publicationDate}" /></td>
-        <td><c:out value="${bookBean.venues}" /></td>
+        <td><c:out value="${bookBean.getTitle()}" /></td>
+        <td><c:out value="${bookBean.getAuthor()}" /></td>
+        <td><c:out value="${bookBean.getPublicationType()}" /></td>
+        <td><c:out value="${bookBean.getPublicationDate()}" /></td>
+        <td><c:out value="${bookBean.getVenues()}" /></td>
         <form action="/search" method="post">
-          <input type="hidden" value="${bookBean.key}">
-          <td><input type="submit" class="btn btn-secondary btn-md" value="Add to shopping cart"></td>
+          <input type="hidden" value="${bookBean.getId()}">
+          <td><input type="submit" class="btn btn-secondary btn-md" value="Add to cart"></td>
         </form>
       </tr>
     </c:forEach>
-  </table>
+</table>
+
+  <%
+    // Generate pagination links
+    int currentPage = Integer.valueOf(request.getAttribute("page").toString());
+    String term = request.getAttribute("term").toString();
+    String attribute = request.getAttribute("attribute").toString();
+
+    // We don't want a prev page link if current page is 0
+    String prevPageLink = (currentPage > 0) ? "http://localhost:8081/search?term=" + term + "&attribute=" + attribute + "&page=" + (currentPage - 1) : null;
+
+    String nextPageLink = "http://localhost:8081/search?term=" + term + "&attribute=" + attribute + "&page=" + (currentPage + 1);
+
+    request.setAttribute("nextPageLink", nextPageLink);
+    request.setAttribute("prevPageLink", prevPageLink);
+  %>
+  <c:choose>
+    <c:when test="${BookBeans == null || BookBeans.size() == 0}">
+      <h3 class="text-center"> Your search matched no publications. </h3>
+    </c:when>
+    <c:otherwise>
+      <c:if test="${prevPageLink != null}">
+        <a class="card-link" href=${prevPageLink}> Previous </a>
+      </c:if>
+      <c:if test="${nextPageLink != null}">
+        <a class="card-link" href=${nextPageLink}> Next </a>
+      </c:if>
+    </c:otherwise>
+  </c:choose>
 </div>
 </body>
 </html>

@@ -3,25 +3,23 @@ package server;
 import Beans.UserBean;
 import controllers.BookController;
 import controllers.LoginController;
+import controllers.SearchController;
 import controllers.UserRegController;
 import org.xml.sax.SAXException;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 
 /**
  * Created by kriss on 01-May-17.
  */
 @WebServlet(name="StaticServlet")
-@MultipartConfig
 public class StaticServlet extends HttpServlet {
 
     public StaticServlet() throws ParserConfigurationException, SAXException {
@@ -30,20 +28,11 @@ public class StaticServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if(request.getRequestURI().startsWith("/checkUsername")){
-            String username = request.getParameter("username");
-            SqlHandler sqlHandler = new SqlHandler();
-            sqlHandler.connect();
-            response.setContentType("text/html");
-            PrintWriter out = response.getWriter();
-            if(sqlHandler.usernameExists(username)){
-                out.write("true");
-
-            }else
-                out.write("false");
-            sqlHandler.closeConnection();
-        }
-        if(request.getRequestURI().startsWith("/UserRegistration")) {
+        System.out.println(request.getRequestURI());
+        if(request.getRequestURI().startsWith("/search")) {
+            SearchController controller = new SearchController();
+            controller.search(request, response);
+        } else {
             System.out.println("Tok i mot et get kall");
             String requestDispatcher = null;
 
@@ -61,11 +50,9 @@ public class StaticServlet extends HttpServlet {
 
             request.getRequestDispatcher(requestDispatcher).forward(request, response);
         }
-
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String requestDispatcher = null;
         System.out.println("Tok i mot et kall");
         System.out.println(request.toString());
         String action = request.getParameter("action");
@@ -75,14 +62,7 @@ public class StaticServlet extends HttpServlet {
             case("UserRegistration"):
                 System.out.println("Recieved User registration request");
                 UserRegController userReg = new UserRegController();
-                if(userReg.registerNewUser(request)){
-
-                }
-                else{
-                    requestDispatcher = "/UserRegistration.jsp";
-
-                    request.getRequestDispatcher(requestDispatcher).forward(request, response);
-                }
+                userReg.registerNewUser(request);
                 break;
 
             case("addBook"):
