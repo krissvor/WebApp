@@ -264,9 +264,10 @@ public class SqlHandler {
         return resultBean;
     }
 
-	public void verifyPassword(String username, String password){
+	public boolean verifyPassword(String username, String password){
 
 		int id;
+		boolean result = false;
 
 		try{
 			statement = connection.createStatement();
@@ -290,15 +291,17 @@ public class SqlHandler {
 				user.setId(rs.getInt("id"));
 
 				System.out.println(user.toString());
+				result = true;
 			}
 			else
-				System.out.println("denne finnes ikke\n");
+				result = false;
 
 		}catch (SQLException e){
 			System.out.println(e.getMessage());
 		}finally{
 
 		}
+		return result;
 
 
 	}

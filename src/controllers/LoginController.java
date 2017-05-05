@@ -14,14 +14,19 @@ public class LoginController {
     }
 
     public boolean login(HttpServletRequest request){
+        Boolean result;
         String username = request.getParameter("username").trim();
         String password = request.getParameter("password").trim();
 
         SqlHandler sqlHandler = new SqlHandler();
         sqlHandler.connect();
-        sqlHandler.verifyPassword(username, password);
-        sqlHandler.closeConnection();
+        if(sqlHandler.verifyPassword(username, password)){
+            result = true;
+        }else
+            result = false;
 
-        return true;
+        sqlHandler.closeConnection();
+        return result;
+
     }
 }

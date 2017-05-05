@@ -25,29 +25,6 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="containerNavbar">
-      <%--<ul class="nav navbar-nav pull-sm-right" id="signInDropdown">--%>
-        <%--<li class="dropdown">--%>
-        <%--<button type="button" id="dropdownMenu1" data-toggle="dropdown" class="btn btn-secondary dropdown-toggle"><span><i class="fa fa-user" aria-hidden="true"></i></span>  Login <span class="caret"></span></button>--%>
-        <%--<ul class="dropdown-menu">--%>
-        <%--<li class="dropdown-item">--%>
-        <%--<form class="form">--%>
-        <%--<div class="form-group">--%>
-        <%--<input name="username" placeholder="Username" class="form-control form-control-sm" type="text" required="">--%>
-        <%--</div>--%>
-        <%--<div class="form-group">--%>
-        <%--<input name="password" placeholder="Password" class="form-control form-control-sm" type="password" required="">--%>
-        <%--</div>--%>
-        <%--<div class="form-group">--%>
-        <%--<button type="submit" class="btn btn-primary btn-block">Login</button>--%>
-        <%--</div>--%>
-        <%--<div class="form-group text-xs-center">--%>
-        <%--<small><a href="UserRegistration.jsp">Don't have a user? Register here</a></small>--%>
-        <%--</div>--%>
-        <%--</form>--%>
-        <%--</li>--%>
-        <%--</ul>--%>
-        <%--</li>--%>
-        <%--</ul>--%>
 
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
