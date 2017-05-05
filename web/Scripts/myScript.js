@@ -84,13 +84,15 @@ function validateUsername(){
             var res = request.responseText;
             var form = document.getElementById("username")
             if(res == "true"){
+                    // document.getElementsByclassName("formError")[0].setAttribute("hidden", false)
+                    // document.getElementsByClassName("formError")[0].innerHTML("HER ERRE NOE FEIL!!")
+
                     form.setAttribute("style", "border-color:#ae030e;");
                     usernameTaken=true;
             }
             if(res=="false"){
                 form.setAttribute("style", "border-color:rgba(0,0,0,.15);");
                 usernameTaken=false;
-
             }
 
         }
@@ -136,8 +138,8 @@ function validateEmail(){
         formIsValid = false;
         field.setAttribute("style","border-color:#ae030e");
 
-    }
-    field.setAttribute("style","border-color:rgba(0,0,0,.15)");
+    }else
+        field.setAttribute("style","border-color:rgba(0,0,0,.15)");
 
 
 }
