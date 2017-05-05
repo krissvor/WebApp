@@ -31,9 +31,9 @@
         <td><c:out value="${bookBean.getPublicationType()}" /></td>
         <td><c:out value="${bookBean.getPublicationDate()}" /></td>
         <td><c:out value="${bookBean.getVenues()}" /></td>
-        <form action="/search" method="post">
-          <input type="hidden" value="${bookBean.getId()}">
-          <td><input type="submit" class="btn btn-secondary btn-md" value="Add to cart"></td>
+        <form action="/book" method="get">
+          <input type="hidden" name="id" value=${bookBean.id}>
+          <td><input type="submit" class="btn btn-secondary btn-md" value="Details"></td>
         </form>
       </tr>
     </c:forEach>

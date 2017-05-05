@@ -1,6 +1,5 @@
 package server;
 
-import Beans.UserBean;
 import controllers.BookController;
 import controllers.LoginController;
 import controllers.SearchController;
@@ -32,7 +31,12 @@ public class StaticServlet extends HttpServlet {
         if(request.getRequestURI().startsWith("/search")) {
             SearchController controller = new SearchController();
             controller.search(request, response);
-        } else {
+        } else if(request.getRequestURI().startsWith("/book")) {
+            BookController controller = new BookController();
+            controller.viewSingleBook(request, response);
+        }
+
+        else {
             System.out.println("Tok i mot et get kall");
             String requestDispatcher = null;
 
@@ -84,9 +88,7 @@ public class StaticServlet extends HttpServlet {
 
                 break;
         }
-
     }
-
 }
 
 
