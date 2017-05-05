@@ -8,6 +8,7 @@ import java.io.Serializable;
 public class UserBean implements Serializable {
     private String firstname;
     private String lastname;
+    private String address;
     private int birthYear;
     private String username;
     private String nickname;
@@ -108,5 +109,13 @@ public class UserBean implements Serializable {
 
     public void setFirstName(String firstName) {
         this.firstname = firstName;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }
