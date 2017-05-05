@@ -20,9 +20,9 @@
   <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
 </head>
 <body>
+<%@include file="Header.jsp"%>
 <div class="container">
-    <h1>Results</h1>
-  </div>
+  <h1>Results</h1>
   <table class="table">
     <c:forEach items="${BookBeans}" var="bookBean">
       <tr>
@@ -37,7 +37,8 @@
         </form>
       </tr>
     </c:forEach>
-  </table>
+</table>
+
   <%
     // Generate pagination links
     int currentPage = Integer.valueOf(request.getAttribute("page").toString());
