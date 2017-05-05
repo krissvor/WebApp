@@ -5,9 +5,13 @@ import Beans.BookBean;
 import Beans.UserBean;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.Statement;
-import controllers.SearchController;
 
+import controllers.SearchController;
 import java.sql.*;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -81,8 +85,35 @@ public class SqlHandler {
 
 	public int addBook(BookBean book) {
 
+		int bookKey = -1;
+		int authorKey = -1;
+		int venueKey = -1;
+
+		ArrayList<Integer> generatedAuthorKeys = new ArrayList<Integer>();
+
+		if(book.getAuthor() == null){
+			throw new IllegalArgumentException("Error: author field can not be NULL when adding a book to the database");
+		}
+
+		//Adds the venue to the database
+		venueKey = addVenue(book.getVenues());
+		if(venueKey == -1) {
+			System.out.println("Failed to add venue");
+		}
+
+
+		//Adds the authors to the database.
+		for(String author : book.getAuthor()){
+
+			authorKey = addAuthor(author);
+
+			if(authorKey != -1){
+				generatedAuthorKeys.add(authorKey);
+			}
+		}
 
 		try {
+
 			statement = connection.createStatement();
 
 			java.sql.PreparedStatement add = connection.prepareStatement(
@@ -94,30 +125,37 @@ public class SqlHandler {
 			add.setString(5, book.getUrl());
 			add.setString(6, book.getEe());
 			add.setString(7, book.getPrice());
-//			add.setString(8, book.getPicture());
 
 			int affectedRows = add.executeUpdate();
 
-
-
 			ResultSet generatedKeys = add.getGeneratedKeys();
 			if (generatedKeys.next()) {
+				bookKey = generatedKeys.getInt(1);
+				System.out.println("addvenueBOOK: "+addVenueBook(bookKey, venueKey));
+			}
+			else{return -1;}
 
-				System.out.println(generatedKeys.getInt(1));
-				return generatedKeys.getInt(1);
+
+			//Adding the relation between book and author.
+			int res;
+			for(int key : generatedAuthorKeys){
+				res = addBookAuthorRelation(bookKey, key);
+
+				if(res == -1){
+					System.out.println("klarte ikke lage bookauthor relasjon");
+				}
 			}
 
 		} catch (SQLException e) {
-			System.out.println("failed to add user to database");
+			System.out.println("failed to add Book to database");
 			e.printStackTrace();
 			return -1;
 		} finally {
-			closeConnection();
+
 		}
 
 		return -1;
 	}
-
 
 	public List<BookBean> findBooks(String term, SearchController.SEARCHATTRIBUTE attr, int page) {
 
@@ -210,13 +248,11 @@ public class SqlHandler {
 	private BookBean bookFromResultSet(ResultSet rs) throws SQLException {
         BookBean resultBean = new BookBean();
         int bookId = rs.getInt("id");
-        ArrayList<String> authors = getAuthors(bookId);
-        String[] authorArray = new String[authors.size()];
 
         resultBean.setId(bookId);
         resultBean.setPublicationType(rs.getString("publicationtype"));
         resultBean.setPublicationDate(rs.getString("publicationdate"));
-        resultBean.setAuthor(authors.toArray(authorArray));
+        resultBean.setAuthor(getAuthors(bookId));
         resultBean.setTitle(rs.getString("title"));
         resultBean.setPages(rs.getString("pages"));
         resultBean.setUrl(rs.getString("url"));
@@ -228,12 +264,112 @@ public class SqlHandler {
         return resultBean;
     }
 
-	public int addUser(UserBean user) {
+	public void verifyPassword(String username, String password){
 
+		int id;
+
+		try{
+			statement = connection.createStatement();
+
+			java.sql.PreparedStatement add = connection.prepareStatement(
+					"SELECT * FROM user WHERE username = ? AND password = ?");
+			add.setString(1, username);
+			add.setString(2, password);
+
+			ResultSet rs = add.executeQuery();
+
+			if(rs.next()){
+				UserBean user = new UserBean();
+				user.setBirthYear(rs.getInt("yearofbirth"));
+				user.setUsername(rs.getString("username"));
+				user.setNickname(rs.getString("nickname"));
+				user.setFirstName(rs.getString("firstname"));
+				user.setLastName(rs.getString("lastname"));
+				user.setEmail(rs.getString("email"));
+				user.setCreditCard(rs.getString("creditCardNumber"));
+				user.setId(rs.getInt("id"));
+
+				System.out.println(user.toString());
+			}
+			else
+				System.out.println("denne finnes ikke\n");
+
+		}catch (SQLException e){
+			System.out.println(e.getMessage());
+		}finally{
+
+		}
+
+
+	}
+
+
+
+	private int addAuthor(String author){
 
 		try {
 			statement = connection.createStatement();
 
+			PreparedStatement add = connection.prepareStatement("SELECT * FROM author WHERE name='"+author+"'", Statement.RETURN_GENERATED_KEYS);
+
+			add.execute();
+
+			ResultSet entries = add.getResultSet();
+
+			if(!entries.next()){
+				add = connection.prepareStatement("INSERT INTO author(name) VALUES(?)", Statement.RETURN_GENERATED_KEYS);
+				add.setString(1, author);
+				add.executeUpdate();
+
+				ResultSet generatedKeys = add.getGeneratedKeys();
+
+				if(generatedKeys.next()){
+					System.out.println(generatedKeys.getInt(1));
+					return generatedKeys.getInt(1);
+				}
+			}
+			else{return entries.getInt(1);}
+
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return -1;
+	}
+
+
+	private int addBookAuthorRelation(int bookID, int authorID){
+
+		try {
+			statement = connection.createStatement();
+
+			PreparedStatement add = connection.prepareStatement("INSERT INTO book_author(book_id, author_id) VALUES(?,?)");
+
+			add.setInt(1, bookID);
+			add.setInt(2, authorID);
+
+			int affectedRows = add.executeUpdate();
+
+			if(affectedRows >= 1){
+				return 1;
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return -1;
+	}
+
+
+
+
+
+
+	public int addUser(UserBean user) {
+		try {
+			statement = connection.createStatement();
 			java.sql.PreparedStatement add = connection.prepareStatement(
 					"INSERT INTO user (username, password,email,nickname,firstname,lastname,creditcardnumber,yearofbirth) VALUES(?, ?, ? ,? ,?, ?,?,?)", Statement.RETURN_GENERATED_KEYS);
 			add.setString(1, user.getUsername());
@@ -306,6 +442,7 @@ public class SqlHandler {
 			PreparedStatement preparedStatement = connection.prepareStatement(deleteSQL);
 			preparedStatement.setInt(1, id);
 			preparedStatement.executeUpdate();
+
 		}catch (SQLException e){
 			System.out.println(e.getMessage());
 		}finally {
@@ -313,9 +450,63 @@ public class SqlHandler {
 		}
 
 	}
+
+	private int addVenue(String venue){
+		try{
+			PreparedStatement add = connection.prepareStatement("SELECT * FROM venue WHERE name='"+venue+"'", Statement.RETURN_GENERATED_KEYS);
+
+			add.execute();
+
+			ResultSet entries = add.getResultSet();
+
+			if(!entries.next()){
+				add = connection.prepareStatement("INSERT INTO venue(name) VALUES(?)", Statement.RETURN_GENERATED_KEYS);
+				add.setString(1, venue);
+				add.executeUpdate();
+
+
+				ResultSet generatedKeys = add.getGeneratedKeys();
+
+				if(generatedKeys.next()){
+					System.out.println(generatedKeys.getInt(1));
+					return generatedKeys.getInt(1);
+				}
+			}
+			else{return entries.getInt(1);}
+
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return -1;
+	}
+
+	private int addVenueBook(int bookID, int venueID){
+
+
+		try {
+			statement = connection.createStatement();
+
+			PreparedStatement add = connection.prepareStatement("INSERT INTO book_venue(book_id, venue_id) VALUES(?,?)");
+
+			add.setInt(1, bookID);
+			add.setInt(2, venueID);
+
+			int affectedRows = add.executeUpdate();
+
+			if(affectedRows >= 1){
+				return 1;
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return -1;
+	}
+
 }
-
-
 
 
 /*
