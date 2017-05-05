@@ -1,13 +1,11 @@
 package server;
 
 import Beans.BookBean;
-
 import Beans.UserBean;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.Statement;
-
 import controllers.SearchController;
-import java.sql.*;
+
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,16 +19,9 @@ import static controllers.SearchController.SEARCHATTRIBUTE.AUTHOR;
 
 public class SqlHandler {
 
-	private String url = "jdbc:mysql://127.0.0.1:3306/webApp";
-	private String username = "root";
-	private String passwd = "password";
 	private Connection connection = null;
 	private java.sql.Statement statement = null;
 	private ResultSet resultSet = null;
-
-
-
-
 
 	public SqlHandler() {
 
@@ -299,8 +290,6 @@ public class SqlHandler {
 		}finally{
 
 		}
-
-
 	}
 
 
@@ -371,7 +360,7 @@ public class SqlHandler {
 		try {
 			statement = connection.createStatement();
 			java.sql.PreparedStatement add = connection.prepareStatement(
-					"INSERT INTO user (username, password,email,nickname,firstname,lastname,creditcardnumber,yearofbirth) VALUES(?, ?, ? ,? ,?, ?,?,?)", Statement.RETURN_GENERATED_KEYS);
+					"INSERT INTO user (username, password,email,nickname,firstname,lastname,creditcardnumber,yearofbirth,address) VALUES(?, ?, ? ,? ,?, ?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
 			add.setString(1, user.getUsername());
 			add.setString(2, user.getPassword());
 			add.setString(3, user.getEmail());
@@ -380,6 +369,7 @@ public class SqlHandler {
 			add.setString(6, user.getLastName());
 			add.setString(7, user.getCreditCard());
 			add.setInt(8, user.getBirthYear());
+			add.setString(9, user.getAddress());
 
 
 
@@ -506,7 +496,41 @@ public class SqlHandler {
 		return -1;
 	}
 
-}
+
+	public int updateUser(UserBean user){
+
+		try {
+			statement = connection.createStatement();
+
+			PreparedStatement update = connection.prepareStatement("UPDATE user SET username=?, password=?, email=?, nickname=?, firstname=?, lastname=?, yearofbirth=?, address=?, creditcardnumber=? WHERE id="+user.getId());
+
+			update.setString(1, user.getUsername());
+			update.setString(2, user.getPassword());
+			update.setString(3, user.getEmail());
+			update.setString(4, user.getNickname());
+			update.setString(5, user.getFirstName());
+			update.setString(6, user.getLastName());
+			update.setInt  (7,  user.getBirthYear());
+			update.setString(8, user.getAddress());
+			update.setString(9, user.getCreditCard());
+
+
+			int affectedRows = update.executeUpdate();
+
+			if(affectedRows >= 1){
+				return 1;
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return -1;
+	}
+	}
+
+
+
 
 
 /*
