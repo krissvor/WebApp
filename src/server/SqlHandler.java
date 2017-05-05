@@ -119,7 +119,7 @@ public class SqlHandler {
 	}
 
 
-	public List<BookBean> findBooks(String term, SearchController.SEARCHATTRIBUTE attr) {
+	public List<BookBean> findBooks(String term, SearchController.SEARCHATTRIBUTE attr, int page) {
 
 		if(this.connection == null) {
 			this.connect();
@@ -128,7 +128,7 @@ public class SqlHandler {
 		List<BookBean> resultList = new ArrayList<>();
 		try {
 			// If the attribute was author, select on author, else determine selection based on search attribute
-			ResultSet rs = (attr == AUTHOR) ? getAuthorSearchResultSet(term) : getSearchResultSet(term, attr);
+			ResultSet rs = (attr == AUTHOR) ? getAuthorSearchResultSet(term, page) : getSearchResultSet(term, attr, page);
 			while(rs.next()) {
 				resultList.add(bookFromResultSet(rs));
 			}
@@ -142,7 +142,7 @@ public class SqlHandler {
 		return resultList;
 	}
 
-	private ResultSet getAuthorSearchResultSet(String searchTerm) throws SQLException {
+	private ResultSet getAuthorSearchResultSet(String searchTerm, int page) throws SQLException {
 		PreparedStatement authorStatement = connection.prepareStatement("SELECT DISTINCT(book.id), publicationtype, publicationdate, " +
 				"title, pages, url, ee, price, picture, venue.name AS venue " +
 				"FROM book, author, venue, book_author, book_venue " +
@@ -151,14 +151,16 @@ public class SqlHandler {
 				"book_venue.book_id = book.id AND " +
 				"book_venue.venue_id = venue.id AND " +
 				"book_author.author_id = author.id AND " +
-				"author.name RLIKE ?");
+				"author.name RLIKE ? " +
+				"ORDER BY title " +
+				"LIMIT 10 OFFSET " + page*10);
 
 		authorStatement.setString(1, searchTerm);
 		authorStatement.execute();
 		return authorStatement.getResultSet();
 	}
 
-	private ResultSet getSearchResultSet(String searchTerm, SearchController.SEARCHATTRIBUTE searchattribute) throws SQLException {
+	private ResultSet getSearchResultSet(String searchTerm, SearchController.SEARCHATTRIBUTE searchattribute, int page) throws SQLException {
 		String selectionClause = getSelectionClause(searchattribute);
 		PreparedStatement bookStatement = connection.prepareStatement("SELECT DISTINCT(book.id), publicationtype, publicationdate, " +
 				"title, pages, url, ee, price, picture, venue.name AS venue " +
@@ -167,7 +169,10 @@ public class SqlHandler {
 				"book_author.book_id = book.id AND " +
 				"book_venue.book_id = book.id AND " +
 				"book_venue.venue_id = venue.id AND " +
-				selectionClause);
+				selectionClause +
+				"ORDER BY title " +
+				"LIMIT 10 OFFSET " + page*10);
+
 		bookStatement.setString(1, searchTerm);
 		bookStatement.execute();
 		return bookStatement.getResultSet();
@@ -175,9 +180,9 @@ public class SqlHandler {
 
 	private String getSelectionClause(SearchController.SEARCHATTRIBUTE attr) {
 		switch(attr) {
-			case TITLE: return "book.title RLIKE ?";
-			case VENUE: return "venue.name RLIKE ?";
-			case YEAR: return "publicationdate = ?";
+			case TITLE: return "book.title RLIKE ? ";
+			case VENUE: return "venue.name RLIKE ? ";
+			case YEAR: return "publicationdate = ? ";
 			default: return null;
 		}
 	}

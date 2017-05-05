@@ -123,6 +123,7 @@
                 <button type="submit" class="btn btn-secondary"><i class="fa fa-search" aria-hidden="true"></i></button>
             </span>
         <input type="hidden" class="hiddenInput" name="attribute">
+        <input type="hidden" name="page" value="0">
       </div>
     </form>
   </div>
