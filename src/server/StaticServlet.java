@@ -3,6 +3,7 @@ package server;
 import Beans.UserBean;
 import controllers.BookController;
 import controllers.LoginController;
+import controllers.SearchController;
 import controllers.UserRegController;
 import org.xml.sax.SAXException;
 
@@ -27,24 +28,28 @@ public class StaticServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("Tok i mot et get kall");
-        String requestDispatcher = null;
+        System.out.println(request.getRequestURI());
+        if(request.getRequestURI().startsWith("/search")) {
+            SearchController controller = new SearchController();
+            controller.search(request, response);
+        } else {
+            System.out.println("Tok i mot et get kall");
+            String requestDispatcher = null;
 
-        request.getRequestURL();
-        SqlHandler sqlHandler = new SqlHandler();
-        sqlHandler.connect();
-        ArrayList users = sqlHandler.getAllUsers();
-        sqlHandler.closeConnection();
-        System.out.println(users.toString());
-
-
-        request.setAttribute("users", users);
-
-        requestDispatcher = "/UserList.jsp";
-
-        request.getRequestDispatcher(requestDispatcher).forward(request, response);
+            request.getRequestURL();
+            SqlHandler sqlHandler = new SqlHandler();
+            sqlHandler.connect();
+            ArrayList users = sqlHandler.getAllUsers();
+            sqlHandler.closeConnection();
+            System.out.println(users.toString());
 
 
+            request.setAttribute("users", users);
+
+            requestDispatcher = "/UserList.jsp";
+
+            request.getRequestDispatcher(requestDispatcher).forward(request, response);
+        }
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
