@@ -10,6 +10,7 @@ import org.xml.sax.SAXException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -103,11 +104,19 @@ public class StaticServlet extends HttpServlet {
                 String password = request.getParameter("password");
                 sqlHandler.connect();
                 response.setContentType("text/html");
+
                 PrintWriter out = response.getWriter();
                 LoginController loginController = new LoginController();
                 UserBean user = loginController.login(request);
                 if(user !=null){
-                    out.write("true");
+                    System.out.println(action);
+//                    request.setAttribute("searchCategory", searchCategory);
+
+                    requestDispatcher = "/results.jsp";
+                    request.getRequestDispatcher(requestDispatcher).forward(request, response);
+
+
+
 
                 }else {
                     out.write("false");

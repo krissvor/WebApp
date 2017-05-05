@@ -100,7 +100,8 @@ function validateUsername(){
     };
 }
 
-function validateLogin(){
+function validateLogin() {
+    console.log("trying to login");
     var request = new XMLHttpRequest();
     var username = document.getElementById("username");
     var password = document.getElementById("password");
@@ -115,9 +116,13 @@ function validateLogin(){
         if(request.readyState === XMLHttpRequest.DONE && request.status === 200){
             var res = request.responseText;
             if(res=="false"){
+                console.log("stemmer ikke");
                 password.setAttribute("style","border-color:#ae030e");
+                return false
             }
             else {
+                console.log("stemmer");
+                return true;
             }
         }
     };

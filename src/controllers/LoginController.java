@@ -19,8 +19,8 @@ public class LoginController {
         String password = request.getParameter("password").trim();
 
         SqlHandler sqlHandler = new SqlHandler();
-        UserBean result = sqlHandler.verifyPassword(username, password);
         sqlHandler.connect();
+        UserBean result = sqlHandler.verifyPassword(username, password);
         sqlHandler.closeConnection();
 
 

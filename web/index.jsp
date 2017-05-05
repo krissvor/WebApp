@@ -45,7 +45,7 @@
 
           <div id="id01" class="modal">
 
-            <form class="modal-content animate" action="checkLogin" id="loginForm" METHOD="POST">
+            <div class="modal-content animate" action="checkLogin" id="loginForm" METHOD="POST">
               <input type="hidden" name="action" value="checkLogin">
 
               <div class="container">
@@ -62,7 +62,7 @@
                 <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
                 <span class="register"> <a href="UserRegistration">Register</a></span>
               </div>
-            </form>
+            </div>
           </div>
 
           <script>
