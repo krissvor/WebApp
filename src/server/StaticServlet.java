@@ -1,6 +1,5 @@
 package server;
 
-import Beans.UserBean;
 import controllers.BookController;
 import controllers.LoginController;
 import controllers.SearchController;
@@ -89,9 +88,7 @@ public class StaticServlet extends HttpServlet {
 
                 break;
         }
-
     }
-
 }
 
 
