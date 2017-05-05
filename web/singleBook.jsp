@@ -13,6 +13,7 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
 </head>
 <body>
+    <%@include file="Header.jsp"%>
     <div class="container">
         <h4 class="card-title text-center top-bot-20">${bookBean.title}</h4>
         <div class="d-flex justify-content-center">
