@@ -23,52 +23,52 @@
     <div class="form-horizontal">
         <div class="form-group">
             <div class="col-lg-6">
-                <input type="text" name="title" placeholder="Title">
+                <input type="text" name="title" class="form-control UserRegInput" placeholder="Title">
             </div>
         </div>
         <div class="form-group">
             <div class="col-lg-6">
-                <input type="text" name="author" placeholder="author">
+                <input type="text" name="author" class="form-control UserRegInput" placeholder="author">
             </div>
         </div>
         <div class="form-group">
             <div class="col-lg-6">
-                <input type="text" name="publicationType" placeholder="Publication type">
+                <input type="text" name="publicationType" class="form-control UserRegInput" placeholder="Publication type">
             </div>
         </div>
         <div class="form-group">
             <div class="col-lg-6">
-                <input type="text" name="publicationDate" placeholder="Publication Date">
+                <input type="text" name="publicationDate" class="form-control UserRegInput" placeholder="Publication Date">
             </div>
         </div>
         <div class="form-group">
             <div class="col-lg-6">
-                <input type="text" name="venue" placeholder="venue">
+                <input type="text" name="venue" class="form-control UserRegInput" placeholder="Venue">
             </div>
         </div>
         <div class="form-group">
             <div class="col-lg-6">
-                <input type="text" name="price" placeholder="price">
+                <input type="text" name="price" class="form-control UserRegInput" placeholder="Price">
             </div>
         </div>
         <div class="form-group">
             <div class="col-lg-6">
-                <input type="text" name="pages" placeholder="pages">
+                <input type="text" name="pages" class="form-control UserRegInput" placeholder="Pages">
             </div>
         </div>
         <div class="form-group">
             <div class="col-lg-6">
-                <input type="text" name="url" placeholder="url">
+                <input type="text" name="url" class="form-control UserRegInput" placeholder="url">
             </div>
         </div>
         <div class="form-group">
             <div class="col-lg-6">
-                <input type="text" name="ee" placeholder="ee">
+                <input type="text" name="ee" class="form-control UserRegInput" placeholder="ee">
             </div>
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-lg-6">
-                <input type="file" name="picture" accept="image/*" placeholder="picture">
+                <input type="file" name="picture" accept="image/*" class="form-control UserRegInput" placeholder="picture">
             </div>
         </div>
         <div class="form-group">

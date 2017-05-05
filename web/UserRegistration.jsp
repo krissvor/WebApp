@@ -29,7 +29,7 @@
         </div>
         <div class="form-group">
             <div class="col-lg-6">
-                <input type="lastname" name="lastname"class="form-control UserRegInput" id="lastname" placeholder="Last Name">
+                <input type="lastname" name="lastname" class="form-control UserRegInput" id="lastname" placeholder="Last Name">
             </div>
         </div>
         <div class="form-group" >
