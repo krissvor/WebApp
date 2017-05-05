@@ -6,18 +6,19 @@ var usernameTaken = true;
 
 function testUserForm(){
     formIsValid = true;
-   everythingFilled();
-   validateYear();
-   validateEmail();
-   validatePassword();
-   validateCredit();
+    everythingFilled();
+    validateYear();
+    validateEmail();
+    validatePassword();
+    validateCredit();
 
-   if(formIsValid && !usernameTaken){
-       return true;
-   }
-   return false
+    if(formIsValid && !usernameTaken){
+        return true;
+    }
+    return false
 
 }
+
 
 function validateCredit(){
     var field = document.getElementById("creditCard");
@@ -84,11 +85,11 @@ function validateUsername(){
             var res = request.responseText;
             var form = document.getElementById("username")
             if(res == "true"){
-                    // document.getElementsByclassName("formError")[0].setAttribute("hidden", false)
-                    // document.getElementsByClassName("formError")[0].innerHTML("HER ERRE NOE FEIL!!")
+                // document.getElementsByclassName("formError")[0].setAttribute("hidden", false)
+                // document.getElementsByClassName("formError")[0].innerHTML("HER ERRE NOE FEIL!!")
 
-                    form.setAttribute("style", "border-color:#ae030e;");
-                    usernameTaken=true;
+                form.setAttribute("style", "border-color:#ae030e;");
+                usernameTaken=true;
             }
             if(res=="false"){
                 form.setAttribute("style", "border-color:rgba(0,0,0,.15);");
@@ -98,6 +99,31 @@ function validateUsername(){
         }
     };
 }
+
+function validateLogin(){
+    var request = new XMLHttpRequest();
+    var username = document.getElementById("username");
+    var password = document.getElementById("password");
+    var data = "username=" + username.value + "&password=" + password.value + "&action=checkLogin";
+
+    request.open("POST", "/checkLogin", true);
+    request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    request.send(data);
+    request.responseText;
+
+    request.onreadystatechange = function () {
+        if(request.readyState === XMLHttpRequest.DONE && request.status === 200){
+            var res = request.responseText;
+            if(res=="false"){
+                password.setAttribute("style","border-color:#ae030e");
+            }
+            else {
+            }
+        }
+    };
+
+}
+
 
 
 

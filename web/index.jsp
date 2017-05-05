@@ -45,18 +45,17 @@
 
           <div id="id01" class="modal">
 
-            <form class="modal-content animate" action="login" METHOD="POST">
-              <input type="hidden" name="action" value="login">
+            <form class="modal-content animate" action="checkLogin" id="loginForm" METHOD="POST">
+              <input type="hidden" name="action" value="checkLogin">
 
               <div class="container">
                 <label><b>Username</b></label>
                 <input type="text"  id="username" placeholder="Enter Username" name="username" required>
 
                 <label><b>Password</b></label>
-                <input type="password" placeholder="Enter Password" name="password" required>
+                <input type="password" id="password" placeholder="Enter Password" name="password" required>
 
-                <button type="submit">Login</button>
-                <input type="checkbox" checked="checked"> Remember me
+                <button onclick="validateLogin()">Login</button>
               </div>
 
               <div class="container" style="background-color:#f1f1f1">

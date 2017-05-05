@@ -1,5 +1,6 @@
 package controllers;
 
+import Beans.UserBean;
 import server.SqlHandler;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,19 +14,16 @@ public class LoginController {
 
     }
 
-    public boolean login(HttpServletRequest request){
-        Boolean result;
+    public UserBean login(HttpServletRequest request){
         String username = request.getParameter("username").trim();
         String password = request.getParameter("password").trim();
 
         SqlHandler sqlHandler = new SqlHandler();
+        UserBean result = sqlHandler.verifyPassword(username, password);
         sqlHandler.connect();
-        if(sqlHandler.verifyPassword(username, password)){
-            result = true;
-        }else
-            result = false;
-
         sqlHandler.closeConnection();
+
+
         return result;
 
     }

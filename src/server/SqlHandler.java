@@ -293,10 +293,10 @@ public class SqlHandler {
         return resultBean;
     }
 
-	public boolean verifyPassword(String username, String password){
+	public UserBean verifyPassword(String username, String password){
 
-		int id;
 		boolean result = false;
+		UserBean user = new UserBean();
 
 		try{
 			statement = connection.createStatement();
@@ -309,7 +309,7 @@ public class SqlHandler {
 			ResultSet rs = add.executeQuery();
 
 			if(rs.next()){
-				UserBean user = new UserBean();
+
 				user.setBirthYear(rs.getInt("yearofbirth"));
 				user.setUsername(rs.getString("username"));
 				user.setNickname(rs.getString("nickname"));
@@ -328,9 +328,13 @@ public class SqlHandler {
 		}catch (SQLException e){
 			System.out.println(e.getMessage());
 		}finally{
-
+			if(result){
+				return user;
+			}
+			else
+				return null;
 		}
-		return result;
+
 
 
 	}

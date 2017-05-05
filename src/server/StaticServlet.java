@@ -74,8 +74,9 @@ public class StaticServlet extends HttpServlet {
         System.out.println("Tok i mot et kall");
         System.out.println(request.toString());
         String action = request.getParameter("action");
+        SqlHandler sqlHandler;
 
-        switch (action){
+            switch (action){
 
             case("UserRegistration"):
                 System.out.println("Recieved User registration request");
@@ -95,13 +96,30 @@ public class StaticServlet extends HttpServlet {
                 BookController bookController = new BookController();
                 bookController.addBook(request);
                 break;
-            case("login"):
-                System.out.println("trying to sign in");
+            case("checkLogin"):
+                sqlHandler = new SqlHandler();
+
+                String username = request.getParameter("username");
+                String password = request.getParameter("password");
+                sqlHandler.connect();
+                response.setContentType("text/html");
+                PrintWriter out = response.getWriter();
                 LoginController loginController = new LoginController();
-                loginController.login(request);
+                UserBean user = loginController.login(request);
+                if(user !=null){
+                    out.write("true");
+
+                }else {
+                    out.write("false");
+                }
+                sqlHandler.closeConnection();
+
+                break;
+            case("login"):
+
                 break;
             case("deleteUser"):
-                SqlHandler sqlHandler = new SqlHandler();
+                sqlHandler = new SqlHandler();
                 sqlHandler.connect();
                 int id = Integer.parseInt(request.getParameter("id"));
                 sqlHandler.deleteUser(id);
