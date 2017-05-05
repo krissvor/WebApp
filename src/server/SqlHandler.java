@@ -7,6 +7,8 @@ import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.Statement;
 
 import controllers.SearchController;
+
+import java.awt.print.Book;
 import java.sql.*;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -180,6 +182,23 @@ public class SqlHandler {
 		return resultList;
 	}
 
+	public BookBean getSingleBook(int id) {
+		if(this.connection == null) {
+			this.connect();
+		}
+		try {
+			// If the attribute was author, select on author, else determine selection based on search attribute
+			ResultSet rs = getSingleBookResultSet(id);
+			return (rs.next()) ? bookFromResultSet(rs) : null;
+		} catch (SQLException e) {
+			System.err.println("An error occurred while selecting books");
+			e.printStackTrace();
+		} finally {
+			this.closeConnection();
+		}
+		return null;
+	}
+
 	private ResultSet getAuthorSearchResultSet(String searchTerm, int page) throws SQLException {
 		PreparedStatement authorStatement = connection.prepareStatement("SELECT DISTINCT(book.id), publicationtype, publicationdate, " +
 				"title, pages, url, ee, price, picture, venue.name AS venue " +
@@ -212,6 +231,21 @@ public class SqlHandler {
 				"LIMIT 10 OFFSET " + page*10);
 
 		bookStatement.setString(1, searchTerm);
+		bookStatement.execute();
+		return bookStatement.getResultSet();
+	}
+
+	private ResultSet getSingleBookResultSet(int bookId) throws SQLException {
+		PreparedStatement bookStatement = connection.prepareStatement("SELECT DISTINCT(book.id), publicationtype, publicationdate, " +
+				"title, pages, url, ee, price, picture, venue.name AS venue " +
+				"FROM book, author, venue, book_author, book_venue " +
+				"WHERE book_author.author_id = author.id AND " +
+				"book_author.book_id = book.id AND " +
+				"book_venue.book_id = book.id AND " +
+				"book_venue.venue_id = venue.id AND " +
+				"book.id = ?");
+
+		bookStatement.setInt(1, bookId);
 		bookStatement.execute();
 		return bookStatement.getResultSet();
 	}
