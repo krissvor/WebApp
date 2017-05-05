@@ -60,13 +60,13 @@
             <div class="form-group">
                 <form action="/cart" method="post">
                     <input type="hidden" name="id" value=${bookBean.id}>
-                    <button class="btn btn-primary" type="submit"> Add to cart </button>
+                    <button class="btn btn-secondary" type="submit"> Add to cart </button>
                 </form>
             </div>
             <div class="form-group">
                 <form action="/wishlist" method="post">
                     <input type="hidden" name="id" value=${bookBean.id}>
-                    <button class="btn btn-primary" type="submit"> Add to wish list</button>
+                    <button class="btn btn-secondary" type="submit"> Add to wish list</button>
                 </form>
             </div>
         </div>
