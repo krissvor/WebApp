@@ -113,7 +113,7 @@
     <form action="/search" method="GET">
       <div class="input-group">
         <div class="input-group-btn">
-          <button type="button" class="btn btn-secondary dropdown-toggle" style="margin-bottom:0px" name="selectSearch" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Search By: <span class="selection" name="attribute"></span><span class="caret"></span>
+          <button type="button" class="btn btn-secondary dropdown-toggle" style="margin-bottom:0px" name="selectSearch" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Search By: <span class="selection" name="attribute">Title</span><span class="caret"></span>
           </button>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" data-value="author" href="#">Author</a></li>
@@ -126,7 +126,7 @@
         <span class="input-group-btn">
                 <button type="submit" style="margin-bottom:0px" class="btn btn-secondary"><i class="fa fa-search" aria-hidden="true"></i></button>
             </span>
-        <input type="hidden" class="hiddenInput" name="attribute">
+        <input type="hidden" class="hiddenInput" name="attribute" value="Title">
         <input type="hidden" name="page" value="0">
       </div>
     </form>
