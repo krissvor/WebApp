@@ -44,4 +44,9 @@
         <servlet-name>WebappServlet</servlet-name>
         <url-pattern>/deleteUser</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>WebappServlet</servlet-name>
+        <url-pattern>/checkUsername</url-pattern>
+    </servlet-mapping>
+
 </web-app>
