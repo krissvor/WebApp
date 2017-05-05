@@ -5,11 +5,14 @@ import Beans.BookBean;
 import Beans.UserBean;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.Statement;
+import controllers.SearchController;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+
+import static controllers.SearchController.SEARCHATTRIBUTE.AUTHOR;
 
 
 public class SqlHandler {
@@ -116,37 +119,69 @@ public class SqlHandler {
 	}
 
 
-	public List<BookBean> findBooksByTitle(String searchTerm) {
-        if(this.connection == null) {
-            this.connect();
-        }
+	public List<BookBean> findBooks(String term, SearchController.SEARCHATTRIBUTE attr) {
+
+		if(this.connection == null) {
+			this.connect();
+		}
 
 		List<BookBean> resultList = new ArrayList<>();
 		try {
-			PreparedStatement bookStatement = connection.prepareStatement("SELECT DISTINCT(book.id), publicationtype, publicationdate, " +
-                    "title, pages, url, ee, price, picture, venue.name AS venue " +
-                    "FROM book, author, venue, book_author, book_venue " +
-                    "WHERE book_author.author_id = author.id AND " +
-                    "book_author.book_id = book.id AND " +
-                    "book_venue.book_id = book.id AND " +
-                    "book_venue.venue_id = venue.id AND " +
-                    "book.title RLIKE ?");
-			bookStatement.setString(1, searchTerm);
-
-			bookStatement.execute();
-			ResultSet rs = bookStatement.getResultSet();
+			// If the attribute was author, select on author, else determine selection based on search attribute
+			ResultSet rs = (attr == AUTHOR) ? getAuthorSearchResultSet(term) : getSearchResultSet(term, attr);
 			while(rs.next()) {
-				resultList.add(BookFromResultSet(rs));
+				resultList.add(bookFromResultSet(rs));
 			}
 
 		} catch (SQLException e) {
-			System.err.println("An error occurred while selecting books by title");
+			System.err.println("An error occurred while selecting books");
 			e.printStackTrace();
 		} finally {
             this.closeConnection();
         }
 		return resultList;
 	}
+
+	private ResultSet getAuthorSearchResultSet(String searchTerm) throws SQLException {
+		PreparedStatement authorStatement = connection.prepareStatement("SELECT DISTINCT(book.id), publicationtype, publicationdate, " +
+				"title, pages, url, ee, price, picture, venue.name AS venue " +
+				"FROM book, author, venue, book_author, book_venue " +
+				"WHERE book_author.author_id = author.id AND " +
+				"book_author.book_id = book.id AND " +
+				"book_venue.book_id = book.id AND " +
+				"book_venue.venue_id = venue.id AND " +
+				"book_author.author_id = author.id AND " +
+				"author.name RLIKE ?");
+
+		authorStatement.setString(1, searchTerm);
+		authorStatement.execute();
+		return authorStatement.getResultSet();
+	}
+
+	private ResultSet getSearchResultSet(String searchTerm, SearchController.SEARCHATTRIBUTE searchattribute) throws SQLException {
+		String selectionClause = getSelectionClause(searchattribute);
+		PreparedStatement bookStatement = connection.prepareStatement("SELECT DISTINCT(book.id), publicationtype, publicationdate, " +
+				"title, pages, url, ee, price, picture, venue.name AS venue " +
+				"FROM book, author, venue, book_author, book_venue " +
+				"WHERE book_author.author_id = author.id AND " +
+				"book_author.book_id = book.id AND " +
+				"book_venue.book_id = book.id AND " +
+				"book_venue.venue_id = venue.id AND " +
+				selectionClause);
+		bookStatement.setString(1, searchTerm);
+		bookStatement.execute();
+		return bookStatement.getResultSet();
+	}
+
+	private String getSelectionClause(SearchController.SEARCHATTRIBUTE attr) {
+		switch(attr) {
+			case TITLE: return "book.title RLIKE ?";
+			case VENUE: return "venue.name RLIKE ?";
+			case YEAR: return "publicationdate = ?";
+			default: return null;
+		}
+	}
+
 
 	private ArrayList<String> getAuthors(int bookId) throws SQLException {
 	    ArrayList<String> authors = new ArrayList<>();
@@ -167,7 +202,7 @@ public class SqlHandler {
 
     }
 
-	private BookBean BookFromResultSet(ResultSet rs) throws SQLException {
+	private BookBean bookFromResultSet(ResultSet rs) throws SQLException {
         BookBean resultBean = new BookBean();
         int bookId = rs.getInt("id");
         ArrayList<String> authors = getAuthors(bookId);
