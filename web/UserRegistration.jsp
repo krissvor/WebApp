@@ -16,7 +16,7 @@
     <title>Title</title>
 </head>
 <body>
-
+<%@include file="Header.jsp"%>
 <form action="UserRegistration" data-toggle="validator" METHOD="POST">
     <input type="hidden" name = "action" value = "UserRegistration">
     <div class="form-horizontal">

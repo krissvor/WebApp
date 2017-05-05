@@ -3,7 +3,11 @@ package controllers;
 import Beans.BookBean;
 import server.SqlHandler;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -44,5 +48,16 @@ public class BookController {
 
 
         System.out.println(book.toString());
+    }
+
+    public void viewSingleBook(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if(request.getParameter("id") != null) {
+            int bookId = Integer.parseInt(request.getParameter("id"));
+            SqlHandler handler = new SqlHandler();
+            BookBean book = handler.getSingleBook(bookId);
+
+            request.setAttribute("bookBean", book);
+            request.getRequestDispatcher("singleBook.jsp").forward(request, response);
+        }
     }
 }
