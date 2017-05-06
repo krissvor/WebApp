@@ -30,6 +30,8 @@ public class StaticServlet extends HttpServlet {
         if (request.getRequestURI().startsWith("/search")) {
             SearchController controller = new SearchController();
             controller.search(request, response);
+        } else if(request.getRequestURI().startsWith("/bookseller")) {
+            request.getRequestDispatcher("Bookseller.jsp").forward(request, response);
         } else if (request.getRequestURI().startsWith("/book")) {
             BookController controller = new BookController();
             controller.viewSingleBook(request, response);
@@ -39,6 +41,8 @@ public class StaticServlet extends HttpServlet {
         } else if(request.getRequestURI().startsWith("/wishlist")) {
             WishListController controller = new WishListController();
             controller.showWishList(request, response);
+        } else if(request.getRequestURI().startsWith("/register")) {
+            request.getRequestDispatcher("UserRegistration.jsp").forward(request, response);
         } else {
             System.out.println("Tok i mot et get kall");
             String requestDispatcher = null;

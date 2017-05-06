@@ -25,20 +25,20 @@
           <a class="nav-link" href="/">Digital Bibliographic Library <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="UserRegistration.jsp">User Registration</a>
+          <a class="nav-link" href="/register">User Registration</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="Bookseller.jsp">Bookseller</a>
+          <a class="nav-link" href="/bookseller">Bookseller</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/cart">Bookseller</a>
+          <a class="nav-link" href="/cart">Shopping Cart</a>
         </li>
         <c:choose>
           <c:when test="${sessionScope.userId != null}">
             <li class="nav-item">
               <a class="nav-link" href="/wishlist">Wishlist</a>
             </li>
-            <li class="nav-item pull-md-2">
+            <li class="nav-item">
               <a class="nav-link" href="/"> ${sessionScope.name} </a>
             </li>
           </c:when>

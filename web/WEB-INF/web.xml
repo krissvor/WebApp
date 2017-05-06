@@ -56,4 +56,12 @@
         <servlet-name>WebappServlet</servlet-name>
         <url-pattern>/wishlist</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>WebappServlet</servlet-name>
+        <url-pattern>/bookseller</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>WebappServlet</servlet-name>
+        <url-pattern>/register</url-pattern>
+    </servlet-mapping>
 </web-app>
