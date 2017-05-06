@@ -57,16 +57,30 @@
             </table>
         </div>
         <div class="row d-flex justify-content-around">
-            <div class="form-group">
-                <form action="/cart" method="post">
-                    <input type="hidden" name="id" value=${bookBean.id}>
-                    <button class="btn btn-secondary" type="submit"> Add to cart </button>
-                </form>
-            </div>
+            <c:choose>
+                <c:when test="${sessionScope.bookIds.contains(bookBean.id)}">
+                    <div class="form-group">
+                        <form action="/cart" method="post">
+                            <input type="hidden" name="id" value=${bookBean.id}>
+                            <input type="hidden" name="action" value="remove">
+                            <button class="btn btn-primary" type="submit"> Remove from cart </button>
+                        </form>
+                    </div>
+                </c:when>
+                <c:otherwise>
+                    <div class="form-group">
+                        <form action="/cart" method="post">
+                            <input type="hidden" name="id" value=${bookBean.id}>
+                            <input type="hidden" name="action" value="add">
+                            <button class="btn btn-primary" type="submit"> Add to cart </button>
+                        </form>
+                    </div>
+                </c:otherwise>
+            </c:choose>
             <div class="form-group">
                 <form action="/wishlist" method="post">
                     <input type="hidden" name="id" value=${bookBean.id}>
-                    <button class="btn btn-secondary" type="submit"> Add to wish list</button>
+                    <button class="btn btn-primary" type="submit"> Add to wish list</button>
                 </form>
             </div>
         </div>
