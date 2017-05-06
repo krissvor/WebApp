@@ -77,12 +77,17 @@
                     </div>
                 </c:otherwise>
             </c:choose>
-            <div class="form-group">
-                <form action="/wishlist" method="post">
-                    <input type="hidden" name="id" value=${bookBean.id}>
-                    <button class="btn btn-primary" type="submit"> Add to wish list</button>
-                </form>
-            </div>
+            <c:choose>
+                <c:when test="${sessionScope.userId != null}">
+                    <div class="form-group">
+                        <form action="/wishlist" method="post">
+                            <input type="hidden" name="id" value=${bookBean.id}>
+                            <input type="hidden" name="action" value="add">
+                            <button class="btn btn-primary" type="submit"> Add to wish list</button>
+                        </form>
+                    </div>
+                </c:when>
+            </c:choose>
         </div>
     </div>
 </body>

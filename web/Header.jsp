@@ -33,6 +33,16 @@
         <li class="nav-item">
           <a class="nav-link" href="/cart">Bookseller</a>
         </li>
+        <c:choose>
+          <c:when test="${sessionScope.userId != null}">
+            <li class="nav-item">
+              <a class="nav-link" href="/wishlist">Wishlist</a>
+            </li>
+            <li class="nav-item pull-md-2">
+              <a class="nav-link" href="/"> ${sessionScope.name} </a>
+            </li>
+          </c:when>
+        </c:choose>
       </ul>
     </div>
   </nav>

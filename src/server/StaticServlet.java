@@ -36,6 +36,9 @@ public class StaticServlet extends HttpServlet {
         } else if (request.getRequestURI().startsWith("/cart")) {
             CartController controller = new CartController();
             controller.showCart(request, response);
+        } else if(request.getRequestURI().startsWith("/wishlist")) {
+            WishListController controller = new WishListController();
+            controller.showWishList(request, response);
         } else {
             System.out.println("Tok i mot et get kall");
             String requestDispatcher = null;
@@ -82,7 +85,7 @@ public class StaticServlet extends HttpServlet {
             case ("login"):
                 System.out.println("trying to sign in");
                 LoginController loginController = new LoginController();
-                loginController.login(request);
+                loginController.login(request, response);
                 break;
             case ("deleteUser"):
                 SqlHandler sqlHandler = new SqlHandler();
