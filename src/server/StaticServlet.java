@@ -1,9 +1,6 @@
 package server;
 
-import controllers.BookController;
-import controllers.LoginController;
-import controllers.SearchController;
-import controllers.UserRegController;
+import controllers.*;
 import org.xml.sax.SAXException;
 
 import javax.servlet.ServletException;
@@ -34,6 +31,9 @@ public class StaticServlet extends HttpServlet {
         } else if(request.getRequestURI().startsWith("/book")) {
             BookController controller = new BookController();
             controller.viewSingleBook(request, response);
+        } else if(request.getRequestURI().startsWith("/cart")) {
+            CartController controller = new CartController();
+            controller.showCart(request, response);
         }
 
         else {
@@ -89,6 +89,4 @@ public class StaticServlet extends HttpServlet {
                 break;
         }
     }
-}
-
 

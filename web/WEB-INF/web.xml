@@ -48,4 +48,8 @@
         <servlet-name>WebappServlet</servlet-name>
         <url-pattern>/book</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>WebappServlet</servlet-name>
+        <url-pattern>/cart</url-pattern>
+    </servlet-mapping>
 </web-app>
