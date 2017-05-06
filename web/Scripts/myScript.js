@@ -122,6 +122,7 @@ function validateLogin() {
             }
             else {
                 console.log("stemmer");
+                window.location.href = "Admin.jsp";
                 return true;
             }
         }

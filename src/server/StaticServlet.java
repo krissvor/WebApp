@@ -110,13 +110,8 @@ public class StaticServlet extends HttpServlet {
                 UserBean user = loginController.login(request);
                 if(user !=null){
                     System.out.println(action);
-//                    request.setAttribute("searchCategory", searchCategory);
 
-                    requestDispatcher = "/results.jsp";
-                    request.getRequestDispatcher(requestDispatcher).forward(request, response);
-
-
-
+                    out.write("true");
 
                 }else {
                     out.write("false");
