@@ -37,7 +37,22 @@ public class LoginController {
             request.getRequestDispatcher("/").forward(request, response);
         } else {
             System.out.println("User not found!");
-            request.getRequestDispatcher("/").forward(request, response);
+            response.getWriter().write("false");
         }
+    }
+
+    public void checkLogin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        SqlHandler handler = new SqlHandler();
+        handler.connect();
+        response.setContentType("text/html");
+        UserBean user = handler.verifyPassword(username, password);
+        if(user !=null){
+            response.getWriter().write("true");
+        }else {
+            response.getWriter().write("false");
+        }
+        handler.closeConnection();
     }
 }

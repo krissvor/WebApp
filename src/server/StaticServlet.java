@@ -74,6 +74,9 @@ public class StaticServlet extends HttpServlet {
         } else if(request.getRequestURI().startsWith("/wishlist")) {
             WishListController controller = new WishListController();
             controller.handleWishListChange(request, response);
+        } else if(request.getRequestURI().startsWith("/checkLogin")) {
+            LoginController controller = new LoginController();
+            controller.checkLogin(request, response);
         }
 
         switch (action) {
@@ -101,7 +104,6 @@ public class StaticServlet extends HttpServlet {
                 sqlHandler.deleteUser(id);
                 sqlHandler.closeConnection();
 
-                break;
         }
     }
 
