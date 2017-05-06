@@ -1,9 +1,6 @@
 package server;
 
-import controllers.BookController;
-import controllers.LoginController;
-import controllers.SearchController;
-import controllers.UserRegController;
+import controllers.*;
 import org.xml.sax.SAXException;
 
 import javax.servlet.ServletException;
@@ -11,9 +8,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  * Created by kriss on 01-May-17.
@@ -28,15 +27,16 @@ public class StaticServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println(request.getRequestURI());
-        if(request.getRequestURI().startsWith("/search")) {
+        if (request.getRequestURI().startsWith("/search")) {
             SearchController controller = new SearchController();
             controller.search(request, response);
-        } else if(request.getRequestURI().startsWith("/book")) {
+        } else if (request.getRequestURI().startsWith("/book")) {
             BookController controller = new BookController();
             controller.viewSingleBook(request, response);
-        }
-
-        else {
+        } else if (request.getRequestURI().startsWith("/cart")) {
+            CartController controller = new CartController();
+            controller.showCart(request, response);
+        } else {
             System.out.println("Tok i mot et get kall");
             String requestDispatcher = null;
 
@@ -61,25 +61,30 @@ public class StaticServlet extends HttpServlet {
         System.out.println(request.toString());
         String action = request.getParameter("action");
 
-        switch (action){
+        if(request.getRequestURI().startsWith("/cart")) {
+            CartController controller = new CartController();
+            controller.handleCartChange(request, response);
+        }
 
-            case("UserRegistration"):
+        switch (action) {
+
+            case ("UserRegistration"):
                 System.out.println("Recieved User registration request");
                 UserRegController userReg = new UserRegController();
                 userReg.registerNewUser(request);
                 break;
 
-            case("addBook"):
+            case ("addBook"):
                 System.out.println("trying to add book");
                 BookController bookController = new BookController();
                 bookController.addBook(request);
                 break;
-            case("login"):
+            case ("login"):
                 System.out.println("trying to sign in");
                 LoginController loginController = new LoginController();
                 loginController.login(request);
                 break;
-            case("deleteUser"):
+            case ("deleteUser"):
                 SqlHandler sqlHandler = new SqlHandler();
                 sqlHandler.connect();
                 int id = Integer.parseInt(request.getParameter("id"));
@@ -89,6 +94,19 @@ public class StaticServlet extends HttpServlet {
                 break;
         }
     }
-}
 
+    @Override
+    protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        System.out.println("Checking for cart...");
+
+        // Make sure a shopping cart session is created for the request
+        HttpSession session = request.getSession();
+        if(session.getAttribute("bookIds") == null) {
+            session.setAttribute("bookIds", new HashSet<Integer>());
+        }
+
+        // Route the request to its intended location
+        super.service(request, response);
+    }
+}
 

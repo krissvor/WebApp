@@ -151,13 +151,11 @@ public class SqlHandler {
 	}
 
 	public List<BookBean> findBooks(String term, SearchController.SEARCHATTRIBUTE attr, int page) {
-
-		if(this.connection == null) {
-			this.connect();
-		}
-
 		List<BookBean> resultList = new ArrayList<>();
 		try {
+			if(this.connection == null || this.connection.isClosed()) {
+				this.connect();
+			}
 			// If the attribute was author, select on author, else determine selection based on search attribute
 			ResultSet rs = (attr == AUTHOR) ? getAuthorSearchResultSet(term, page) : getSearchResultSet(term, attr, page);
 			while(rs.next()) {
@@ -174,10 +172,10 @@ public class SqlHandler {
 	}
 
 	public BookBean getSingleBook(int id) {
-		if(this.connection == null) {
-			this.connect();
-		}
 		try {
+			if(this.connection == null || this.connection.isClosed()) {
+				this.connect();
+			}
 			// If the attribute was author, select on author, else determine selection based on search attribute
 			ResultSet rs = getSingleBookResultSet(id);
 			return (rs.next()) ? bookFromResultSet(rs) : null;
