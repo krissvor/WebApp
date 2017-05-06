@@ -54,12 +54,12 @@
         </div>
         <div class="form-group">
             <div class="col-lg-6">
-                <input type="text" name="password"class="form-control UserRegInput" id="password1" placeholder="Password">
+                <input type="password" name="password"class="form-control UserRegInput" id="password1" placeholder="Password">
             </div>
         </div>
         <div class="form-group">
             <div class="col-lg-6">
-                <input type="text" data-match="#password1" data-match-error="Whoops, these don't match" class="form-control UserRegInput" id="password2" placeholder="Repeat password">
+                <input type="password" data-match="#password1" data-match-error="Whoops, these don't match" class="form-control UserRegInput" id="password2" placeholder="Repeat password">
             </div>
         </div>
         <div class="form-group" >
