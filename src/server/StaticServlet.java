@@ -67,6 +67,9 @@ public class StaticServlet extends HttpServlet {
         if(request.getRequestURI().startsWith("/cart")) {
             CartController controller = new CartController();
             controller.handleCartChange(request, response);
+        } else if(request.getRequestURI().startsWith("/wishlist")) {
+            WishListController controller = new WishListController();
+            controller.handleWishListChange(request, response);
         }
 
         switch (action) {

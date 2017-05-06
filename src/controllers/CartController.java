@@ -24,7 +24,7 @@ public class CartController {
         SqlHandler handler = new SqlHandler();
         if(bookIds.size() > 0) {
             for(Integer id : bookIds) {
-                booksInCart.add(handler.getSingleBook(id));
+                booksInCart.add(handler.getSingleBook(id, true));
             }
         }
         request.setAttribute("cartBooks", booksInCart);

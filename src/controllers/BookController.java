@@ -54,7 +54,7 @@ public class BookController {
         if(request.getParameter("id") != null) {
             int bookId = Integer.parseInt(request.getParameter("id"));
             SqlHandler handler = new SqlHandler();
-            BookBean book = handler.getSingleBook(bookId);
+            BookBean book = handler.getSingleBook(bookId, true);
 
             request.setAttribute("bookBean", book);
             request.getRequestDispatcher("singleBook.jsp").forward(request, response);
