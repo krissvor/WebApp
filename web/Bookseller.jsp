@@ -10,9 +10,7 @@
 <head>
     <title>Home</title>
     <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
-    <script src="https://use.fontawesome.com/fe48c1e1ca.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="Styles.css">
     <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
@@ -20,25 +18,65 @@
 </head>
 <body>
 <%@include file="Header.jsp"%>
-Add books
+<h1>Add books</h1>
 <form action="addBook"  METHOD="POST">
-
-    <input type="hidden" name="action" value="addBook">
-    <input type="text" name="title" placeholder="title">
-    <input type="text" name="author" placeholder="author">
-    <input type="text" name="publicationType" placeholder="Publication type">
-    <input type="text" name="publicationDate" placeholder="Publication Date">
-    <input type="text" name="venue" placeholder="venue">
-    <input type="text" name="price" placeholder="price">
-    <input type="text" name="venue" placeholder="venue">
-    <input type="text" name="pages" placeholder="pages">
-    <input type="text" name="url" placeholder="url">
-    <input type="text" name="ee" placeholder="ee">
-    <input type="file" name="picture" accept="image/*" placeholder="picture">
-    <input type="submit">
-
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div class="col-lg-6">
+                <input type="text" name="title" class="form-control UserRegInput" placeholder="Title">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-6">
+                <input type="text" name="author" class="form-control UserRegInput" placeholder="author">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-6">
+                <input type="text" name="publicationType" class="form-control UserRegInput" placeholder="Publication type">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-6">
+                <input type="text" name="publicationDate" class="form-control UserRegInput" placeholder="Publication Date">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-6">
+                <input type="text" name="venue" class="form-control UserRegInput" placeholder="Venue">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-6">
+                <input type="text" name="price" class="form-control UserRegInput" placeholder="Price">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-6">
+                <input type="text" name="pages" class="form-control UserRegInput" placeholder="Pages">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-6">
+                <input type="text" name="url" class="form-control UserRegInput" placeholder="url">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-6">
+                <input type="text" name="ee" class="form-control UserRegInput" placeholder="ee">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-lg-6">
+                <input type="file" name="picture" accept="image/*" class="form-control UserRegInput" placeholder="picture">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-lg-6">
+                <button type="submit" class="btn btn-secondary">Submit</button>
+            </div>
+        </div>
+    </div>
 </form>
-</div>
-
 </body>
 </html>

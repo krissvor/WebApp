@@ -14,7 +14,8 @@ import java.util.Date;
  */
 public class UserRegController {
 
-    public void registerNewUser(HttpServletRequest request){
+    public boolean registerNewUser(HttpServletRequest request){
+        boolean success;
         UserBean userBean = new UserBean();
         userBean.setFirstName(request.getParameter("firstname"));
         userBean.setLastName(request.getParameter("lastname"));
@@ -38,11 +39,17 @@ public class UserRegController {
 
         SqlHandler sqlHandler = new SqlHandler();
         sqlHandler.connect();
-        sqlHandler.addUser(userBean);
-        sqlHandler.deleteUser(2);
-        ArrayList<UserBean> ar = sqlHandler.getAllUsers();
-        System.out.println(ar.toString());
+        if(sqlHandler.usernameExists(request.getParameter("username").trim())){
+            System.out.println("Brukeren finnes allerede");
+            success = false;
+        }
+        else{
+            sqlHandler.addUser(userBean);
+            success = true;
+        }
+
         sqlHandler.closeConnection();
+        return success;
     }
 
 

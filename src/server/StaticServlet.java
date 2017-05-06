@@ -1,5 +1,10 @@
 package server;
 
+
+import controllers.BookController;
+import controllers.LoginController;
+import controllers.SearchController;
+import controllers.UserRegController;
 import controllers.*;
 import org.xml.sax.SAXException;
 
@@ -94,6 +99,7 @@ public class StaticServlet extends HttpServlet {
                 break;
         }
     }
+
 
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

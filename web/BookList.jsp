@@ -16,7 +16,13 @@
     <c:forEach items="${BookBeans}" var="bookBean">
       <tr>
         <td><c:out value="${bookBean.getTitle()}" /></td>
-        <td><c:out value="${bookBean.getAuthor()}" /></td>
+        <td>
+          <p class="card-text no-margin">
+            <c:forEach items="${bookBean.author}" var="authorElem">
+              ${authorElem},
+            </c:forEach>
+          </p>
+        </td>
         <td><c:out value="${bookBean.getPublicationType()}" /></td>
         <td><c:out value="${bookBean.getPublicationDate()}" /></td>
         <td><c:out value="${bookBean.getVenues()}" /></td>
