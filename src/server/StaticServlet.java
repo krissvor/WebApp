@@ -61,6 +61,11 @@ public class StaticServlet extends HttpServlet {
         System.out.println(request.toString());
         String action = request.getParameter("action");
 
+        if(request.getRequestURI().startsWith("/cart")) {
+            CartController controller = new CartController();
+            controller.handleCartChange(request, response);
+        }
+
         switch (action) {
 
             case ("UserRegistration"):

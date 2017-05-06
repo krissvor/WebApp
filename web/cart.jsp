@@ -8,7 +8,7 @@
             <h1 class="text-center">Shopping Cart</h1>
             <table class="table">
                 <c:choose>
-                    <c:when test="${BookBeans == null || BookBeans.size() == 0}">
+                    <c:when test="${cartBooks == null || cartBooks.size() == 0}">
                         <h3 class="text-center"> There are no books in the shopping cart </h3>
                         <h3 class="text-center"> <a href="/"> Find some books to add them to the cart. </a> </h3>
                     </c:when>
@@ -20,10 +20,23 @@
                                 <td><c:out value="${bookBean.getPublicationType()}" /></td>
                                 <td><c:out value="${bookBean.getPublicationDate()}" /></td>
                                 <td><c:out value="${bookBean.getVenues()}" /></td>
-                                <form action="/book" method="get">
-                                    <input type="hidden" name="id" value=${bookBean.id}>
-                                    <td><input type="submit" class="btn btn-secondary btn-md" value="Details"></td>
-                                </form>
+                                <td>
+                                    <div class="form-group">
+                                        <form action="/cart" method="post">
+                                            <input type="hidden" name="id" value=${bookBean.id}>
+                                            <input type="hidden" name="action" value="remove">
+                                            <button class="btn btn-primary" type="submit"> Remove from cart </button>
+                                        </form>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-group">
+                                        <form action="/book" method="get">
+                                            <input type="hidden" name="id" value=${bookBean.id}>
+                                            <input type="submit" class="btn btn-secondary btn-md" value="Details">
+                                        </form>
+                                    </div>
+                                </td>
                             </tr>
                         </c:forEach>
                     </c:otherwise>

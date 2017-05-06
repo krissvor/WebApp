@@ -30,6 +30,9 @@
         <li class="nav-item">
           <a class="nav-link" href="Bookseller.jsp">Bookseller</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/cart">Bookseller</a>
+        </li>
       </ul>
     </div>
   </nav>
