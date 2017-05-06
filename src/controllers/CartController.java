@@ -1,22 +1,36 @@
 package controllers;
 
+import Beans.BookBean;
+import server.SqlHandler;
+
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 public class CartController {
 
-
-    public void showCart(HttpServletRequest request, HttpServletResponse response) {
+    public void showCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         HttpSession session = request.getSession();
-        session.setAttribute("username", "kristian");
+        Set<Integer> bookIds = (Set<Integer>) session.getAttribute("bookIds");
 
-
-        if(session == null) {
-
+        //If there are publications to attach to the response, set an attribute with the results
+        List<BookBean> booksInCart = new ArrayList<>();
+        SqlHandler handler = new SqlHandler();
+        if(bookIds.size() > 0) {
+            for(Integer id : bookIds) {
+                booksInCart.add(handler.getSingleBook(id));
+            }
         }
+        request.setAttribute("cartBooks", booksInCart);
+        request.getRequestDispatcher("cart.jsp").forward(request, response);
+    }
 
-
+    public void addToCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     }
 }
