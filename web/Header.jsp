@@ -18,8 +18,6 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="containerNavbar">
-      <ul class="nav navbar-nav pull-sm-right" id="signInDropdown">
-      </ul>
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
           <a class="nav-link" href="/">Digital Bibliographic Library <span class="sr-only">(current)</span></a>
@@ -39,10 +37,50 @@
               <a class="nav-link" href="/wishlist">Wishlist</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/"> ${sessionScope.name} </a>
+              <p ${sessionScope.name} </p>
             </li>
           </c:when>
         </c:choose>
+      </ul>
+      <ul class="navbar-nav pull-sm-right navbar-item">
+        <li id="signInDropdown">
+
+          <button class="btn btn-success" onclick="document.getElementById('id01').style.display='block'">Login</button>
+
+          <div id="id01" class="modal">
+
+            <form id="login-form" class="modal-content animate" action="login" METHOD="POST">
+              <input type="hidden" name="action" value="login">
+
+              <div class="container">
+                <label><b>Username</b></label>
+                <input id="username" type="text" placeholder="Enter Username" name="username" required>
+
+                <label><b>Password</b></label>
+                <input id="password" type="password" placeholder="Enter Password" name="password" required>
+                <button class="btn btn-success" type="button" onclick="validateLogin()">Login</button>
+                <input type="checkbox" checked="checked"/> Remember me
+              </div>
+
+              <div class="container" style="background-color:#f1f1f1">
+                <button class="btn btn-danger" type="button" onclick="document.getElementById('id01').style.display='none'">Cancel</button>
+                <span class="register"> <a href="UserRegistration">Register</a></span>
+              </div>
+            </form>
+          </div>
+
+          <script>
+              // Get the modal
+              var modal = document.getElementById('id01');
+
+              // When the user clicks anywhere outside of the modal, close it
+              window.onclick = function(event) {
+                  if (event.target == modal) {
+                      modal.style.display = "none";
+                  }
+              }
+          </script>
+        </li>
       </ul>
     </div>
   </nav>
