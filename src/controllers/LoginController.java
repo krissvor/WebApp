@@ -39,8 +39,8 @@ public class LoginController {
     }
 
     public void checkLogin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
+        String username = request.getParameter("username").trim();
+        String password = request.getParameter("password").trim();
         SqlHandler handler = new SqlHandler();
         handler.connect();
         UserBean user = handler.verifyPassword(username, password);

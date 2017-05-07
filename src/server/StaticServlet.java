@@ -147,10 +147,10 @@ public class StaticServlet extends HttpServlet {
                     session.setAttribute("name", user.getFirstName() + " " + user.getLastName());
                     session.setAttribute("username", user.getUsername());
                     response.sendRedirect("/");
-//                    out.write("true");
+                    out.write("true");
 
                 }else {
-//                    out.write("false");
+                    out.write("false");
                 }
                 sqlHandler.closeConnection();
 
