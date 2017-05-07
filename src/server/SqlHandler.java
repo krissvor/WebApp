@@ -722,6 +722,8 @@ public class SqlHandler {
 		}
 	}
 
+
+
 	public List<BookBean> getBooksForUser(int userId) {
 		try {
 			if(this.connection == null || this.connection.isClosed()) {
@@ -765,3 +767,4 @@ public class SqlHandler {
 		}
 	}
 }
+

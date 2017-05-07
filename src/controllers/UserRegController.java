@@ -30,11 +30,12 @@ public class UserRegController {
             System.out.println(e.getMessage());
         }
 
-        userBean.setCreditCard(request.getParameter("creditcard"));
-        userBean.setEmail(request.getParameter("email"));
-        userBean.setNickname(request.getParameter("nickname"));
-        userBean.setPassword(request.getParameter("password"));
-        userBean.setUsername(request.getParameter("username"));
+        userBean.setCreditCard(request.getParameter("creditcard").trim());
+        userBean.setEmail(request.getParameter("email").trim());
+        userBean.setNickname(request.getParameter("nickname").trim());
+        userBean.setPassword(request.getParameter("password").trim());
+        userBean.setUsername(request.getParameter("username").trim());
+        userBean.setAddress(request.getParameter("address").trim());
         userBean.setIs_active(false);
 
         SqlHandler sqlHandler = new SqlHandler();
@@ -47,6 +48,7 @@ public class UserRegController {
             int userId = sqlHandler.addUser(userBean);
             System.out.println("ADDING USER");
             success = true;
+
             String link = "Click <a href=\"http://localhost:8081/confirmation?userId=" + userId + "\">here</a> to activate your user";
             Email.sendEmail(userBean.getEmail(),"DigitalLibrary","Activate your user",link,"localhost");
         }

@@ -166,6 +166,11 @@ function everythingFilled(){
             inputArray[i].setAttribute("style","border-color:#ae030e");
             formIsValid = false;
         }
+        else{
+            if(inputArray[i].id != "username") {
+                inputArray[i].setAttribute("style", "border-color:rgba(0,0,0,.15);");
+            }
+        }
     }
 }
 
@@ -173,7 +178,8 @@ function validateUsername(){
 
     var request = new XMLHttpRequest();
     // vardata = "username=" + encodeURIComponent(
-    var username = document.getElementById("username").value;
+    var form = document.getElementById("usernameReg");
+    var username = form.value;
     request.open("GET", "/checkUsername?username=" + username, true);
     request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     request.send();
@@ -183,7 +189,6 @@ function validateUsername(){
         if(request.readyState === XMLHttpRequest.DONE && request.status === 200){
 
             var res = request.responseText;
-            var form = document.getElementById("username")
             if(res == "true"){
                 // document.getElementsByclassName("formError")[0].setAttribute("hidden", false)
                 // document.getElementsByClassName("formError")[0].innerHTML("HER ERRE NOE FEIL!!")
