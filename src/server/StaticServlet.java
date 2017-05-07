@@ -2,13 +2,13 @@ package server;
 
 
 import Beans.UserBean;
+import Beans.UserBean;
 import controllers.BookController;
 import controllers.LoginController;
 import controllers.SearchController;
 import controllers.UserRegController;
 import controllers.*;
 import org.xml.sax.SAXException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -27,7 +27,6 @@ import java.util.HashSet;
  * Created by kriss on 01-May-17.
  */
 @WebServlet(name="StaticServlet")
-@MultipartConfig
 public class StaticServlet extends HttpServlet {
 
     public StaticServlet() throws ParserConfigurationException, SAXException {
@@ -56,6 +55,9 @@ public class StaticServlet extends HttpServlet {
             controller.showWishList(request, response);
         } else if (request.getRequestURI().startsWith("/register")) {
             request.getRequestDispatcher("UserRegistration.jsp").forward(request, response);
+        } else if (request.getRequestURI().startsWith("/confirmation")) {
+            ValidationController controller = new ValidationController();
+            controller.confirmUser(request,response);
         } else {
 
             SqlHandler sqlHandler = new SqlHandler();
@@ -165,7 +167,6 @@ public class StaticServlet extends HttpServlet {
         }
     }
 
-
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //System.out.println("Checking for cart...");
@@ -175,6 +176,7 @@ public class StaticServlet extends HttpServlet {
         if(session.getAttribute("bookIds") == null) {
             session.setAttribute("bookIds", new HashSet<Integer>());
         }
+
 
         // Route the request to its intended location
         super.service(request, response);

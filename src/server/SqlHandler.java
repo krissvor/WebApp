@@ -74,6 +74,44 @@ public class SqlHandler {
 		}
 	}
 
+	public UserBean findUserById(String userId){
+		UserBean user = new UserBean();
+		try {
+			statement = connection.createStatement();
+
+			java.sql.PreparedStatement add = connection.prepareStatement(
+					"SELECT * FROM user WHERE id = ?");
+
+			add.setString(1, userId);
+
+			ResultSet rs = add.executeQuery();
+
+			if(rs.next()){
+				user.setBirthYear(rs.getInt("yearofbirth"));
+				user.setUsername(rs.getString("username"));
+				user.setNickname(rs.getString("nickname"));
+				user.setFirstName(rs.getString("firstname"));
+				user.setLastName(rs.getString("lastname"));
+				user.setPassword(rs.getString("password"));
+				user.setEmail(rs.getString("email"));
+				user.setCreditCard(rs.getString("creditCardNumber"));
+				user.setId(rs.getInt("id"));
+
+				System.out.println(user.toString());
+				return user;
+			}
+
+		} catch(SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		if(user == null){
+			return null;
+		} else {
+			return user;
+		}
+
+	}
+
 
 	public boolean usernameExists(String username){
 		boolean exists = true;
@@ -483,7 +521,7 @@ public class SqlHandler {
 		try {
 			statement = connection.createStatement();
 			java.sql.PreparedStatement add = connection.prepareStatement(
-					"INSERT INTO user (username, password,email,nickname,firstname,lastname,creditcardnumber,yearofbirth,address) VALUES(?, ?, ? ,? ,?, ?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+					"INSERT INTO user (username, password,email,nickname,firstname,lastname,creditcardnumber,yearofbirth,address,is_active) VALUES(?, ?, ? ,? ,?, ?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
 			add.setString(1, user.getUsername());
 			add.setString(2, user.getPassword());
 			add.setString(3, user.getEmail());
@@ -493,6 +531,7 @@ public class SqlHandler {
 			add.setString(7, user.getCreditCard());
 			add.setInt(8, user.getBirthYear());
 			add.setString(9, user.getAddress());
+			add.setBoolean(10, user.Is_active());
 
 
 
@@ -625,7 +664,7 @@ public class SqlHandler {
 		try {
 			statement = connection.createStatement();
 
-			PreparedStatement update = connection.prepareStatement("UPDATE user SET username=?, password=?, email=?, nickname=?, firstname=?, lastname=?, yearofbirth=?, address=?, creditcardnumber=? WHERE id="+user.getId());
+			PreparedStatement update = connection.prepareStatement("UPDATE user SET username=?, password=?, email=?, nickname=?, firstname=?, lastname=?, yearofbirth=?, address=?, creditcardnumber=?, is_active=? WHERE id="+user.getId());
 
 			update.setString(1, user.getUsername());
 			update.setString(2, user.getPassword());
@@ -636,6 +675,7 @@ public class SqlHandler {
 			update.setInt  (7,  user.getBirthYear());
 			update.setString(8, user.getAddress());
 			update.setString(9, user.getCreditCard());
+			update.setBoolean(10, user.Is_active());
 
 
 			int affectedRows = update.executeUpdate();
