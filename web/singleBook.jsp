@@ -40,7 +40,7 @@
                     <td> <p class="no-margin">${bookBean.price}</p></td>
                 </tr>
                 <tr>
-                    <td> <p class="right-margin-10 no-margin text-muted">Picutre:</p></td>
+                    <td> <p class="right-margin-10 no-margin text-muted">Picture:</p></td>
                     <td> <p class="no-margin">${bookBean.picture}</p></td>
                 </tr>
                 </tbody>
