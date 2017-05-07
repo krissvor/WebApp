@@ -41,6 +41,10 @@
         <servlet-name>WebappServlet</servlet-name>
         <url-pattern>/deleteUser</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>WebappServlet</servlet-name>
+        <url-pattern>/toggleActive</url-pattern>
+    </servlet-mapping>
 
     <servlet-mapping>
         <servlet-name>WebappServlet</servlet-name>

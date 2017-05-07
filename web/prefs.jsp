@@ -84,6 +84,21 @@
                                 <input type="hidden" name="action" value="remove">
                                 <td><input type="submit" class="btn btn-danger btn-md" value="Remove from sale"></td>
                             </form>
+                            <c:choose><c:when test="${bookBean.active==1}"><form action="/toggleActive" method="post">
+                                <input type="hidden" name="id" value=${bookBean.id}>
+                                <input type="hidden" name="isActive" value="1">
+                                <input type="hidden" name="action" value="hide">
+                                <td><input type="submit" class="btn btn-danger btn-md" value="Hide search"></td>
+                            </form></c:when>
+                                <c:otherwise>
+                                    <form action="/toggleActive" method="post">
+                                    <input type="hidden" name="id" value=${bookBean.id}>
+                                    <input type="hidden" name="isActive" value="0">
+                                    <input type="hidden" name="action" value="hide">
+                                    <td><input type="submit" class="btn btn-success btn-md" value="Show in search"></td>
+                                </form>
+                                </c:otherwise>
+                            </c:choose>
                         </tr>
                     </c:forEach>
                     <c:choose>

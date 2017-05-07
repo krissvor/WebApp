@@ -309,7 +309,7 @@ public class SqlHandler {
 
 	private ResultSet getAuthorSearchResultSet(String searchTerm, int page) throws SQLException {
 		PreparedStatement authorStatement = connection.prepareStatement("SELECT DISTINCT(book.id), publicationtype, publicationdate, " +
-				"title, pages, url, ee, price, picture, venue.name AS venue " +
+				"title, pages, url, ee, price, picture, venue.name, isactive AS venue " +
 				"FROM book, author, venue, book_author, book_venue " +
 				"WHERE book_author.author_id = author.id AND " +
 				"book_author.book_id = book.id AND " +
@@ -328,7 +328,7 @@ public class SqlHandler {
 	private ResultSet getSearchResultSet(String searchTerm, SearchController.SEARCHATTRIBUTE searchattribute, int page) throws SQLException {
 		String selectionClause = getSelectionClause(searchattribute);
 		PreparedStatement bookStatement = connection.prepareStatement("SELECT DISTINCT(book.id), publicationtype, publicationdate, " +
-				"title, pages, url, ee, price, picture, venue.name AS venue " +
+				"title, pages, url, ee, price, picture, venue.name AS venue, isactive " +
 				"FROM book, author, venue, book_author, book_venue " +
 				"WHERE book_author.author_id = author.id AND " +
 				"book_author.book_id = book.id AND " +
@@ -345,7 +345,7 @@ public class SqlHandler {
 
 	private ResultSet getSingleBookResultSet(int bookId) throws SQLException {
 		PreparedStatement bookStatement = connection.prepareStatement("SELECT DISTINCT(book.id), publicationtype, publicationdate, " +
-				"title, pages, url, ee, price, picture, venue.name AS venue " +
+				"title, pages, url, ee, price, picture, venue.name AS venue, isactive " +
 				"FROM book, author, venue, book_author, book_venue " +
 				"WHERE book_author.author_id = author.id AND " +
 				"book_author.book_id = book.id AND " +
@@ -427,6 +427,7 @@ public class SqlHandler {
 		resultBean.setPrice(rs.getString("price"));
 		resultBean.setPicture(rs.getString("picture"));
 		resultBean.setVenues(rs.getString("venue"));
+		resultBean.setActive(rs.getInt("isactive"));
 
 		return resultBean;
 	}
@@ -787,6 +788,28 @@ public class SqlHandler {
 			PreparedStatement wishStatement = connection.prepareStatement("DELETE FROM book_user WHERE book_id = ? AND user_id = ?");
 			wishStatement.setInt(1, bookId);
 			wishStatement.setInt(2, userId);
+
+			int affectedRow = wishStatement.executeUpdate();
+		} catch(Exception e) {
+			System.err.println(e.getMessage());
+		} finally {
+			this.closeConnection();
+		}
+	}
+	public void toggleActive(int bookId, int active) {
+		try {
+			if(this.connection == null || this.connection.isClosed()) {
+				this.connect();
+			}
+			if(active==0){
+				active=1;
+			}
+			else if(active==1){
+				active=0;
+			}
+			PreparedStatement wishStatement = connection.prepareStatement("UPDATE book set isactive = ? WHERE id = ?");
+			wishStatement.setInt(1, active);
+			wishStatement.setInt(2, bookId);
 
 			int affectedRow = wishStatement.executeUpdate();
 		} catch(Exception e) {

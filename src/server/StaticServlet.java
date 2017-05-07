@@ -121,6 +121,11 @@ public class StaticServlet extends HttpServlet {
         } else if (request.getRequestURI().startsWith("/register")) {
             UserRegController userReg = new UserRegController();
             userReg.registerNewUser(request);
+        }else if(request.getRequestURI().startsWith(("/toggleActive"))){
+                sqlHandler = new SqlHandler();
+                sqlHandler.connect();
+                sqlHandler.toggleActive(Integer.parseInt(request.getParameter("id")), Integer.parseInt(request.getParameter("isActive")));
+                sqlHandler.closeConnection();
         }
         if (action != null) {
             switch (action) {
