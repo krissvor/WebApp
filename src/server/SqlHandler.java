@@ -16,7 +16,6 @@ import java.util.Properties;
 
 import static controllers.SearchController.SEARCHATTRIBUTE.AUTHOR;
 
-
 public class SqlHandler {
 
 	private Connection connection = null;
