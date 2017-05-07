@@ -667,7 +667,7 @@ public class SqlHandler {
 			if(this.connection == null || this.connection.isClosed()) {
 				this.connect();
 			}
-			PreparedStatement bookStatement = connection.prepareStatement("SELECT book_user.book_id FROM user, book_user" +
+			PreparedStatement bookStatement = connection.prepareStatement("SELECT book_user.book_id FROM user, book_user " +
 					"WHERE book_user.user_id = user.id AND " +
 					"user.id= ?");
 			bookStatement.setInt(1, userId);

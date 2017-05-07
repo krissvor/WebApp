@@ -38,7 +38,7 @@
               <a class="nav-link" href="/wishlist">Wishlist</a>
             </li>
             <li class="nav-item">
-              <p ${sessionScope.name} </p>
+              <a class="nav-link" href="/prefs">Preferences</a>
             </li>
           </c:when>
         </c:choose>
