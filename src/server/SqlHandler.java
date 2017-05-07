@@ -5,7 +5,7 @@ import Beans.UserBean;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.Statement;
 import controllers.SearchController;
-
+import java.sql.*;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -51,6 +51,7 @@ public class SqlHandler {
 		}
 	}
 
+
 	public void closeConnection() {
 
 		if (connection != null) {
@@ -72,8 +73,74 @@ public class SqlHandler {
 		}
 	}
 
+	public UserBean findUserById(String userId){
+		UserBean user = new UserBean();
+		try {
+			statement = connection.createStatement();
 
-	public int addBook(BookBean book) {
+			java.sql.PreparedStatement add = connection.prepareStatement(
+					"SELECT * FROM user WHERE id = ?");
+
+			add.setString(1, userId);
+
+			ResultSet rs = add.executeQuery();
+
+			if(rs.next()){
+				user.setBirthYear(rs.getInt("yearofbirth"));
+				user.setUsername(rs.getString("username"));
+				user.setNickname(rs.getString("nickname"));
+				user.setFirstName(rs.getString("firstname"));
+				user.setLastName(rs.getString("lastname"));
+				user.setPassword(rs.getString("password"));
+				user.setEmail(rs.getString("email"));
+				user.setCreditCard(rs.getString("creditCardNumber"));
+				user.setId(rs.getInt("id"));
+
+				System.out.println(user.toString());
+				return user;
+			}
+
+		} catch(SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		if(user == null){
+			return null;
+		} else {
+			return user;
+		}
+
+	}
+
+
+	public boolean usernameExists(String username){
+		boolean exists = true;
+		try {
+			statement = connection.createStatement();
+
+			java.sql.PreparedStatement add = connection.prepareStatement(
+					"SELECT * FROM user WHERE username = ?");
+
+			add.setString(1, username);
+
+			ResultSet rs = add.executeQuery();
+
+
+			if(rs.next()){
+				exists = true;
+			}
+			else{
+				exists = false;
+			}
+		} catch(SQLException e){
+			System.out.println(e.getMessage());
+		}finally {
+			return exists;
+		}
+
+	}
+
+
+	public int addBook(BookBean book, int userId) {
 
 		int bookKey = -1;
 		int authorKey = -1;
@@ -121,6 +188,7 @@ public class SqlHandler {
 			ResultSet generatedKeys = add.getGeneratedKeys();
 			if (generatedKeys.next()) {
 				bookKey = generatedKeys.getInt(1);
+				addBookUserRelation(bookKey, userId);
 				System.out.println("addvenueBOOK: "+addVenueBook(bookKey, venueKey));
 			}
 			else{return -1;}
@@ -147,14 +215,36 @@ public class SqlHandler {
 		return -1;
 	}
 
-	public List<BookBean> findBooks(String term, SearchController.SEARCHATTRIBUTE attr, int page) {
+	private int addBookUserRelation(int bookID, int userId){
+		System.out.println("adding user book relation userId:" + userId);
 
-		if(this.connection == null) {
-			this.connect();
+		try {
+			statement = connection.createStatement();
+
+			PreparedStatement add = connection.prepareStatement("INSERT INTO book_user(book_id, user_id) VALUES(?,?)");
+
+			add.setInt(1, bookID);
+			add.setInt(2, userId);
+
+			int affectedRows = add.executeUpdate();
+
+			if(affectedRows >= 1){
+				return 1;
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 
+		return -1;
+	}
+
+	public List<BookBean> findBooks(String term, SearchController.SEARCHATTRIBUTE attr, int page) {
 		List<BookBean> resultList = new ArrayList<>();
 		try {
+			if(this.connection == null || this.connection.isClosed()) {
+				this.connect();
+			}
 			// If the attribute was author, select on author, else determine selection based on search attribute
 			ResultSet rs = (attr == AUTHOR) ? getAuthorSearchResultSet(term, page) : getSearchResultSet(term, attr, page);
 			while(rs.next()) {
@@ -165,9 +255,28 @@ public class SqlHandler {
 			System.err.println("An error occurred while selecting books");
 			e.printStackTrace();
 		} finally {
-            this.closeConnection();
-        }
+			this.closeConnection();
+		}
 		return resultList;
+	}
+
+	public BookBean getSingleBook(int id, boolean shouldClose) {
+		try {
+			if(this.connection == null || this.connection.isClosed()) {
+				this.connect();
+			}
+			// If the attribute was author, select on author, else determine selection based on search attribute
+			ResultSet rs = getSingleBookResultSet(id);
+			return (rs.next()) ? bookFromResultSet(rs) : null;
+		} catch (SQLException e) {
+			System.err.println("An error occurred while selecting books");
+			e.printStackTrace();
+		} finally {
+			if(shouldClose) {
+				this.closeConnection();
+			}
+		}
+		return null;
 	}
 
 	private ResultSet getAuthorSearchResultSet(String searchTerm, int page) throws SQLException {
@@ -206,6 +315,46 @@ public class SqlHandler {
 		return bookStatement.getResultSet();
 	}
 
+	private ResultSet getSingleBookResultSet(int bookId) throws SQLException {
+		PreparedStatement bookStatement = connection.prepareStatement("SELECT DISTINCT(book.id), publicationtype, publicationdate, " +
+				"title, pages, url, ee, price, picture, venue.name AS venue " +
+				"FROM book, author, venue, book_author, book_venue " +
+				"WHERE book_author.author_id = author.id AND " +
+				"book_author.book_id = book.id AND " +
+				"book_venue.book_id = book.id AND " +
+				"book_venue.venue_id = venue.id AND " +
+				"book.id = ?");
+
+		bookStatement.setInt(1, bookId);
+		bookStatement.execute();
+		return bookStatement.getResultSet();
+	}
+
+	public List<BookBean> getActiveUserWishes(int userId) {
+		try {
+			if(this.connection == null || this.connection.isClosed()) {
+				this.connect();
+			}
+			ArrayList<BookBean> wishedBooks = new ArrayList<>();
+			PreparedStatement wishStatement = connection.prepareStatement("SELECT book_id " +
+					"FROM user, user_wishes " +
+					"WHERE user.id = user_wishes.user_id " +
+					"AND user_wishes.active = TRUE");
+
+			wishStatement.execute();
+			ResultSet rs = wishStatement.getResultSet();
+			while(rs.next()) {
+				wishedBooks.add(getSingleBook(rs.getInt("book_id"), false));
+			}
+			return wishedBooks;
+		} catch(Exception e) {
+			System.err.println(e.getMessage());
+		} finally {
+			this.closeConnection();
+		}
+		return null;
+	}
+
 	private String getSelectionClause(SearchController.SEARCHATTRIBUTE attr) {
 		switch(attr) {
 			case TITLE: return "book.title RLIKE ? ";
@@ -217,48 +366,53 @@ public class SqlHandler {
 
 
 	private ArrayList<String> getAuthors(int bookId) throws SQLException {
-	    ArrayList<String> authors = new ArrayList<>();
+		ArrayList<String> authors = new ArrayList<>();
 
-        PreparedStatement authorStatement = connection.prepareStatement("SELECT name FROM author, book_author " +
-                "WHERE book_author.author_id = author.id AND " +
-                "book_author.book_id = ?");
-        authorStatement.setInt(1, bookId);
-        authorStatement.execute();
+		PreparedStatement authorStatement = connection.prepareStatement("SELECT name FROM author, book_author " +
+				"WHERE book_author.author_id = author.id AND " +
+				"book_author.book_id = ?");
+		authorStatement.setInt(1, bookId);
+		authorStatement.execute();
 
-        ResultSet rs = authorStatement.getResultSet();
+		ResultSet rs = authorStatement.getResultSet();
 
-        while(rs.next()) {
-            authors.add(rs.getString("name"));
-        }
-        return authors;
+		while(rs.next()) {
+			authors.add(rs.getString("name"));
+		}
+		return authors;
 
 
-    }
+	}
 
 	private BookBean bookFromResultSet(ResultSet rs) throws SQLException {
-        BookBean resultBean = new BookBean();
-        int bookId = rs.getInt("id");
+		BookBean resultBean = new BookBean();
+		int bookId = rs.getInt("id");
 
-        resultBean.setId(bookId);
-        resultBean.setPublicationType(rs.getString("publicationtype"));
-        resultBean.setPublicationDate(rs.getString("publicationdate"));
-        resultBean.setAuthor(getAuthors(bookId));
-        resultBean.setTitle(rs.getString("title"));
-        resultBean.setPages(rs.getString("pages"));
-        resultBean.setUrl(rs.getString("url"));
-        resultBean.setEe(rs.getString("ee"));
-        resultBean.setPrice(rs.getString("price"));
-        resultBean.setPicture(rs.getString("picture"));
-        resultBean.setVenues(rs.getString("venue"));
+		resultBean.setId(bookId);
+		resultBean.setPublicationType(rs.getString("publicationtype"));
+		resultBean.setPublicationDate(rs.getString("publicationdate"));
+		resultBean.setAuthor(getAuthors(bookId));
+		resultBean.setTitle(rs.getString("title"));
+		resultBean.setPages(rs.getString("pages"));
+		resultBean.setUrl(rs.getString("url"));
+		resultBean.setEe(rs.getString("ee"));
+		resultBean.setPrice(rs.getString("price"));
+		resultBean.setPicture(rs.getString("picture"));
+		resultBean.setVenues(rs.getString("venue"));
 
-        return resultBean;
-    }
+		return resultBean;
+	}
 
-	public void verifyPassword(String username, String password){
+	public UserBean verifyPassword(String username, String password){
 
-		int id;
+		boolean result = false;
+		UserBean user = new UserBean();;
+
 
 		try{
+			if(this.connection == null || this.connection.isClosed()) {
+				this.connect();
+			}
 			statement = connection.createStatement();
 
 			java.sql.PreparedStatement add = connection.prepareStatement(
@@ -269,7 +423,6 @@ public class SqlHandler {
 			ResultSet rs = add.executeQuery();
 
 			if(rs.next()){
-				UserBean user = new UserBean();
 				user.setBirthYear(rs.getInt("yearofbirth"));
 				user.setUsername(rs.getString("username"));
 				user.setNickname(rs.getString("nickname"));
@@ -280,15 +433,23 @@ public class SqlHandler {
 				user.setId(rs.getInt("id"));
 
 				System.out.println(user.toString());
+				result = true;
 			}
 			else
-				System.out.println("denne finnes ikke\n");
+				result = false;
 
 		}catch (SQLException e){
 			System.out.println(e.getMessage());
 		}finally{
-
+			this.closeConnection();
+			if(result){
+				return user;
+			}
+			else
+				return null;
 		}
+
+
 	}
 
 
@@ -359,7 +520,7 @@ public class SqlHandler {
 		try {
 			statement = connection.createStatement();
 			java.sql.PreparedStatement add = connection.prepareStatement(
-					"INSERT INTO user (username, password,email,nickname,firstname,lastname,creditcardnumber,yearofbirth,address) VALUES(?, ?, ? ,? ,?, ?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+					"INSERT INTO user (username, password,email,nickname,firstname,lastname,creditcardnumber,yearofbirth,address,is_active) VALUES(?, ?, ? ,? ,?, ?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
 			add.setString(1, user.getUsername());
 			add.setString(2, user.getPassword());
 			add.setString(3, user.getEmail());
@@ -369,6 +530,7 @@ public class SqlHandler {
 			add.setString(7, user.getCreditCard());
 			add.setInt(8, user.getBirthYear());
 			add.setString(9, user.getAddress());
+			add.setBoolean(10, user.Is_active());
 
 
 
@@ -501,7 +663,7 @@ public class SqlHandler {
 		try {
 			statement = connection.createStatement();
 
-			PreparedStatement update = connection.prepareStatement("UPDATE user SET username=?, password=?, email=?, nickname=?, firstname=?, lastname=?, yearofbirth=?, address=?, creditcardnumber=? WHERE id="+user.getId());
+			PreparedStatement update = connection.prepareStatement("UPDATE user SET username=?, password=?, email=?, nickname=?, firstname=?, lastname=?, yearofbirth=?, address=?, creditcardnumber=?, is_active=? WHERE id="+user.getId());
 
 			update.setString(1, user.getUsername());
 			update.setString(2, user.getPassword());
@@ -512,6 +674,7 @@ public class SqlHandler {
 			update.setInt  (7,  user.getBirthYear());
 			update.setString(8, user.getAddress());
 			update.setString(9, user.getCreditCard());
+			update.setBoolean(10, user.Is_active());
 
 
 			int affectedRows = update.executeUpdate();
@@ -526,10 +689,41 @@ public class SqlHandler {
 
 		return -1;
 	}
+
+	public void addWish(int userId, int bookId) {
+		try {
+			if(this.connection == null || this.connection.isClosed()) {
+				this.connect();
+			}
+			PreparedStatement wishStatement = connection.prepareStatement("INSERT INTO user_wishes(user_id, book_id, active) VALUES(?, ?, TRUE)");
+			wishStatement.setInt(1, userId);
+			wishStatement.setInt(2, bookId);
+
+			int affectedRow = wishStatement.executeUpdate();
+		} catch(Exception e) {
+			System.err.println(e.getMessage());
+		} finally {
+			this.closeConnection();
+		}
 	}
 
+	public void removeWish(int userId, int bookId) {
+		try {
+			if(this.connection == null || this.connection.isClosed()) {
+				this.connect();
+			}
+			PreparedStatement wishStatement = connection.prepareStatement("DELETE FROM user_wishes WHERE user_id = ? AND book_id = ?");
+			wishStatement.setInt(1, userId);
+			wishStatement.setInt(2, bookId);
 
-
+			int affectedRow = wishStatement.executeUpdate();
+		} catch(Exception e) {
+			System.err.println(e.getMessage());
+		} finally {
+			this.closeConnection();
+		}
+	}
+}
 
 
 /*

@@ -21,7 +21,7 @@
 
 <div id="id01" class="modal">
 
-    <form class="modal-content animate" action="login" METHOD="POST">
+    <form class="modal-content animate" action="login" onsubmit="return validateLogin();" METHOD="POST">
         <input type="hidden" name="action" value="login">
 
         <div class="container">
