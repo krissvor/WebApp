@@ -58,7 +58,5 @@ public class UserRegController {
         sqlHandler.connect();
         sqlHandler.deleteUser(id);
         sqlHandler.closeConnection();
-
-
     }
 }

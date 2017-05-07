@@ -1,11 +1,12 @@
 package Beans;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by david on 03/05/2017.
  */
-public class BookBean {
+public class BookBean implements Serializable{
 
     private String publicationType, publicationDate, venues, year, title, pages, journal, url, ee, price, picture;
     private int id;

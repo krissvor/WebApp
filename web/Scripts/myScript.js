@@ -176,6 +176,36 @@ function validateEmail(){
 
 }
 
+function validateLogin() {
+    console.log("trying to login");
+    var request = new XMLHttpRequest();
+    var username = document.getElementById("username");
+    var password = document.getElementById("password");
+    var data = "username=" + username.value + "&password=" + password.value + "&action=checkLogin";
+
+    request.open("POST", "/checkLogin", true);
+    request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    request.send(data);
+    request.responseText;
+
+    request.onreadystatechange = function () {
+        if(request.readyState === XMLHttpRequest.DONE && request.status === 200){
+            var res = request.responseText;
+            if(res=="false"){
+                console.log("stemmer ikke");
+                password.setAttribute("style","border-color:#ae030e");
+                return false
+            }
+            else {
+                console.log("stemmer");
+                document.getElementById("login-form").submit();
+                return true;
+            }
+        }
+    };
+
+}
+
 
 function validateYear(){
     var field = document.getElementById("year");
