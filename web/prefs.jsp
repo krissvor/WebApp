@@ -4,6 +4,63 @@
     <body>
         <%@include file="Header.jsp"%>
         <div class="container">
+            <h1 class="text-center"> Update user </h1>
+            <form action="prefs" data-toggle="validator" onsubmit="return testUpdateForm()" method="post">
+                <input type="hidden" name="action" value="updateUser">
+                <div class="form-horizontal">
+                    <div class="form-group" >
+                        <div class="col-lg-6">
+                            <input type="text" id = firstname" name="firstname" type="firstName" class="form-control UserRegInput" id="firstName" placeholder="First Name" value="${user.firstName}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-6">
+                            <input type="text" name="lastname" class="form-control UserRegInput" id="lastname" placeholder="Last Name" value="${user.lastName}">
+                        </div>
+                    </div>
+                    <div class="form-group" >
+                        <div class="col-lg-6">
+                            <input type="text" name="year" class="form-control UserRegInput" id="year" placeholder="Year" value="${user.birthYear}">
+                        </div>
+                    </div>
+                    <div class="form-group" >
+                        <div class="col-lg-6">
+                            <input type="text" name="nickname" class="form-control UserRegInput" id="nickname" placeholder="Nickname" value="${user.nickname}">
+                        </div>
+                    </div>
+                    <div class="form-group" >
+                        <div class="col-lg-6">
+                            <input type="text" name="email"class="form-control UserRegInput" id="email" placeholder="Email" value="${user.email}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-6">
+                            <input type="password" name="password"class="form-control UserRegInput" id="password1" placeholder="Password" value="${user.password}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-6">
+                            <input type="password" data-match="#password1" data-match-error="Whoops, these don't match" class="form-control UserRegInput" id="password2" placeholder="Repeat password" value="${user.password}">
+                        </div>
+                    </div>
+                    <div class="form-group" >
+                        <div class="col-lg-6">
+                            <input type="text" name="creditcard"class="form-control UserRegInput" id="creditCard" placeholder="Credit card number" value="${user.creditCard}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-6">
+                            <input type="text" name="address" class="form-control UserRegInput" id="address" placeholder="Address" value="${user.address}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-lg-6">
+                            <button type="submit" class="btn btn-secondary">Sign in</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
             <h2 class="text-center"> Your books for sale </h2>
             <div>
                 <table class="table">
@@ -38,6 +95,5 @@
                 </table>
             </div>
         </div>
-
     </body>
 </html>

@@ -98,6 +98,7 @@ public class SqlHandler {
 				user.setEmail(rs.getString("email"));
 				user.setCreditCard(rs.getString("creditCardNumber"));
 				user.setId(rs.getInt("id"));
+				user.setAddress(rs.getString("address"));
 
 				System.out.println(user.toString());
 				return user;
@@ -106,12 +107,7 @@ public class SqlHandler {
 		} catch(SQLException e) {
 			System.out.println(e.getMessage());
 		}
-		if(user == null){
-			return null;
-		} else {
-			return user;
-		}
-
+		return null;
 	}
 
 
@@ -666,18 +662,17 @@ public class SqlHandler {
 		try {
 			statement = connection.createStatement();
 
-			PreparedStatement update = connection.prepareStatement("UPDATE user SET username=?, password=?, email=?, nickname=?, firstname=?, lastname=?, yearofbirth=?, address=?, creditcardnumber=?, is_active=? WHERE id="+user.getId());
+			PreparedStatement update = connection.prepareStatement("UPDATE user SET password=?, email=?, nickname=?, firstname=?, lastname=?, yearofbirth=?, address=?, creditcardnumber=?, is_active=? WHERE id="+user.getId());
 
-			update.setString(1, user.getUsername());
-			update.setString(2, user.getPassword());
-			update.setString(3, user.getEmail());
-			update.setString(4, user.getNickname());
-			update.setString(5, user.getFirstName());
-			update.setString(6, user.getLastName());
-			update.setInt  (7,  user.getBirthYear());
-			update.setString(8, user.getAddress());
-			update.setString(9, user.getCreditCard());
-			update.setBoolean(10, user.Is_active());
+			update.setString(1, user.getPassword());
+			update.setString(2, user.getEmail());
+			update.setString(3, user.getNickname());
+			update.setString(4, user.getFirstName());
+			update.setString(5, user.getLastName());
+			update.setInt  (6,  user.getBirthYear());
+			update.setString(7, user.getAddress());
+			update.setString(8, user.getCreditCard());
+			update.setBoolean(9, user.Is_active());
 
 
 			int affectedRows = update.executeUpdate();
