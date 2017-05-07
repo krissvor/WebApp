@@ -4,9 +4,7 @@
 <body>
 <%@include file="Header.jsp"%>
 
-  <!--<div class="jumbotron">
-    <h1 class="display-3">Digital Bibliographic Library</h1>
-  </div>-->
+<div class="container">
   <div class="imagediv">
   <img src="books.jpg" class="img-fluid" alt="Responsive image">
   </div>
