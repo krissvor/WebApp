@@ -15,6 +15,7 @@ public class UserBean implements Serializable {
     private String email;
     private int id;
     private boolean is_active;
+    private boolean is_admin;
 
 
     public int getId() {
@@ -127,5 +128,10 @@ public class UserBean implements Serializable {
 
     public void setIs_active(boolean is_active) {
         this.is_active = is_active;
+    }
+
+    public boolean is_admin() {return is_admin; }
+
+    public void setIs_admin(boolean is_admin) { this.is_admin = is_admin;
     }
 }

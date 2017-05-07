@@ -58,8 +58,13 @@ public class StaticServlet extends HttpServlet {
         } else if (request.getRequestURI().startsWith("/confirmation")) {
             ValidationController controller = new ValidationController();
             controller.confirmUser(request,response);
+        } else if(request.getRequestURI().startsWith("/adminpage")) {
+            AdminController controller = new AdminController();
+            controller.showAdminPage(request, response);
+        } else if (request.getRequestURI().startsWith("/admin")) {
+            AdminController controller = new AdminController();
+            controller.showLogin(request, response);
         } else {
-
             SqlHandler sqlHandler = new SqlHandler();
 
             if (request.getRequestURI().startsWith("/search")) {
@@ -118,6 +123,10 @@ public class StaticServlet extends HttpServlet {
             System.out.println("trying to add book");
             BookController bookController = new BookController();
             bookController.addBook(request);
+        }else if(request.getRequestURI().startsWith("/admin")) {
+            System.out.println("trying to log in admin");
+            AdminController controller = new AdminController();
+            controller.adminLogin(request,response);
         }
         if(action!=null) {
             switch (action) {

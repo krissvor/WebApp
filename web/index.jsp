@@ -58,6 +58,6 @@
   });
 </script>
 
-<a href="Admin.jsp">ADMIIIIIN</a>
+<a href="admin.jsp">ADMIIIIIN</a>
 </body>
 </html>
