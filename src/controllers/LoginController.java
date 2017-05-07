@@ -18,11 +18,10 @@ public class LoginController {
 
     }
 
-    public void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public UserBean login(HttpServletRequest request) throws ServletException, IOException {
         System.out.println("In login...");
         String username = request.getParameter("username").trim();
         String password = request.getParameter("password").trim();
-        HttpSession session = request.getSession();
 
         SqlHandler sqlHandler = new SqlHandler();
         sqlHandler.connect();
@@ -31,22 +30,19 @@ public class LoginController {
 
         if(user != null) {
             System.out.println("Found user!: " +  user);
-            session.setAttribute("userId", user.getId());
-            session.setAttribute("name", user.getFirstName() + " " + user.getLastName());
-            session.setAttribute("username", user.getUsername());
-            response.sendRedirect("/");
+            return user;
+
         } else {
             System.out.println("User not found!");
-            response.getWriter().write("false");
+            return null;
         }
     }
 
     public void checkLogin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
+        String username = request.getParameter("username").trim();
+        String password = request.getParameter("password").trim();
         SqlHandler handler = new SqlHandler();
         handler.connect();
-        response.setContentType("text/html");
         UserBean user = handler.verifyPassword(username, password);
         if(user !=null){
             response.getWriter().write("true");

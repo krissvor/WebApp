@@ -5,9 +5,7 @@ import Beans.UserBean;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.Statement;
 import controllers.SearchController;
-
-
-
+import java.sql.*;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -195,8 +193,8 @@ public class SqlHandler {
 			System.err.println("An error occurred while selecting books");
 			e.printStackTrace();
 		} finally {
-            this.closeConnection();
-        }
+			this.closeConnection();
+		}
 		return resultList;
 	}
 
@@ -306,44 +304,48 @@ public class SqlHandler {
 
 
 	private ArrayList<String> getAuthors(int bookId) throws SQLException {
-	    ArrayList<String> authors = new ArrayList<>();
+		ArrayList<String> authors = new ArrayList<>();
 
-        PreparedStatement authorStatement = connection.prepareStatement("SELECT name FROM author, book_author " +
-                "WHERE book_author.author_id = author.id AND " +
-                "book_author.book_id = ?");
-        authorStatement.setInt(1, bookId);
-        authorStatement.execute();
+		PreparedStatement authorStatement = connection.prepareStatement("SELECT name FROM author, book_author " +
+				"WHERE book_author.author_id = author.id AND " +
+				"book_author.book_id = ?");
+		authorStatement.setInt(1, bookId);
+		authorStatement.execute();
 
-        ResultSet rs = authorStatement.getResultSet();
+		ResultSet rs = authorStatement.getResultSet();
 
-        while(rs.next()) {
-            authors.add(rs.getString("name"));
-        }
-        return authors;
+		while(rs.next()) {
+			authors.add(rs.getString("name"));
+		}
+		return authors;
 
 
-    }
+	}
 
 	private BookBean bookFromResultSet(ResultSet rs) throws SQLException {
-        BookBean resultBean = new BookBean();
-        int bookId = rs.getInt("id");
+		BookBean resultBean = new BookBean();
+		int bookId = rs.getInt("id");
 
-        resultBean.setId(bookId);
-        resultBean.setPublicationType(rs.getString("publicationtype"));
-        resultBean.setPublicationDate(rs.getString("publicationdate"));
-        resultBean.setAuthor(getAuthors(bookId));
-        resultBean.setTitle(rs.getString("title"));
-        resultBean.setPages(rs.getString("pages"));
-        resultBean.setUrl(rs.getString("url"));
-        resultBean.setEe(rs.getString("ee"));
-        resultBean.setPrice(rs.getString("price"));
-        resultBean.setPicture(rs.getString("picture"));
-        resultBean.setVenues(rs.getString("venue"));
+		resultBean.setId(bookId);
+		resultBean.setPublicationType(rs.getString("publicationtype"));
+		resultBean.setPublicationDate(rs.getString("publicationdate"));
+		resultBean.setAuthor(getAuthors(bookId));
+		resultBean.setTitle(rs.getString("title"));
+		resultBean.setPages(rs.getString("pages"));
+		resultBean.setUrl(rs.getString("url"));
+		resultBean.setEe(rs.getString("ee"));
+		resultBean.setPrice(rs.getString("price"));
+		resultBean.setPicture(rs.getString("picture"));
+		resultBean.setVenues(rs.getString("venue"));
 
-        return resultBean;
-    }
+		return resultBean;
+	}
 
 	public UserBean verifyPassword(String username, String password){
+
+		boolean result = false;
+		UserBean user = new UserBean();;
+
 
 		try{
 			if(this.connection == null || this.connection.isClosed()) {
@@ -359,7 +361,6 @@ public class SqlHandler {
 			ResultSet rs = add.executeQuery();
 
 			if(rs.next()){
-				UserBean user = new UserBean();
 				user.setBirthYear(rs.getInt("yearofbirth"));
 				user.setUsername(rs.getString("username"));
 				user.setNickname(rs.getString("nickname"));
@@ -369,14 +370,24 @@ public class SqlHandler {
 				user.setCreditCard(rs.getString("creditCardNumber"));
 				user.setId(rs.getInt("id"));
 
-				return user;
+				System.out.println(user.toString());
+				result = true;
 			}
+			else
+				result = false;
+
 		}catch (SQLException e){
 			System.out.println(e.getMessage());
 		}finally{
 			this.closeConnection();
+			if(result){
+				return user;
+			}
+			else
+				return null;
 		}
-		return null;
+
+
 	}
 
 
@@ -649,9 +660,6 @@ public class SqlHandler {
 		}
 	}
 }
-
-
-
 
 
 /*
