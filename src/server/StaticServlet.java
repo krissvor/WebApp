@@ -26,8 +26,11 @@ public class StaticServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println(request.getRequestURI());
-        if (request.getRequestURI().startsWith("/search")) {
+        //System.out.println(request.getRequestURI());
+        if(request.getRequestURI().equals("/")) {
+            System.out.println("Entered index...");
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        } else if (request.getRequestURI().startsWith("/search")) {
             SearchController controller = new SearchController();
             controller.search(request, response);
         } else if(request.getRequestURI().startsWith("/bookseller")) {
@@ -109,7 +112,7 @@ public class StaticServlet extends HttpServlet {
 
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("Checking for cart...");
+        //System.out.println("Checking for cart...");
 
         // Make sure a shopping cart session is created for the request
         HttpSession session = request.getSession();

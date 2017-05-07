@@ -34,7 +34,7 @@ public class LoginController {
             session.setAttribute("userId", user.getId());
             session.setAttribute("name", user.getFirstName() + " " + user.getLastName());
             session.setAttribute("username", user.getUsername());
-            request.getRequestDispatcher("/").forward(request, response);
+            response.sendRedirect("/");
         } else {
             System.out.println("User not found!");
             response.getWriter().write("false");

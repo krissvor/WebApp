@@ -10,6 +10,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+  <script src="Scripts/myScript.js"></script>
 </head>
 <body>
 <div class="container">
@@ -42,45 +43,49 @@
           </c:when>
         </c:choose>
       </ul>
-      <ul class="navbar-nav pull-sm-right navbar-item">
-        <li id="signInDropdown">
+      <c:choose>
+        <c:when test="${sessionScope.userId == null}">
+          <ul class="navbar-nav pull-sm-right navbar-item">
+            <li id="signInDropdown">
 
-          <button class="btn btn-success" onclick="document.getElementById('id01').style.display='block'">Login</button>
+              <button class="btn btn-success" onclick="document.getElementById('id01').style.display='block'">Login</button>
 
-          <div id="id01" class="modal">
+              <div id="id01" class="modal">
 
-            <form id="login-form" class="modal-content animate" action="login" METHOD="POST">
-              <input type="hidden" name="action" value="login">
+                <form id="login-form" class="modal-content animate" action="login" METHOD="POST">
+                  <input type="hidden" name="action" value="login">
 
-              <div class="container">
-                <label><b>Username</b></label>
-                <input id="username" type="text" placeholder="Enter Username" name="username" required>
+                  <div class="container">
+                    <label><b>Username</b></label>
+                    <input id="username" type="text" placeholder="Enter Username" name="username" required>
 
-                <label><b>Password</b></label>
-                <input id="password" type="password" placeholder="Enter Password" name="password" required>
-                <button class="btn btn-success" type="button" onclick="validateLogin()">Login</button>
-                <input type="checkbox" checked="checked"/> Remember me
+                    <label><b>Password</b></label>
+                    <input id="password" type="password" placeholder="Enter Password" name="password" required>
+                    <button class="btn btn-success" type="button" onclick="validateLogin()">Login</button>
+                    <input type="checkbox" checked="checked"/> Remember me
+                  </div>
+
+                  <div class="container" style="background-color:#f1f1f1">
+                    <button class="btn btn-danger" type="button" onclick="document.getElementById('id01').style.display='none'">Cancel</button>
+                    <span class="register"> <a href="UserRegistration">Register</a></span>
+                  </div>
+                </form>
               </div>
 
-              <div class="container" style="background-color:#f1f1f1">
-                <button class="btn btn-danger" type="button" onclick="document.getElementById('id01').style.display='none'">Cancel</button>
-                <span class="register"> <a href="UserRegistration">Register</a></span>
-              </div>
-            </form>
-          </div>
+              <script>
+                  // Get the modal
+                  var modal = document.getElementById('id01');
 
-          <script>
-              // Get the modal
-              var modal = document.getElementById('id01');
-
-              // When the user clicks anywhere outside of the modal, close it
-              window.onclick = function(event) {
-                  if (event.target == modal) {
-                      modal.style.display = "none";
+                  // When the user clicks anywhere outside of the modal, close it
+                  window.onclick = function(event) {
+                      if (event.target == modal) {
+                          modal.style.display = "none";
+                      }
                   }
-              }
-          </script>
-        </li>
-      </ul>
+              </script>
+            </li>
+          </ul>
+        </c:when>
+      </c:choose>
     </div>
   </nav>
