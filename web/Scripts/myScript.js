@@ -19,6 +19,18 @@ function testUserForm(){
 
 }
 
+function testUpdateForm(){
+    formIsValid = true;
+    everythingFilled();
+    validateYear();
+    validateEmail();
+    validatePassword();
+    validateCredit();
+
+    return formIsValid;
+
+}
+
 function validateBookForm(){
     formIsValid = true;
     necessaryFilled();
