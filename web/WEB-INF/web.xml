@@ -67,4 +67,8 @@
         <servlet-name>WebappServlet</servlet-name>
         <url-pattern>/logout</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>WebappServlet</servlet-name>
+        <url-pattern>/prefs</url-pattern>
+    </servlet-mapping>
 </web-app>

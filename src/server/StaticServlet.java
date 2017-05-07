@@ -56,7 +56,12 @@ public class StaticServlet extends HttpServlet {
             controller.showWishList(request, response);
         } else if (request.getRequestURI().startsWith("/register")) {
             request.getRequestDispatcher("UserRegistration.jsp").forward(request, response);
-        } else {
+        } else if (request.getRequestURI().startsWith("/prefs")) {
+            PrefsController controller = new PrefsController();
+            controller.viewPrefs(request, response);
+        }
+
+        else {
 
             SqlHandler sqlHandler = new SqlHandler();
 
