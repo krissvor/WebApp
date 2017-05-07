@@ -1,6 +1,7 @@
 package controllers;
 
 import Beans.BookBean;
+import com.sun.deploy.net.HttpRequest;
 import server.SqlHandler;
 
 import javax.servlet.ServletException;
@@ -23,5 +24,15 @@ public class PrefsController {
         request.setAttribute("user", null);
         request.setAttribute("books", books);
         request.getRequestDispatcher("prefs.jsp").forward(request, response);
+    }
+
+    public void removeBookFromSale(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int userId = (Integer) request.getSession().getAttribute("userId");
+        System.out.println(userId);
+        int bookId = Integer.parseInt(request.getParameter("id"));
+        System.out.println(bookId);
+        SqlHandler handler = new SqlHandler();
+        handler.removeBookFromSale(bookId, userId);
+        response.sendRedirect("/prefs");
     }
 }

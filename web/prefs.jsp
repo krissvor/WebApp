@@ -10,13 +10,22 @@
                     <c:forEach items="${books}" var="bookBean">
                         <tr>
                             <td><c:out value="${bookBean.getTitle()}" /></td>
-                            <td><c:out value="${bookBean.getAuthor()}" /></td>
+                            <td>
+                                <c:forEach items="${bookBean.author}" var="authorElem">
+                                    ${authorElem},
+                                </c:forEach>
+                            </td>
                             <td><c:out value="${bookBean.getPublicationType()}" /></td>
                             <td><c:out value="${bookBean.getPublicationDate()}" /></td>
                             <td><c:out value="${bookBean.getVenues()}" /></td>
                             <form action="/book" method="get">
                                 <input type="hidden" name="id" value=${bookBean.id}>
                                 <td><input type="submit" class="btn btn-secondary btn-md" value="Details"></td>
+                            </form>
+                            <form action="/prefs" method="post">
+                                <input type="hidden" name="id" value=${bookBean.id}>
+                                <input type="hidden" name="action" value="remove">
+                                <td><input type="submit" class="btn btn-danger btn-md" value="Remove from sale"></td>
                             </form>
                         </tr>
                     </c:forEach>

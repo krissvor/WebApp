@@ -667,16 +667,16 @@ public class SqlHandler {
 			if(this.connection == null || this.connection.isClosed()) {
 				this.connect();
 			}
-			PreparedStatement bookStatement = connection.prepareStatement("SELECT book_user.book_id FROM user, book_user " +
-					"WHERE book_user.user_id = user.id AND " +
-					"user.id= ?");
+			PreparedStatement bookStatement = connection.prepareStatement("SELECT book_id FROM user, book_user " +
+					"WHERE user_id = id AND " +
+					"id = ?");
 			bookStatement.setInt(1, userId);
 			bookStatement.execute();
 			ResultSet rs = bookStatement.getResultSet();
 
 			List<BookBean> books = new ArrayList<>();
 			while(rs.next()) {
-				books.add(bookFromResultSet(rs));
+				books.add(getSingleBook(rs.getInt("book_id"), false));
 			}
 			return books;
 
@@ -686,5 +686,22 @@ public class SqlHandler {
 			this.closeConnection();
 		}
 		return null;
+	}
+
+	public void removeBookFromSale(int bookId, int userId) {
+		try {
+			if(this.connection == null || this.connection.isClosed()) {
+				this.connect();
+			}
+			PreparedStatement wishStatement = connection.prepareStatement("DELETE FROM book_user WHERE book_id = ? AND user_id = ?");
+			wishStatement.setInt(1, bookId);
+			wishStatement.setInt(2, userId);
+
+			int affectedRow = wishStatement.executeUpdate();
+		} catch(Exception e) {
+			System.err.println(e.getMessage());
+		} finally {
+			this.closeConnection();
+		}
 	}
 }

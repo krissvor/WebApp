@@ -117,6 +117,9 @@ public class StaticServlet extends HttpServlet {
         else if(request.getRequestURI().startsWith("/logout")) {
             LoginController controller = new LoginController();
             controller.logout(request, response);
+        } else if(request.getRequestURI().startsWith("/prefs")) {
+            PrefsController controller = new PrefsController();
+            controller.removeBookFromSale(request, response);
         }
 
         switch (action) {
