@@ -31,16 +31,26 @@ public class StaticServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println(request.getRequestURI());
-        if (request.getRequestURI().startsWith("/search")) {
+        //System.out.println(request.getRequestURI());
+        if(request.getRequestURI().equals("/")) {
+            BookController controller = new BookController();
+            controller.viewRandomBooks(request, response);
+        } else if (request.getRequestURI().startsWith("/search")) {
             SearchController controller = new SearchController();
             controller.search(request, response);
+        } else if(request.getRequestURI().startsWith("/bookseller")) {
+            request.getRequestDispatcher("Bookseller.jsp").forward(request, response);
         } else if (request.getRequestURI().startsWith("/book")) {
             BookController controller = new BookController();
             controller.viewSingleBook(request, response);
         } else if (request.getRequestURI().startsWith("/cart")) {
             CartController controller = new CartController();
             controller.showCart(request, response);
+        } else if(request.getRequestURI().startsWith("/wishlist")) {
+            WishListController controller = new WishListController();
+            controller.showWishList(request, response);
+        } else if(request.getRequestURI().startsWith("/register")) {
+            request.getRequestDispatcher("UserRegistration.jsp").forward(request, response);
         } else {
             System.out.println("Tok i mot et get kall");
             String requestDispatcher = null;
@@ -69,6 +79,15 @@ public class StaticServlet extends HttpServlet {
         if(request.getRequestURI().startsWith("/cart")) {
             CartController controller = new CartController();
             controller.handleCartChange(request, response);
+        } else if(request.getRequestURI().startsWith("/wishlist")) {
+            WishListController controller = new WishListController();
+            controller.handleWishListChange(request, response);
+        } else if(request.getRequestURI().startsWith("/checkLogin")) {
+            LoginController controller = new LoginController();
+            controller.checkLogin(request, response);
+        } else if(request.getRequestURI().startsWith("/logout")) {
+            LoginController controller = new LoginController();
+            controller.logout(request, response);
         }
 
         switch (action) {
@@ -87,7 +106,7 @@ public class StaticServlet extends HttpServlet {
             case ("login"):
                 System.out.println("trying to sign in");
                 LoginController loginController = new LoginController();
-                loginController.login(request);
+                loginController.login(request, response);
                 break;
             case ("deleteUser"):
                 SqlHandler sqlHandler = new SqlHandler();
@@ -95,15 +114,13 @@ public class StaticServlet extends HttpServlet {
                 int id = Integer.parseInt(request.getParameter("id"));
                 sqlHandler.deleteUser(id);
                 sqlHandler.closeConnection();
-
-                break;
         }
     }
 
 
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("Checking for cart...");
+        //System.out.println("Checking for cart...");
 
         // Make sure a shopping cart session is created for the request
         HttpSession session = request.getSession();

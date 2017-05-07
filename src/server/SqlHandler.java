@@ -200,7 +200,7 @@ public class SqlHandler {
 		return resultList;
 	}
 
-	public BookBean getSingleBook(int id) {
+	public BookBean getSingleBook(int id, boolean shouldClose) {
 		try {
 			if(this.connection == null || this.connection.isClosed()) {
 				this.connect();
@@ -212,7 +212,9 @@ public class SqlHandler {
 			System.err.println("An error occurred while selecting books");
 			e.printStackTrace();
 		} finally {
-			this.closeConnection();
+			if(shouldClose) {
+				this.closeConnection();
+			}
 		}
 		return null;
 	}
@@ -268,6 +270,31 @@ public class SqlHandler {
 		return bookStatement.getResultSet();
 	}
 
+	public List<BookBean> getActiveUserWishes(int userId) {
+		try {
+			if(this.connection == null || this.connection.isClosed()) {
+				this.connect();
+			}
+			ArrayList<BookBean> wishedBooks = new ArrayList<>();
+			PreparedStatement wishStatement = connection.prepareStatement("SELECT book_id " +
+					"FROM user, user_wishes " +
+					"WHERE user.id = user_wishes.user_id " +
+					"AND user_wishes.active = TRUE");
+
+			wishStatement.execute();
+			ResultSet rs = wishStatement.getResultSet();
+			while(rs.next()) {
+				wishedBooks.add(getSingleBook(rs.getInt("book_id"), false));
+			}
+			return wishedBooks;
+		} catch(Exception e) {
+			System.err.println(e.getMessage());
+		} finally {
+			this.closeConnection();
+		}
+		return null;
+	}
+
 	private String getSelectionClause(SearchController.SEARCHATTRIBUTE attr) {
 		switch(attr) {
 			case TITLE: return "book.title RLIKE ? ";
@@ -316,11 +343,12 @@ public class SqlHandler {
         return resultBean;
     }
 
-	public void verifyPassword(String username, String password){
-
-		int id;
+	public UserBean verifyPassword(String username, String password){
 
 		try{
+			if(this.connection == null || this.connection.isClosed()) {
+				this.connect();
+			}
 			statement = connection.createStatement();
 
 			java.sql.PreparedStatement add = connection.prepareStatement(
@@ -341,16 +369,14 @@ public class SqlHandler {
 				user.setCreditCard(rs.getString("creditCardNumber"));
 				user.setId(rs.getInt("id"));
 
-				System.out.println(user.toString());
+				return user;
 			}
-			else
-				System.out.println("denne finnes ikke\n");
-
 		}catch (SQLException e){
 			System.out.println(e.getMessage());
 		}finally{
-
+			this.closeConnection();
 		}
+		return null;
 	}
 
 
@@ -588,7 +614,41 @@ public class SqlHandler {
 
 		return -1;
 	}
+
+	public void addWish(int userId, int bookId) {
+		try {
+			if(this.connection == null || this.connection.isClosed()) {
+				this.connect();
+			}
+			PreparedStatement wishStatement = connection.prepareStatement("INSERT INTO user_wishes(user_id, book_id, active) VALUES(?, ?, TRUE)");
+			wishStatement.setInt(1, userId);
+			wishStatement.setInt(2, bookId);
+
+			int affectedRow = wishStatement.executeUpdate();
+		} catch(Exception e) {
+			System.err.println(e.getMessage());
+		} finally {
+			this.closeConnection();
+		}
 	}
+
+	public void removeWish(int userId, int bookId) {
+		try {
+			if(this.connection == null || this.connection.isClosed()) {
+				this.connect();
+			}
+			PreparedStatement wishStatement = connection.prepareStatement("DELETE FROM user_wishes WHERE user_id = ? AND book_id = ?");
+			wishStatement.setInt(1, userId);
+			wishStatement.setInt(2, bookId);
+
+			int affectedRow = wishStatement.executeUpdate();
+		} catch(Exception e) {
+			System.err.println(e.getMessage());
+		} finally {
+			this.closeConnection();
+		}
+	}
+}
 
 
 
