@@ -5,9 +5,6 @@ import Beans.UserBean;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.Statement;
 import controllers.SearchController;
-
-
-import java.awt.print.Book;
 import java.sql.*;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -128,6 +125,7 @@ public class SqlHandler {
 				user.setCreditCard(rs.getString("creditCardNumber"));
 				user.setId(rs.getInt("id"));
 				user.setAddress(rs.getString("address"));
+				user.setIs_active(rs.getBoolean("is_active"));
 
 				System.out.println(user.toString());
 				return user;
@@ -136,7 +134,7 @@ public class SqlHandler {
 		} catch(SQLException e) {
 			System.out.println(e.getMessage());
 		}
-		return null;
+		return user;
 	}
 
 
@@ -591,7 +589,7 @@ public class SqlHandler {
 			statement = connection.createStatement();
 
 			ResultSet rs = statement.executeQuery(
-					"SELECT id,username,email,nickname,firstname,lastname,creditcardnumber,yearofbirth FROM user;");
+					"SELECT id,username,email,nickname,firstname,lastname,creditcardnumber,yearofbirth,is_active FROM user;");
 			while(rs.next()){
 				UserBean user = new UserBean();
 				user.setBirthYear(rs.getInt("yearofbirth"));
@@ -602,7 +600,7 @@ public class SqlHandler {
 				user.setEmail(rs.getString("email"));
 				user.setCreditCard(rs.getString("creditCardNumber"));
 				user.setId(rs.getInt("id"));
-
+				user.setIs_active(rs.getBoolean("is_active"));
 				users.add(user);
 			}
 			return users;
@@ -796,4 +794,3 @@ public class SqlHandler {
 		}
 	}
 }
-
