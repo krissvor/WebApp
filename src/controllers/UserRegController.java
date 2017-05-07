@@ -32,6 +32,7 @@ public class UserRegController {
         userBean.setNickname(request.getParameter("nickname"));
         userBean.setPassword(request.getParameter("password"));
         userBean.setUsername(request.getParameter("username"));
+        userBean.setIs_active(false);
 
         SqlHandler sqlHandler = new SqlHandler();
         sqlHandler.connect();
@@ -39,6 +40,14 @@ public class UserRegController {
         System.out.println("prøver å få alle brukere");
         sqlHandler.getAllUsers();
         System.out.println("har prøvd");
+
+
+        int userId = userBean.getId();
+        String link = "Click <a href=\"http://127.0.0.1:8080/confirmation.jsp?userId=" + userId + "\">here</a> to activate your user";
+
+
+
+        Email.sendEmail(userBean.getEmail(),"DigitalLibrary","Activate your user",link,"localhost");
 
         sqlHandler.closeConnection();
 

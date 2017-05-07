@@ -13,6 +13,7 @@ public class UserBean implements Serializable {
     private String nickname;
     private String email;
     private int id;
+    private boolean is_active;
 
 
     public int getId() {
@@ -36,6 +37,7 @@ public class UserBean implements Serializable {
                 ", id=" + id +
                 ", password='" + password + '\'' +
                 ", creditCard='" + creditCard + '\'' +
+                ", is_active='" + is_active + '\'' +
                 '}';
     }
 
@@ -45,6 +47,7 @@ public class UserBean implements Serializable {
     public UserBean(){
 
     }
+
 
     public String getLastName() {
         return lastName;
@@ -108,5 +111,13 @@ public class UserBean implements Serializable {
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
+    }
+
+    public boolean is_active() {
+        return is_active;
+    }
+
+    public void setIs_active(boolean is_active) {
+        this.is_active = is_active;
     }
 }

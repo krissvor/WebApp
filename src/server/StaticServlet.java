@@ -26,6 +26,10 @@ public class StaticServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("Tok i mot et kall");
+        String path = request.getRequestURI();
+        request.getParameter("userName");
+        request.setAttribute("message", "nay");
+
 
     }
 
