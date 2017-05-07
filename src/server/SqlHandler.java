@@ -5,7 +5,7 @@ import Beans.UserBean;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.Statement;
 import controllers.SearchController;
-import java.sql.*;
+
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -26,9 +26,9 @@ public class SqlHandler {
 	public SqlHandler() {
 
 		try {
-			System.out.println("Loading MYSQL driver...");
+			//System.out.println("Loading MYSQL driver...");
 			Class.forName("com.mysql.jdbc.Driver");
-			System.out.println("MYSQL Driver loaded!");
+			//System.out.println("MYSQL Driver loaded!");
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException("Cannot find the driver in the classpath!", e);
 		}
@@ -36,7 +36,7 @@ public class SqlHandler {
 
 	public void connect() {
 
-		System.out.println("Connecting to SQLdatabase...");
+		//System.out.println("Connecting to SQLdatabase...");
 		try {
 
 			Properties connectionProps = new Properties();
@@ -44,7 +44,7 @@ public class SqlHandler {
 			connectionProps.put("password", "password");
 
 			connection = (Connection) DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/webApp", connectionProps);
-			System.out.println("connection to Mysql established");
+			//System.out.println("connection to Mysql established");
 		} catch (SQLException e) {
 			System.out.println("Could not establish a connection to the SQL database");
 			e.printStackTrace();
@@ -58,7 +58,7 @@ public class SqlHandler {
 		if (connection != null) {
 
 			try {
-				System.out.println("Closing Mysql connection...");
+				//System.out.println("Closing Mysql connection...");
 				connection.close();
 
 				if (resultSet != null) {
@@ -70,8 +70,34 @@ public class SqlHandler {
 			} catch (SQLException e) {
 				System.out.println("Failed to close connections" + e);
 			}
-			System.out.println("Connection to Mysql closed!");
+			//System.out.println("Connection to Mysqssl closed!");
 		}
+	}
+
+	public int getBooksellerId(int bookId) {
+
+		try {
+			statement = connection.createStatement();
+
+			java.sql.PreparedStatement get = connection.prepareStatement(
+					"SELECT user_id FROM user WHERE book_id = ?");
+
+			get.setInt(1, bookId);
+
+			ResultSet res = get.getResultSet();
+
+			if(res.next()){
+				return res.getInt(1);
+			}
+
+		}
+
+		catch(SQLException e) {
+		System.out.println(e.getMessage());
+	}
+
+	return -1;
+
 	}
 
 	public UserBean findUserById(String userId){
@@ -513,10 +539,6 @@ public class SqlHandler {
 	}
 
 
-
-
-
-
 	public int addUser(UserBean user) {
 		try {
 			statement = connection.createStatement();
@@ -725,302 +747,3 @@ public class SqlHandler {
 		}
 	}
 }
-
-
-/*
-	public boolean validate(String Email, String password){
-
-		Boolean valid = false;
-
-		connect();
-
-		if(connection != null){
-			try {
-				statement = connection.createStatement();
-				ResultSet rs = statement.executeQuery(
-						"SELECT Email FROM users WHERE " +
-								"Email=" +  "'" + Email + "'" + " AND PasswordHash= " + "'" + password +  "'");
-
-				if(rs.next()){
-					System.out.println("Yep, correct");
-					valid = true;
-				}
-
-			} catch (SQLException e) {
-				System.out.println("sql exception while retrieveing username");
-				e.printStackTrace();
-			}
-
-			finally{
-				closeConnection();
-			}
-		}
-		return valid;
-	}
-
-	public boolean newUser(String Email, String Password, String Username){
-
-		String email;
-		String pwd;
-		String uname;
-
-		if(Email != null){
-			email = Email;
-		}
-
-		else return false;
-
-		if(Password != null){
-			pwd = Password;
-		}
-
-		else return false;
-
-		if(Username != null){
-			uname = Username;
-		}
-		else return false;
-
-		connect();
-
-		try {
-			statement = connection.createStatement();
-			java.sql.PreparedStatement add = connection.prepareStatement(
-					"INSERT INTO users (Email, Username, PasswordHash) VALUES(?, ?, ?)");
-			add.setString(1, email);
-			add.setString(2, uname);
-			add.setString(3, pwd);
-
-			add.executeUpdate();
-
-			System.out.println("sucsessfully added user to database: " + email);
-			return true;
-
-		} catch (SQLException e) {
-			System.out.println("failed to add user to database");
-			e.printStackTrace();
-			return false;
-		}
-
-		finally{
-			closeConnection();
-		}
-	}
-
-	public int getUserIdFromUsername(String Email){
-		int userID = 0;
-
-		connect();
-
-		try {
-			statement = connection.createStatement();
-			ResultSet rs = statement.executeQuery("SELECT UserID FROM users WHERE Email = " + "'" + Email + "'");
-
-			rs.next();
-			userID = rs.getInt("UserID");
-
-		} catch (SQLException e) {
-			System.out.println("failed to get user id from username");
-			e.printStackTrace();
-		}
-
-		finally{
-			closeConnection();
-		}
-
-		return userID;
-	}
-
-	public boolean addFriends(String username, String username2){
-
-		connect();
-
-		int u1 = getUserIdFromUsername(username);
-		int u2 = getUserIdFromUsername(username2);
-
-		try{
-			java.sql.PreparedStatement add = connection.prepareStatement("INSERT INTO friendRelations(UID1, UID2) VALUES (?,?)");
-			add.setInt(1, u1);
-			add.setInt(2, u2);
-			add.executeUpdate();
-
-			java.sql.PreparedStatement add2 = connection.prepareStatement("INSERT INTO friendRelations(UID1, UID2) VALUES (?,?)");
-			add.setInt(1, u2);
-			add.setInt(2, u1);
-			add2.executeUpdate();
-
-			System.out.println("sucsessfully created friendship");
-			return true;
-		}
-
-		catch (SQLException e){
-			System.out.println("could not insert new friendship into friends");
-			e.printStackTrace();
-		}
-
-		return false;
-	}
-	
-	public ArrayList<User> getFriends(String username){
-		
-		int userid = getUserIdFromUsername(username);
-		ArrayList<User> friends = new ArrayList<User>();
-		
-		connect();
-		
-		try {
-			
-			statement = connection.createStatement();
-			ResultSet rs = statement.executeQuery(
-							"SELECT Username, Email FROM users"
-							+" INNER JOIN friendRelations ON friendRelations.UID2 = users.UserID"
-							+" WHERE friendRelations.UID1 = " + "'" + userid + "'");
-			
-			while(rs.next()){
-				User u = new User(rs.getString("Username"), rs.getString("Email"));
-				friends.add(u);
-			}
-			
-		} catch (SQLException e) {
-			System.out.println("failed to fetch friends from database.");
-			e.printStackTrace();
-		}
-		
-		finally{
-			closeConnection();
-		}
-		
-		for(User u : friends){
-			System.out.println(u.getEmail());
-		}
-		
-		return friends;
-	}
-	
-	public User getUser(String searchKey, String columnName){
-		
-		String colName = null;
-		
-		if(columnName.equals(this.Username)){
-			colName = columnName;
-		}
-		
-		else if(columnName.equals(this.email)){
-			colName = columnName;
-		}
-		
-		else{
-			return null;
-		}
-		
-		User user = null;
-		
-		connect();
-		
-		try {
-			statement = connection.createStatement();
-			ResultSet rs = statement.executeQuery("SELECT Email, Username FROM users "
-					+ "WHERE " + colName +  "=" + "'" + username + "'" );
-			
-			while(rs.next()){
-				user = new User(rs.getString(this.Username), rs.getString(this.email));
-			}
-			
-			rs.close();
-			
-			
-		} catch (SQLException e) {
-			System.out.println("failed to get user");
-			e.printStackTrace();
-		}
-		
-		finally{
-			
-			closeConnection();
-		}
-		
-		return user;
-	}
-	
-	public boolean createGroup(String groupName, ArrayList<User> users){
-		
-		connect();
-		int key = 0;
-		
-		try {
-			
-			java.sql.PreparedStatement add = null;
-			add = connection.prepareStatement("INSERT INTO chatGroup(ChatGroupName) VALUES (?)", add.RETURN_GENERATED_KEYS);
-			
-			add.setString(2, groupName);
-			key = add.executeUpdate();
-			
-			if(key != 0 && key > 0){
-				
-				for(User u : users){
-					
-					add = connection.prepareStatement("INSERT INTO chatGroup_users (UID, GID) VALUES(?, ?)", add.RETURN_GENERATED_KEYS);
-					add.setInt(1, key);
-					add.setInt(2, getUserIdFromUsername(u.getEmail()));
-					add.executeUpdate();
-				}
-			}
-			
-		} catch (SQLException e) {
-			System.out.println("failed to createGroup");
-			e.printStackTrace();
-		}
-		finally{
-			closeConnection();
-		}
-		
-		return false;
-	}
-	
-	public ArrayList<Group> getGroups(String Email){
-		ArrayList<Group> groups = new ArrayList<Group>();
-		
-		int userID = getUserIdFromUsername(Email);
-		
-		connect();
-		
-		try {
-			statement = connection.createStatement();
-			ResultSet rs = statement.executeQuery("SELECT ChatGroupID, ChatGroupName FROM "
-					+ "chatGroup INNER JOIN chatGroup_users ON UID = " + "'" + userID +"'" + "AND ChatGroupID = GID");
-			
-			while(rs.next()){
-				
-				int groupID = rs.getInt("ChatGroupID");
-				String groupName = rs.getString("ChatGroupName");
-				
-				Group g = new Group(groupID, groupName);
-				
-				groups.add(g);
-			}
-			
-			for(Group gr : groups){
-				
-						rs = statement.executeQuery("SELECT UserID, Username, Email FROM users "
-						+ "INNER JOIN chatGroup_users ON UID = UserID"
-						+ " WHERE GID = " + "'" + gr.getID() + "'");
-				
-				
-				
-				while (rs.next()){
-					gr.addUser(new User(rs.getString("UserName"), rs.getString("Email")));
-				}
-			}
-			
-		} catch (SQLException e) {
-			System.out.println("could not get groups");
-			e.printStackTrace();
-		}
-		
-		finally{
-			closeConnection();
-		}
-		
-		return groups;
-	}
-	*/
