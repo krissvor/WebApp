@@ -78,14 +78,16 @@ public class SqlHandler {
 	}
 
 	public int getBooksellerId(int bookId) {
+		System.out.println("BOOKID WAS: " + bookId);
 
 		try {
 			statement = connection.createStatement();
 
 			java.sql.PreparedStatement get = connection.prepareStatement(
-					"SELECT user_id FROM user WHERE book_id = ?");
+					"SELECT user_id FROM book_user WHERE book_id = ?");
 
 			get.setInt(1, bookId);
+			get.execute();
 
 			ResultSet res = get.getResultSet();
 

@@ -37,7 +37,7 @@ public class PurchaseController {
                 UserBean u = handler.findUserById(Integer.toString(seller));
                 BookBean b = handler.getSingleBook(bookID, false);
                 handler.closeConnection();
-                email.sendEmail(u.getEmail(), "Bookseller Admin", "Someone has purchased your book", b.getTitle(), "localhost");
+                email.sendEmail(u.getEmail(), "Bookseller-Admin", "Someone has purchased your book", "Someone bought your book: " + b.getTitle() + ".", "localhost");
             }
         }
     }
