@@ -128,3 +128,29 @@ span.register {
         width: 100%;
     }
 }
+
+.no-padding {
+    padding: 0;
+}
+
+.no-margin {
+    margin: 0;
+}
+
+
+.right-margin-30 {
+    margin-right: 30px;
+}
+
+.right-margin-10 {
+    margin-right: 10px;
+}
+
+.limit-width {
+    width: 80%;
+}
+
+.top-bot-20 {
+    margin-top: 2em;
+    margin-bottom: 2em;
+}

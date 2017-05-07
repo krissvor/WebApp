@@ -6,18 +6,107 @@ var usernameTaken = true;
 
 function testUserForm(){
     formIsValid = true;
-   everythingFilled();
-   validateYear();
-   validateEmail();
-   validatePassword();
-   validateCredit();
+    everythingFilled();
+    validateYear();
+    validateEmail();
+    validatePassword();
+    validateCredit();
 
-   if(formIsValid && !usernameTaken){
-       return true;
-   }
-   return false
+    if(formIsValid && !usernameTaken){
+        return true;
+    }
+    return false
 
 }
+
+function validateBookForm(){
+    formIsValid = true;
+    necessaryFilled();
+    validateReleaseDate();
+    validatePrice();
+    validatePages();
+
+    return formIsValid;
+}
+
+function validatePages(){
+    var field = document.getElementById("pages");
+    var value = field.value;
+    var isnum = /^[\d]+$/.test(value);
+    if(isnum) {
+        if (value < 0 || value ==""){
+            field.setAttribute("style", "border-color:#ae030e");
+            formIsValid = false;
+        }
+        else{
+            field.setAttribute("style","border-color:rgba(0,0,0,.15)");
+        }
+    }
+    else{
+        field.setAttribute("style","border-color:#ae030e");
+    }
+}
+
+function validateReleaseDate(){
+    var field = document.getElementById("publicationDate");
+    var date = new Date();
+    if(field.value!=""){
+        var string = field.value.split("-");
+        if(string[0]>date.getFullYear()) {
+            field.setAttribute("style", "border-color:#ae030e");
+            formIsValid = false;
+        }
+        else if(string[0] == date.getFullYear() && string[1]>date.getMonth()+1) {
+            field.setAttribute("style", "border-color:#ae030e");
+            formIsValid = false;
+        }
+        else if(string[0] == date.getFullYear()&&string[1]==date.getMonth()+1 &&string[2]>date.getDate()){
+            field.setAttribute("style", "border-color:#ae030e");
+            formIsValid = false;
+        }
+        else
+            field.setAttribute("style","border-color:rgba(0,0,0,.15)");
+    }
+    else{
+    field.setAttribute("style", "border-color:#ae030e");
+    formIsValid = false;
+    }
+
+}
+
+function validatePrice(){
+    var field = document.getElementById("price");
+    var value = field.value;
+    var isnum = /^[\d ]+$/.test(value);
+    if(isnum) {
+        if (value < 0||value=="") {
+            field.setAttribute("style", "border-color:#ae030e");
+            formIsValid = false;
+        }
+        else{
+            field.setAttribute("style","border-color:rgba(0,0,0,.15)");
+        }
+    }
+    else{
+        field.setAttribute("style","border-color:#ae030e");
+
+    }
+
+}
+
+function necessaryFilled(){
+    var forms = document.getElementsByClassName("necessary");
+    for (var i = 0; i <forms.length;i++){
+        if(forms[i].value.trim() == null || forms[i].value.trim() == ""){
+            forms[i].setAttribute("style","border-color:#ae030e");
+            formIsValid = false;
+        }
+        else{
+            forms[i].setAttribute("style","border-color:rgba(0,0,0,.15)");
+        }
+    }
+}
+
 
 function validateCredit(){
     var field = document.getElementById("creditCard");
@@ -77,7 +166,8 @@ function validateUsername(){
 
     var request = new XMLHttpRequest();
     // vardata = "username=" + encodeURIComponent(
-    var username = document.getElementById("username").value;
+    var form = document.getElementById("usernameReg");
+    var username = form.value;
     request.open("GET", "/checkUsername?username=" + username, true);
     request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     request.send();
@@ -87,13 +177,12 @@ function validateUsername(){
         if(request.readyState === XMLHttpRequest.DONE && request.status === 200){
 
             var res = request.responseText;
-            var form = document.getElementById("username")
             if(res == "true"){
-                    // document.getElementsByclassName("formError")[0].setAttribute("hidden", false)
-                    // document.getElementsByClassName("formError")[0].innerHTML("HER ERRE NOE FEIL!!")
+                // document.getElementsByclassName("formError")[0].setAttribute("hidden", false)
+                // document.getElementsByClassName("formError")[0].innerHTML("HER ERRE NOE FEIL!!")
 
-                    form.setAttribute("style", "border-color:#ae030e;");
-                    usernameTaken=true;
+                form.setAttribute("style", "border-color:#ae030e;");
+                usernameTaken=true;
             }
             if(res=="false"){
                 form.setAttribute("style", "border-color:rgba(0,0,0,.15);");
@@ -103,6 +192,9 @@ function validateUsername(){
         }
     };
 }
+
+
+
 
 
 
@@ -147,6 +239,35 @@ function validateEmail(){
         field.setAttribute("style","border-color:rgba(0,0,0,.15)");
 
 
+}
+
+function validateLogin() {
+    console.log("trying to login");
+    var request = new XMLHttpRequest();
+    var username = document.getElementById("username");
+    var password = document.getElementById("password");
+    var data = "username=" + username.value + "&password=" + password.value + "&action=checkLogin";
+
+    request.open("POST", "/checkLogin", true);
+    request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    request.send(data);
+    request.responseText;
+
+    request.onreadystatechange = function () {
+        if(request.readyState === XMLHttpRequest.DONE && request.status === 200){
+            var res = request.responseText;
+            if(res=="false"){
+                console.log("stemmer ikke");
+                password.setAttribute("style","border-color:#ae030e");
+                return false
+            }
+            else {
+                console.log("stemmer");
+                window.location.href = "/";
+                return true;
+            }
+        }
+    };
 }
 
 

@@ -36,7 +36,7 @@ public class UserRegController {
         userBean.setPassword(request.getParameter("password").trim());
         userBean.setUsername(request.getParameter("username").trim());
         userBean.setAddress(request.getParameter("address").trim());
-
+        userBean.setIs_active(false);
 
         SqlHandler sqlHandler = new SqlHandler();
         sqlHandler.connect();
@@ -45,8 +45,10 @@ public class UserRegController {
             success = false;
         }
         else{
-            sqlHandler.addUser(userBean);
+            int userId = sqlHandler.addUser(userBean);
             success = true;
+            String link = "Click <a href=\"http://127.0.0.1:8081/confirmation?userId=" + userId + "\">here</a> to activate your user";
+            Email.sendEmail(userBean.getEmail(),"DigitalLibrary","Activate your user",link,"localhost");
         }
 
         sqlHandler.closeConnection();
@@ -59,7 +61,5 @@ public class UserRegController {
         sqlHandler.connect();
         sqlHandler.deleteUser(id);
         sqlHandler.closeConnection();
-
-
     }
 }
