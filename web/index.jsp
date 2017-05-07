@@ -77,16 +77,18 @@
 
                 <label><b>Password</b></label>
                 <input id="password" type="password" placeholder="Enter Password" name="password" required>
-
-                <input type="checkbox" checked="checked"> Remember me
+                <button type="button" onclick="validateLogin()">Login</button>
+                <input type="checkbox" checked="checked"/> Remember me
               </div>
+
+
+
 
               <div class="container" style="background-color:#f1f1f1">
                 <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
                 <span class="register"> <a href="UserRegistration">Register</a></span>
               </div>
             </form>
-            <button onclick="validateLogin()">Login</button>
           </div>
 
           <script>
