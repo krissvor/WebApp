@@ -61,8 +61,10 @@ public class StaticServlet extends HttpServlet {
         } else if (request.getRequestURI().startsWith("/admin")) {
             AdminController controller = new AdminController();
             controller.showLogin(request, response);
+        } else if (request.getRequestURI().startsWith("/userwishes")) {
+            AdminController controller = new AdminController();
+            controller.showUserWishHistory(request, response);
         } else {
-
             SqlHandler sqlHandler = new SqlHandler();
 
             if (request.getRequestURI().startsWith("/search")) {

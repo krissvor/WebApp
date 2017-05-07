@@ -5,7 +5,7 @@ import Beans.UserBean;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.Statement;
 import controllers.SearchController;
-import java.sql.*;
+
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -356,7 +356,7 @@ public class SqlHandler {
 		return bookStatement.getResultSet();
 	}
 
-	public List<BookBean> getActiveUserWishes(int userId) {
+	public List<BookBean> getUserWishes(int userId, boolean includeInactive) {
 		try {
 			if(this.connection == null || this.connection.isClosed()) {
 				this.connect();
@@ -365,8 +365,10 @@ public class SqlHandler {
 			PreparedStatement wishStatement = connection.prepareStatement("SELECT book_id " +
 					"FROM user, user_wishes " +
 					"WHERE user.id = user_wishes.user_id " +
-					"AND user_wishes.active = TRUE");
+					"AND user.id = ? " +
+					(includeInactive == true ? "" : "AND user_wishes.active = TRUE"));
 
+			wishStatement.setInt(1, userId);
 			wishStatement.execute();
 			ResultSet rs = wishStatement.getResultSet();
 			while(rs.next()) {
