@@ -66,7 +66,6 @@
                     <label><b>Password</b></label>
                     <input id="password" type="password" placeholder="Enter Password" name="password" required>
                     <button class="btn btn-success" type="button" onclick="validateLogin()">Login</button>
-                    <input type="checkbox" checked="checked"/> Remember me
                   </div>
 
                   <div class="container" style="background-color:#f1f1f1">

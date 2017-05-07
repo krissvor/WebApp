@@ -5,7 +5,7 @@
 <body>
 <%@include file="Header.jsp"%>
 <div class="container">
-    <h1 class="text-center">Shopping Cart</h1>
+    <h1 class="text-center">Wish list</h1>
     <table class="table">
         <c:choose>
             <c:when test="${wishedBooks == null || wishedBooks.size() == 0}">
@@ -14,9 +14,10 @@
             </c:when>
             <c:otherwise>
                 <c:forEach items="${wishedBooks}" var="bookBean">
-                    <tr>
+                    <td>
                         <td><c:out value="${bookBean.getTitle()}" /></td>
-                        <td><c:out value="${bookBean.getAuthor()}" /></td>
+                        <td><c:forEach items="${bookBean.getAuthor()}" var="author"><c:out value="${author}" />,
+                        </br></c:forEach></td>
                         <td><c:out value="${bookBean.getPublicationType()}" /></td>
                         <td><c:out value="${bookBean.getPublicationDate()}" /></td>
                         <td><c:out value="${bookBean.getVenues()}" /></td>
@@ -25,7 +26,7 @@
                                 <form action="/wishlist" method="post">
                                     <input type="hidden" name="id" value=${bookBean.id}>
                                     <input type="hidden" name="action" value="remove">
-                                    <button class="btn btn-primary" type="submit"> Remove from cart </button>
+                                    <button class="btn btn-primary" type="submit"> Remove from wish list </button>
                                 </form>
                             </div>
                         </td>

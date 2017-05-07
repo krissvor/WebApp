@@ -36,7 +36,8 @@
       <c:forEach items="${randomBooks}" var="bookBean">
         <tr>
           <td><c:out value="${bookBean.getTitle()}" /></td>
-          <td><c:out value="${bookBean.getAuthor()}" /></td>
+          <td><c:forEach items="${bookBean.getAuthor()}" var="author"><c:out value="${author}" />,
+            </br></c:forEach></td>
           <td><c:out value="${bookBean.getPublicationType()}" /></td>
           <td><c:out value="${bookBean.getPublicationDate()}" /></td>
           <td><c:out value="${bookBean.getVenues()}" /></td>
