@@ -86,4 +86,16 @@
         <servlet-name>WebappServlet</servlet-name>
         <url-pattern>/prefs</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>WebappServlet</servlet-name>
+        <url-pattern>/admin</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>WebappServlet</servlet-name>
+        <url-pattern>/adminpage</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>WebappServlet</servlet-name>
+        <url-pattern>/userwishes</url-pattern>
+    </servlet-mapping>
 </web-app>

@@ -54,9 +54,17 @@ public class StaticServlet extends HttpServlet {
             controller.viewPrefs(request, response);
         } else if (request.getRequestURI().startsWith("/confirmation")) {
             ValidationController controller = new ValidationController();
-            controller.confirmUser(request, response);
+            controller.confirmUser(request,response);
+        } else if(request.getRequestURI().startsWith("/adminpage")) {
+            AdminController controller = new AdminController();
+            controller.showAdminPage(request, response);
+        } else if (request.getRequestURI().startsWith("/admin")) {
+            AdminController controller = new AdminController();
+            controller.showLogin(request, response);
+        } else if (request.getRequestURI().startsWith("/userwishes")) {
+            AdminController controller = new AdminController();
+            controller.showUserWishHistory(request, response);
         } else {
-
             SqlHandler sqlHandler = new SqlHandler();
 
             if (request.getRequestURI().startsWith("/search")) {
@@ -99,16 +107,16 @@ public class StaticServlet extends HttpServlet {
         System.out.println("Tok i mot et kall");
         System.out.println(request.toString());
         String action = request.getParameter("action");
-        System.out.println("action is: " + action);
         SqlHandler sqlHandler;
 
-        if (request.getRequestURI().startsWith("/cart")) {
+        if(request.getRequestURI().startsWith("/cart")) {
             CartController controller = new CartController();
             controller.handleCartChange(request, response);
-        } else if (request.getRequestURI().startsWith("/wishlist")) {
+        } else if(request.getRequestURI().startsWith("/wishlist")) {
             WishListController controller = new WishListController();
             controller.handleWishListChange(request, response);
-        } else if (request.getRequestURI().startsWith("/logout")) {
+        }
+        else if(request.getRequestURI().startsWith("/logout")) {
             LoginController controller = new LoginController();
             controller.logout(request, response);
         } else if (request.getRequestURI().startsWith("/prefs")) {
@@ -120,12 +128,18 @@ public class StaticServlet extends HttpServlet {
             bookController.addBook(request);
         } else if (request.getRequestURI().startsWith("/register")) {
             UserRegController userReg = new UserRegController();
-            userReg.registerNewUser(request);
+            userReg.registerNewUser(request, response);
         }else if(request.getRequestURI().startsWith(("/toggleActive"))){
                 sqlHandler = new SqlHandler();
                 sqlHandler.connect();
                 sqlHandler.toggleActive(Integer.parseInt(request.getParameter("id")), Integer.parseInt(request.getParameter("isActive")));
                 sqlHandler.closeConnection();
+                response.sendRedirect("/prefs");
+            ;
+        } else if(request.getRequestURI().startsWith("/admin")) {
+            System.out.println("trying to log in admin");
+            AdminController controller = new AdminController();
+            controller.adminLogin(request,response);
         }
         if (action != null) {
             switch (action) {

@@ -3,18 +3,18 @@ package controllers;
 import Beans.UserBean;
 import server.SqlHandler;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Calendar;
-import java.util.Date;
 
 /**
  * Created by kriss on 03-May-17.
  */
 public class UserRegController {
 
-    public boolean registerNewUser(HttpServletRequest request){
+    public boolean registerNewUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         boolean success;
         UserBean userBean = new UserBean();
         userBean.setFirstName(request.getParameter("firstname"));
@@ -51,7 +51,9 @@ public class UserRegController {
 
             String link = "Click <a href=\"http://localhost:8081/confirmation?userId=" + userId + "\">here</a> to activate your user";
             Email.sendEmail(userBean.getEmail(),"DigitalLibrary","Activate your user",link,"localhost");
+            response.sendRedirect("/");
         }
+
 
         sqlHandler.closeConnection();
         return success;

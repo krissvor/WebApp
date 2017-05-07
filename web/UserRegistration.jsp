@@ -62,7 +62,7 @@
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-lg-6">
-                <button type="submit" class="btn btn-positive">Sign in</button>
+                <button type="submit" class="btn btn-positive">Sign up</button>
             </div>
         </div>
     </div>

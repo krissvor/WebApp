@@ -100,3 +100,4 @@
       </c:choose>
     </div>
   </nav>
+</div>

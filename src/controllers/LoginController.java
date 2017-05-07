@@ -27,8 +27,26 @@ public class LoginController {
         sqlHandler.connect();
         UserBean user = sqlHandler.verifyPassword(username, password);
         sqlHandler.closeConnection();
-
         if(user != null) {
+            System.out.println("Found user!: " +  user);
+            return user;
+        } else {
+            System.out.println("User not found!");
+            return null;
+        }
+    }
+
+    public UserBean adminLogin(HttpServletRequest request) {
+        System.out.println("In login...");
+        String username = request.getParameter("adminuser").trim();
+        String password = request.getParameter("adminpassword").trim();
+
+        SqlHandler sqlHandler = new SqlHandler();
+        sqlHandler.connect();
+        UserBean user = sqlHandler.verifyPassword(username, password);
+        sqlHandler.closeConnection();
+
+        if(user != null && user.getId()==0) {
             System.out.println("Found user!: " +  user);
             return user;
 
