@@ -45,8 +45,9 @@ public class UserRegController {
         }
         else{
             int userId = sqlHandler.addUser(userBean);
+            System.out.println("ADDING USER");
             success = true;
-            String link = "Click <a href=\"http://127.0.0.1:8080/confirmation?userId=" + userId + "\">here</a> to activate your user";
+            String link = "Click <a href=\"http://localhost:8081/confirmation?userId=" + userId + "\">here</a> to activate your user";
             Email.sendEmail(userBean.getEmail(),"DigitalLibrary","Activate your user",link,"localhost");
         }
 
