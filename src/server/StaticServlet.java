@@ -2,17 +2,11 @@ package server;
 
 
 import Beans.UserBean;
-import controllers.BookController;
-import controllers.LoginController;
-import controllers.SearchController;
-import controllers.UserRegController;
 import controllers.*;
 import org.xml.sax.SAXException;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,7 +21,6 @@ import java.util.HashSet;
  * Created by kriss on 01-May-17.
  */
 @WebServlet(name="StaticServlet")
-@MultipartConfig
 public class StaticServlet extends HttpServlet {
 
     public StaticServlet() throws ParserConfigurationException, SAXException {
@@ -106,6 +99,7 @@ public class StaticServlet extends HttpServlet {
         System.out.println("Tok i mot et kall");
         System.out.println(request.toString());
         String action = request.getParameter("action");
+        System.out.println("action is: " + action);
         SqlHandler sqlHandler;
 
         if (request.getRequestURI().startsWith("/cart")) {
@@ -165,6 +159,20 @@ public class StaticServlet extends HttpServlet {
                     int id = Integer.parseInt(request.getParameter("id"));
                     sqlHandler.deleteUser(id);
                     sqlHandler.closeConnection();
+                    break;
+
+                case("purchase"):
+                    HttpSession s = request.getSession();
+                    HashSet<Integer> books = (HashSet<Integer>) s.getAttribute("bookIds");
+                    s.removeAttribute("bookIds");
+
+                    PurchaseController purchase = new PurchaseController(books);
+
+                    response.sendRedirect( "/cart.jsp");
+
+
+
+                    break;
             }
         }
     }

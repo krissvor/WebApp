@@ -6,6 +6,7 @@ import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.Statement;
 import controllers.SearchController;
 
+
 import java.awt.print.Book;
 import java.sql.*;
 import java.sql.DriverManager;
@@ -28,9 +29,9 @@ public class SqlHandler {
 	public SqlHandler() {
 
 		try {
-			System.out.println("Loading MYSQL driver...");
+			//System.out.println("Loading MYSQL driver...");
 			Class.forName("com.mysql.jdbc.Driver");
-			System.out.println("MYSQL Driver loaded!");
+			//System.out.println("MYSQL Driver loaded!");
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException("Cannot find the driver in the classpath!", e);
 		}
@@ -38,7 +39,7 @@ public class SqlHandler {
 
 	public void connect() {
 
-		System.out.println("Connecting to SQLdatabase...");
+		//System.out.println("Connecting to SQLdatabase...");
 		try {
 
 			Properties connectionProps = new Properties();
@@ -46,7 +47,7 @@ public class SqlHandler {
 			connectionProps.put("password", "password");
 
 			connection = (Connection) DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/webApp", connectionProps);
-			System.out.println("connection to Mysql established");
+			//System.out.println("connection to Mysql established");
 		} catch (SQLException e) {
 			System.out.println("Could not establish a connection to the SQL database");
 			e.printStackTrace();
@@ -60,7 +61,7 @@ public class SqlHandler {
 		if (connection != null) {
 
 			try {
-				System.out.println("Closing Mysql connection...");
+				//System.out.println("Closing Mysql connection...");
 				connection.close();
 
 				if (resultSet != null) {
@@ -72,8 +73,34 @@ public class SqlHandler {
 			} catch (SQLException e) {
 				System.out.println("Failed to close connections" + e);
 			}
-			System.out.println("Connection to Mysql closed!");
+			//System.out.println("Connection to Mysqssl closed!");
 		}
+	}
+
+	public int getBooksellerId(int bookId) {
+
+		try {
+			statement = connection.createStatement();
+
+			java.sql.PreparedStatement get = connection.prepareStatement(
+					"SELECT user_id FROM user WHERE book_id = ?");
+
+			get.setInt(1, bookId);
+
+			ResultSet res = get.getResultSet();
+
+			if(res.next()){
+				return res.getInt(1);
+			}
+
+		}
+
+		catch(SQLException e) {
+		System.out.println(e.getMessage());
+	}
+
+	return -1;
+
 	}
 
 	public UserBean findUserById(String userId){
