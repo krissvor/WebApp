@@ -12,7 +12,48 @@ public class UserBean implements Serializable {
     private String username;
     private String nickname;
     private String email;
+    private String address;
     private int id;
+
+    @Override
+    public String toString() {
+        return "UserBean{" +
+                "firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", birthYear=" + birthYear +
+                ", username='" + username + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", email='" + email + '\'' +
+                ", address='" + address + '\'' +
+                ", id=" + id +
+                ", password='" + password + '\'' +
+                ", creditCard='" + creditCard + '\'' +
+                '}';
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
 
 
     public int getId() {
@@ -23,21 +64,6 @@ public class UserBean implements Serializable {
         this.id = id;
     }
 
-
-    @Override
-    public String toString() {
-        return "UserBean{" +
-                "firstName='" + firstname + '\'' +
-                ", lastName='" + lastname + '\'' +
-                ", birthYear=" + birthYear +
-                ", username='" + username + '\'' +
-                ", nickname='" + nickname + '\'' +
-                ", email='" + email + '\'' +
-                ", id=" + id +
-                ", password='" + password + '\'' +
-                ", creditCard='" + creditCard + '\'' +
-                '}';
-    }
 
     private String password;
     private String creditCard;

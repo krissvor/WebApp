@@ -65,6 +65,11 @@ function everythingFilled(){
             inputArray[i].setAttribute("style","border-color:#ae030e");
             formIsValid = false;
         }
+        else{
+            if(inputArray[i].id != "username") {
+                inputArray[i].setAttribute("style", "border-color:rgba(0,0,0,.15);");
+            }
+        }
     }
 }
 

@@ -75,6 +75,12 @@
                 <input type="creditCard" name="creditcard"class="form-control UserRegInput" id="creditCard" placeholder="1234 5678 9101 1121">
             </div>
         </div>
+        <div class="form-group" >
+            <label for="creditCard" class="col-sm-2 control-label">Address</label>
+            <div class="col-lg-6">
+                <input type="address" name="address"class="form-control UserRegInput" id="address" placeholder="address">
+            </div>
+        </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-lg-6">
                 <button type="submit" class="btn btn-secondary">Sign in</button>

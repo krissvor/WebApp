@@ -35,6 +35,7 @@ public class UserRegController {
         userBean.setNickname(request.getParameter("nickname").trim());
         userBean.setPassword(request.getParameter("password").trim());
         userBean.setUsername(request.getParameter("username").trim());
+        userBean.setAddress(request.getParameter("address").trim());
 
 
         SqlHandler sqlHandler = new SqlHandler();
