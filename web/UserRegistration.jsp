@@ -5,7 +5,7 @@
 <body>
 <%@include file="Header.jsp"%>
 <h1>User Registration</h1>
-<form action="UserRegistration" data-toggle="validator" onsubmit="return testUserForm()" METHOD="POST">
+<form action="/register" data-toggle="validator" onsubmit="return testUserForm()" METHOD="POST">
 
     <input type="hidden" name = "action" value = "UserRegistration">
     <div class="form-horizontal">
@@ -26,7 +26,7 @@
         </div>
         <div class="form-group" >
             <div class="col-lg-6">
-                <input type="text" name="username" class="form-control UserRegInput" onfocusout="validateUsername()" id="username" placeholder="Username">
+                <input type="text" name="username" class="form-control UserRegInput" onfocusout="validateUsername()" id="usernameReg" placeholder="Username">
             </div>
         </div>
         <div class="form-group" >
@@ -52,6 +52,12 @@
         <div class="form-group" >
             <div class="col-lg-6">
                 <input type="text" name="creditcard"class="form-control UserRegInput" id="creditCard" placeholder="Credit card number">
+            </div>
+        </div>
+        <div class="form-group" >
+            <label for="creditCard" class="col-sm-2 control-label">Address</label>
+            <div class="col-lg-6">
+                <input type="address" name="address"class="form-control UserRegInput" id="address" placeholder="address">
             </div>
         </div>
         <div class="form-group">
