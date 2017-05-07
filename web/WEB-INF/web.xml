@@ -5,7 +5,6 @@
          version="3.1">
 
     <display-name>assignment2</display-name>
-
     <welcome-file-list>
         <welcome-file>index</welcome-file>
     </welcome-file-list>
@@ -14,7 +13,7 @@
         <servlet-name>WebappServlet</servlet-name>
         <servlet-class>server.StaticServlet</servlet-class>
     </servlet>
-    
+
     <servlet-mapping>
         <servlet-name>WebappServlet</servlet-name>
         <url-pattern>/index</url-pattern>
@@ -39,9 +38,14 @@
         <servlet-name>WebappServlet</servlet-name>
         <url-pattern>/deleteUser</url-pattern>
     </servlet-mapping>
+
     <servlet-mapping>
         <servlet-name>WebappServlet</servlet-name>
         <url-pattern>/book</url-pattern>
+        <url-pattern>/checkUsername</url-pattern>
+    </servlet-mapping><servlet-mapping>
+        <servlet-name>WebappServlet</servlet-name>
+        <url-pattern>/checkLogin</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>WebappServlet</servlet-name>
@@ -58,10 +62,6 @@
     <servlet-mapping>
         <servlet-name>WebappServlet</servlet-name>
         <url-pattern>/register</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>WebappServlet</servlet-name>
-        <url-pattern>/checkLogin</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>WebappServlet</servlet-name>
