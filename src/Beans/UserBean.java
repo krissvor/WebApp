@@ -6,8 +6,9 @@ import java.io.Serializable;
  * Created by kriss on 03-May-17.
  */
 public class UserBean implements Serializable {
-    private String firstName;
-    private String lastName;
+    private String firstname;
+    private String lastname;
+    private String address;
     private int birthYear;
     private String username;
     private String nickname;
@@ -28,8 +29,8 @@ public class UserBean implements Serializable {
     @Override
     public String toString() {
         return "UserBean{" +
-                "firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
+                "firstName='" + firstname + '\'' +
+                ", lastName='" + lastname + '\'' +
                 ", birthYear=" + birthYear +
                 ", username='" + username + '\'' +
                 ", nickname='" + nickname + '\'' +
@@ -50,11 +51,11 @@ public class UserBean implements Serializable {
 
 
     public String getLastName() {
-        return lastName;
+        return lastname;
     }
 
     public void setLastName(String lastName) {
-        this.lastName = lastName;
+        this.lastname = lastName;
     }
 
     public int getBirthYear() {
@@ -106,15 +107,22 @@ public class UserBean implements Serializable {
     }
 
     public String getFirstName() {
-        return firstName;
+        return firstname;
     }
 
     public void setFirstName(String firstName) {
-        this.firstName = firstName;
+        this.firstname = firstName;
     }
 
-    public boolean is_active() {
-        return is_active;
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public boolean Is_active() { return is_active;
     }
 
     public void setIs_active(boolean is_active) {

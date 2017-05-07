@@ -4,6 +4,8 @@ import Beans.UserBean;
 import server.SqlHandler;
 
 import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -12,7 +14,8 @@ import java.util.Date;
  */
 public class UserRegController {
 
-    public void registerNewUser(HttpServletRequest request){
+    public boolean registerNewUser(HttpServletRequest request){
+        boolean success;
         UserBean userBean = new UserBean();
         userBean.setFirstName(request.getParameter("firstname"));
         userBean.setLastName(request.getParameter("lastname"));
@@ -36,22 +39,26 @@ public class UserRegController {
 
         SqlHandler sqlHandler = new SqlHandler();
         sqlHandler.connect();
-        sqlHandler.addUser(userBean);
-        System.out.println("prøver å få alle brukere");
-        sqlHandler.getAllUsers();
-        System.out.println("har prøvd");
-
-
-        int userId = userBean.getId();
-        String link = "Click <a href=\"http://127.0.0.1:8080/confirmation.jsp?userId=" + userId + "\">here</a> to activate your user";
-
-
-
-        Email.sendEmail(userBean.getEmail(),"DigitalLibrary","Activate your user",link,"localhost");
+        if(sqlHandler.usernameExists(request.getParameter("username").trim())){
+            System.out.println("Brukeren finnes allerede");
+            success = false;
+        }
+        else{
+            int userId = sqlHandler.addUser(userBean);
+            success = true;
+            String link = "Click <a href=\"http://127.0.0.1:8080/confirmation?userId=" + userId + "\">here</a> to activate your user";
+            Email.sendEmail(userBean.getEmail(),"DigitalLibrary","Activate your user",link,"localhost");
+        }
 
         sqlHandler.closeConnection();
+        return success;
+    }
 
-        System.out.println(userBean.toString());
 
+    public void deleteUser(int id){
+        SqlHandler sqlHandler = new SqlHandler();
+        sqlHandler.connect();
+        sqlHandler.deleteUser(id);
+        sqlHandler.closeConnection();
     }
 }
