@@ -1,12 +1,6 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Hanna
-  Date: 07.05.2017
-  Time: 21.06
-  To change this template use File | Settings | File Templates.
---%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
@@ -35,24 +29,32 @@
     </nav>
 </div>
 <div class="container">
-    <h1> Admin Page </h1>
+    <h1 class="text-center"> Wishes for ${user.username} </h1>
     <table class="table">
-        <c:forEach items="${users}" var="userBean">
+        <c:forEach items="${wishes}" var="bookBean">
             <tr>
-                <td><c:out value="${userBean.getId()}" /></td>
-                <td><c:out value="${userBean.getFirstName()}" /></td>
-                <td><c:out value="${userBean.getLastName()}" /></td>
-                <td><c:out value="${userBean.getBirthYear()}" /></td>
-                <td><c:out value="${userBean.getUsername()}" /></td>
-                <td><c:out value="${userBean.getNickname()}" /></td>
-                <form action="/deleteUser" method="post">
-                    <input type="hidden" name="id" value="${userBean.getId()}">
-                    <input type="hidden" name="action" value="deleteUser">
-                    <td><input type="submit" class="btn btn-secondary btn-md" value="Delete user"></td>
+                <td><c:out value="${bookBean.getTitle()}" /></td>
+                <td>
+                    <p class="card-text no-margin">
+                        <c:forEach items="${bookBean.author}" var="authorElem">
+                            ${authorElem},
+                        </c:forEach>
+                    </p>
+                </td>
+                <td><c:out value="${bookBean.getPublicationType()}" /></td>
+                <td><c:out value="${bookBean.getPublicationDate()}" /></td>
+                <td><c:out value="${bookBean.getVenues()}" /></td>
+                <form action="/book" method="get">
+                    <input type="hidden" name="id" value=${bookBean.id}>
+                    <td><input type="submit" class="btn btn-secondary btn-md" value="Details"></td>
                 </form>
-                <td> <a href="/userwishes?userId=${userBean.id}"> See wish history </a> </td>
             </tr>
         </c:forEach>
+        <c:choose>
+            <c:when test="${wishes == null || wishes.size() == 0}">
+                <h3 class="text-center"> This user has never had any wishes in its wish list </h3>
+            </c:when>
+        </c:choose>
     </table>
 </div>
 

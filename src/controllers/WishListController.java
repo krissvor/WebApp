@@ -8,9 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by eirikvikanes on 06/05/2017.
@@ -27,7 +25,7 @@ public class WishListController {
 
         //If there are publications to attach to the response, set an attribute with the results
         SqlHandler handler = new SqlHandler();
-        List<BookBean> wishedBooks = handler.getActiveUserWishes(userId);
+        List<BookBean> wishedBooks = handler.getUserWishes(userId, false);
 
         request.setAttribute("wishedBooks", wishedBooks);
         request.getRequestDispatcher("wishlist.jsp").forward(request, response);
