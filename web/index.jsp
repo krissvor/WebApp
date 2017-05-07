@@ -3,6 +3,7 @@
 <html>
 <body>
 <%@include file="Header.jsp"%>
+
 <div class="container">
   <div class="imagediv">
   <img src="books.jpg" class="img-fluid" alt="Responsive image">

@@ -103,7 +103,7 @@ public class SqlHandler {
 	}
 
 
-	public int addBook(BookBean book) {
+	public int addBook(BookBean book, int userId) {
 
 		int bookKey = -1;
 		int authorKey = -1;
@@ -151,6 +151,7 @@ public class SqlHandler {
 			ResultSet generatedKeys = add.getGeneratedKeys();
 			if (generatedKeys.next()) {
 				bookKey = generatedKeys.getInt(1);
+				addBookUserRelation(bookKey, userId);
 				System.out.println("addvenueBOOK: "+addVenueBook(bookKey, venueKey));
 			}
 			else{return -1;}
@@ -172,6 +173,30 @@ public class SqlHandler {
 			return -1;
 		} finally {
 
+		}
+
+		return -1;
+	}
+
+	private int addBookUserRelation(int bookID, int userId){
+		System.out.println("adding user book relation userId:" + userId);
+
+		try {
+			statement = connection.createStatement();
+
+			PreparedStatement add = connection.prepareStatement("INSERT INTO book_user(book_id, user_id) VALUES(?,?)");
+
+			add.setInt(1, bookID);
+			add.setInt(2, userId);
+
+			int affectedRows = add.executeUpdate();
+
+			if(affectedRows >= 1){
+				return 1;
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 
 		return -1;

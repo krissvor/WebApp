@@ -1,11 +1,13 @@
 package controllers;
 
 import Beans.BookBean;
+import Beans.UserBean;
 import server.SqlHandler;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -20,6 +22,12 @@ public class BookController {
     }
 
     public void addBook(HttpServletRequest request){
+        HttpSession session = request.getSession();
+        int userId = -1;
+        Object userObject = session.getAttribute("userId");
+        if ((userObject != null) && (userObject instanceof Integer)) {
+            userId = ((Integer) userObject).intValue();
+        }
         BookBean book = new BookBean();
         book.setTitle(request.getParameter("title"));
         book.setPublicationType(request.getParameter("publicationType"));
@@ -43,7 +51,7 @@ public class BookController {
 
         SqlHandler sq = new SqlHandler();
         sq.connect();
-        sq.addBook(book);
+        sq.addBook(book, userId);
         sq.closeConnection();
 
 
