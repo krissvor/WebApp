@@ -86,6 +86,14 @@
             </li>
           </ul>
         </c:when>
+        <c:otherwise>
+          <ul class="navbar-nav pull-sm-right navbar-item">
+            <form id="logout-form" action="logout" METHOD="POST">
+              <input type="hidden" name="action" value="logout">
+              <button type="submit" class="btn btn-danger">Log out</button>
+            </form>
+          </ul>
+        </c:otherwise>
       </c:choose>
     </div>
   </nav>

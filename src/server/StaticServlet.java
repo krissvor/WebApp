@@ -80,6 +80,9 @@ public class StaticServlet extends HttpServlet {
         } else if(request.getRequestURI().startsWith("/checkLogin")) {
             LoginController controller = new LoginController();
             controller.checkLogin(request, response);
+        } else if(request.getRequestURI().startsWith("/logout")) {
+            LoginController controller = new LoginController();
+            controller.logout(request, response);
         }
 
         switch (action) {
@@ -106,7 +109,6 @@ public class StaticServlet extends HttpServlet {
                 int id = Integer.parseInt(request.getParameter("id"));
                 sqlHandler.deleteUser(id);
                 sqlHandler.closeConnection();
-
         }
     }
 

@@ -55,4 +55,13 @@ public class LoginController {
         }
         handler.closeConnection();
     }
+
+    public void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        session.setAttribute("userId", null);
+        session.setAttribute("name", null);
+        session.setAttribute("username", null);
+        session.invalidate();
+        response.sendRedirect("/");
+    }
 }
