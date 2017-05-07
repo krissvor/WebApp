@@ -23,17 +23,16 @@
         <li class="nav-item active">
           <a class="nav-link" href="/">Digital Bibliographic Library <span class="sr-only">(current)</span></a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/register">User Registration</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/bookseller">Bookseller</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/cart">Shopping Cart</a>
-        </li>
+
+
         <c:choose>
           <c:when test="${sessionScope.userId != null}">
+            <li class="nav-item">
+              <a class="nav-link" href="/cart">Shopping Cart</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/bookseller">Bookseller</a>
+            </li>
             <li class="nav-item">
               <a class="nav-link" href="/wishlist">Wishlist</a>
             </li>
@@ -41,6 +40,11 @@
               <a class="nav-link" href="/prefs">Preferences</a>
             </li>
           </c:when>
+            <c:otherwise>
+              <li class="nav-item">
+                <a class="nav-link" href="/register">User Registration</a>
+              </li>
+            </c:otherwise>
         </c:choose>
       </ul>
       <c:choose>

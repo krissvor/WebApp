@@ -59,9 +59,10 @@ public class StaticServlet extends HttpServlet {
         } else if (request.getRequestURI().startsWith("/prefs")) {
             PrefsController controller = new PrefsController();
             controller.viewPrefs(request, response);
-        }
-
-        else {
+        } else if (request.getRequestURI().startsWith("/confirmation")) {
+            ValidationController controller = new ValidationController();
+            controller.confirmUser(request, response);
+        } else {
 
             SqlHandler sqlHandler = new SqlHandler();
 
@@ -120,58 +121,57 @@ public class StaticServlet extends HttpServlet {
         } else if(request.getRequestURI().startsWith("/prefs")) {
             PrefsController controller = new PrefsController();
             controller.removeBookFromSale(request, response);
-        }
+        } else if(request.getRequestURI().startsWith("/addBook")) {
+            System.out.println("trying to add book");
+            BookController bookController = new BookController();
+            bookController.addBook(request);
+        if(action!=null) {
+            switch (action) {
 
-        switch (action) {
+                case ("UserRegistration"):
+                    System.out.println("Recieved User registration request");
+                    UserRegController userReg = new UserRegController();
+                    userReg.registerNewUser(request);
+                    break;
 
-            case("UserRegistration"):
-                System.out.println("Recieved User registration request");
-                UserRegController userReg = new UserRegController();
-                userReg.registerNewUser(request);
-                break;
 
-            case("addBook"):
-                System.out.println("trying to add book");
-                BookController bookController = new BookController();
-                bookController.addBook(request);
-                break;
-            case("checkLogin"):
-                HttpSession session = request.getSession();
+                case ("checkLogin"):
+                    HttpSession session = request.getSession();
 
-                sqlHandler = new SqlHandler();
+                    sqlHandler = new SqlHandler();
 
-                String username = request.getParameter("username");
-                String password = request.getParameter("password");
-                sqlHandler.connect();
-                response.setContentType("text/html");
+                    String username = request.getParameter("username");
+                    String password = request.getParameter("password");
+                    sqlHandler.connect();
+                    response.setContentType("text/html");
 
-                PrintWriter out = response.getWriter();
-                System.out.println("trying to sign in");
-                LoginController loginController = new LoginController();
-                UserBean user = loginController.login(request);
-                if(user !=null){
-                    System.out.println(action);
-                    session.setAttribute("userId", user.getId());
-                    session.setAttribute("name", user.getFirstName() + " " + user.getLastName());
-                    session.setAttribute("username", user.getUsername());
-                    response.sendRedirect("/");
-                    out.write("true");
+                    PrintWriter out = response.getWriter();
+                    System.out.println("trying to sign in");
+                    LoginController loginController = new LoginController();
+                    UserBean user = loginController.login(request);
+                    if (user != null) {
+                        System.out.println(action);
+                        session.setAttribute("userId", user.getId());
+                        session.setAttribute("name", user.getFirstName() + " " + user.getLastName());
+                        session.setAttribute("username", user.getUsername());
+                        response.sendRedirect("/");
+                        out.write("true");
 
-                }else {
-                    out.write("false");
-                }
-                sqlHandler.closeConnection();
+                    } else {
+                        out.write("false");
+                    }
+                    sqlHandler.closeConnection();
 
-                break;
-            case ("deleteUser"):
-                sqlHandler = new SqlHandler();
-                sqlHandler.connect();
-                int id = Integer.parseInt(request.getParameter("id"));
-                sqlHandler.deleteUser(id);
-                sqlHandler.closeConnection();
+                    break;
+                case ("deleteUser"):
+                    sqlHandler = new SqlHandler();
+                    sqlHandler.connect();
+                    int id = Integer.parseInt(request.getParameter("id"));
+                    sqlHandler.deleteUser(id);
+                    sqlHandler.closeConnection();
+            }
         }
     }
-
 
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -182,6 +182,7 @@ public class StaticServlet extends HttpServlet {
         if(session.getAttribute("bookIds") == null) {
             session.setAttribute("bookIds", new HashSet<Integer>());
         }
+
 
         // Route the request to its intended location
         super.service(request, response);

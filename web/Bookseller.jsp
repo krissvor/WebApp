@@ -5,41 +5,41 @@
 <body>
 <%@include file="Header.jsp"%>
 <h1>Add books</h1>
-<form action="addBook"  METHOD="POST">
+<form action="addBook"  METHOD="POST" onsubmit="return validateBookForm()">
     <div class="form-horizontal">
         <div class="form-group">
             <div class="col-lg-6">
-                <input type="text" name="title" class="form-control UserRegInput" placeholder="Title">
+                <input type="text" name="title" id="title" class="necessary form-control UserRegInput" placeholder="Title">
             </div>
         </div>
         <div class="form-group">
             <div class="col-lg-6">
-                <input type="text" name="author" class="form-control UserRegInput" placeholder="author">
+                <input type="text" name="author" id="author" class="necessary form-control UserRegInput" placeholder="author, separate by ','">
             </div>
         </div>
         <div class="form-group">
             <div class="col-lg-6">
-                <input type="text" name="publicationType" class="form-control UserRegInput" placeholder="Publication type">
+                <input type="text" name="publicationType"id="publicationType" class="necessary form-control UserRegInput" placeholder="Publication type">
             </div>
         </div>
         <div class="form-group">
             <div class="col-lg-6">
-                <input type="text" name="publicationDate" class="form-control UserRegInput" placeholder="Publication Date">
+                <input type="date" name="publicationDate" id="publicationDate" class="necessary form-control UserRegInput" placeholder="Publication Date">
             </div>
         </div>
         <div class="form-group">
             <div class="col-lg-6">
-                <input type="text" name="venue" class="form-control UserRegInput" placeholder="Venue">
+                <input type="text" name="venue" id="venue"class="necessary form-control UserRegInput" placeholder="Venue">
             </div>
         </div>
         <div class="form-group">
             <div class="col-lg-6">
-                <input type="text" name="price" class="form-control UserRegInput" placeholder="Price">
+                <input type="text" name="price" id="price" class="necessary form-control UserRegInput" placeholder="Price">
             </div>
         </div>
         <div class="form-group">
             <div class="col-lg-6">
-                <input type="text" name="pages" class="form-control UserRegInput" placeholder="Pages">
+                <input type="text" name="pages" id="pages" class="form-control UserRegInput" placeholder="Pages">
             </div>
         </div>
         <div class="form-group">
