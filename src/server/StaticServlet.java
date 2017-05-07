@@ -2,17 +2,11 @@ package server;
 
 
 import Beans.UserBean;
-import Beans.UserBean;
-import controllers.BookController;
-import controllers.LoginController;
-import controllers.SearchController;
-import controllers.UserRegController;
 import controllers.*;
 import org.xml.sax.SAXException;
+
 import javax.servlet.ServletException;
-import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -55,6 +49,9 @@ public class StaticServlet extends HttpServlet {
             controller.showWishList(request, response);
         } else if (request.getRequestURI().startsWith("/register")) {
             request.getRequestDispatcher("UserRegistration.jsp").forward(request, response);
+        } else if (request.getRequestURI().startsWith("/prefs")) {
+            PrefsController controller = new PrefsController();
+            controller.viewPrefs(request, response);
         } else if (request.getRequestURI().startsWith("/confirmation")) {
             ValidationController controller = new ValidationController();
             controller.confirmUser(request,response);
@@ -65,6 +62,7 @@ public class StaticServlet extends HttpServlet {
             AdminController controller = new AdminController();
             controller.showLogin(request, response);
         } else {
+
             SqlHandler sqlHandler = new SqlHandler();
 
             if (request.getRequestURI().startsWith("/search")) {
@@ -119,24 +117,23 @@ public class StaticServlet extends HttpServlet {
         else if(request.getRequestURI().startsWith("/logout")) {
             LoginController controller = new LoginController();
             controller.logout(request, response);
-        }else if(request.getRequestURI().startsWith("/addBook")) {
+        } else if (request.getRequestURI().startsWith("/prefs")) {
+            PrefsController controller = new PrefsController();
+            controller.handlePost(request, response);
+        } else if (request.getRequestURI().startsWith("/addBook")) {
             System.out.println("trying to add book");
             BookController bookController = new BookController();
             bookController.addBook(request);
-        }else if(request.getRequestURI().startsWith("/admin")) {
+        } else if (request.getRequestURI().startsWith("/register")) {
+            UserRegController userReg = new UserRegController();
+            userReg.registerNewUser(request);
+        } else if(request.getRequestURI().startsWith("/admin")) {
             System.out.println("trying to log in admin");
             AdminController controller = new AdminController();
             controller.adminLogin(request,response);
         }
-        if(action!=null) {
+        if (action != null) {
             switch (action) {
-
-                case ("UserRegistration"):
-                    System.out.println("Recieved User registration request");
-                    UserRegController userReg = new UserRegController();
-                    userReg.registerNewUser(request);
-                    break;
-
 
                 case ("checkLogin"):
                     HttpSession session = request.getSession();
@@ -172,6 +169,20 @@ public class StaticServlet extends HttpServlet {
                     int id = Integer.parseInt(request.getParameter("id"));
                     sqlHandler.deleteUser(id);
                     sqlHandler.closeConnection();
+                    break;
+
+                case("purchase"):
+                    HttpSession s = request.getSession();
+                    HashSet<Integer> books = (HashSet<Integer>) s.getAttribute("bookIds");
+                    s.removeAttribute("bookIds");
+
+                    PurchaseController purchase = new PurchaseController(books);
+
+                    response.sendRedirect( "/cart.jsp");
+
+
+
+                    break;
             }
         }
     }

@@ -76,6 +76,14 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>WebappServlet</servlet-name>
+        <url-pattern>/purchase</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>WebappServlet</servlet-name>
+        <url-pattern>/prefs</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>WebappServlet</servlet-name>
         <url-pattern>/admin</url-pattern>
     </servlet-mapping>
     <servlet-mapping>

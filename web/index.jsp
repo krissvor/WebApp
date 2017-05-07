@@ -58,6 +58,5 @@
   });
 </script>
 
-<a href="admin.jsp">ADMIIIIIN</a>
 </body>
 </html>
