@@ -274,7 +274,10 @@ public class SqlHandler {
 			// If the attribute was author, select on author, else determine selection based on search attribute
 			ResultSet rs = (attr == AUTHOR) ? getAuthorSearchResultSet(term, page) : getSearchResultSet(term, attr, page);
 			while(rs.next()) {
-				resultList.add(bookFromResultSet(rs));
+				BookBean book = bookFromResultSet(rs);
+				if(book.getActive()) {
+					resultList.add(book);
+				}
 			}
 
 		} catch (SQLException e) {
