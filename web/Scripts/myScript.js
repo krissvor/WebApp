@@ -19,6 +19,94 @@ function testUserForm(){
 
 }
 
+function validateBookForm(){
+    formIsValid = true;
+    necessaryFilled();
+    validateReleaseDate();
+    validatePrice();
+    validatePages();
+
+    return formIsValid;
+}
+
+function validatePages(){
+    var field = document.getElementById("pages");
+    var value = field.value;
+    var isnum = /^[\d]+$/.test(value);
+    if(isnum) {
+        if (value < 0 || value ==""){
+            field.setAttribute("style", "border-color:#ae030e");
+            formIsValid = false;
+        }
+        else{
+            field.setAttribute("style","border-color:rgba(0,0,0,.15)");
+        }
+    }
+    else{
+        field.setAttribute("style","border-color:#ae030e");
+    }
+}
+
+function validateReleaseDate(){
+    var field = document.getElementById("publicationDate");
+    var date = new Date();
+    if(field.value!=""){
+        var string = field.value.split("-");
+        if(string[0]>date.getFullYear()) {
+            field.setAttribute("style", "border-color:#ae030e");
+            formIsValid = false;
+        }
+        else if(string[0] == date.getFullYear() && string[1]>date.getMonth()+1) {
+            field.setAttribute("style", "border-color:#ae030e");
+            formIsValid = false;
+        }
+        else if(string[0] == date.getFullYear()&&string[1]==date.getMonth()+1 &&string[2]>date.getDate()){
+            field.setAttribute("style", "border-color:#ae030e");
+            formIsValid = false;
+        }
+        else
+            field.setAttribute("style","border-color:rgba(0,0,0,.15)");
+    }
+    else{
+    field.setAttribute("style", "border-color:#ae030e");
+    formIsValid = false;
+    }
+
+}
+
+function validatePrice(){
+    var field = document.getElementById("price");
+    var value = field.value;
+    var isnum = /^[\d ]+$/.test(value);
+    if(isnum) {
+        if (value < 0||value=="") {
+            field.setAttribute("style", "border-color:#ae030e");
+            formIsValid = false;
+        }
+        else{
+            field.setAttribute("style","border-color:rgba(0,0,0,.15)");
+        }
+    }
+    else{
+        field.setAttribute("style","border-color:#ae030e");
+
+    }
+
+}
+
+function necessaryFilled(){
+    var forms = document.getElementsByClassName("necessary");
+    for (var i = 0; i <forms.length;i++){
+        if(forms[i].value.trim() == null || forms[i].value.trim() == ""){
+            forms[i].setAttribute("style","border-color:#ae030e");
+            formIsValid = false;
+        }
+        else{
+            forms[i].setAttribute("style","border-color:rgba(0,0,0,.15)");
+        }
+    }
+}
+
 
 function validateCredit(){
     var field = document.getElementById("creditCard");
