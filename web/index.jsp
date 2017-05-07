@@ -32,6 +32,24 @@
       </div>
     </form>
   </div>
+  <h3 class="text-center"> Random books </h3>
+  <div>
+    <table class="table">
+      <c:forEach items="${randomBooks}" var="bookBean">
+        <tr>
+          <td><c:out value="${bookBean.getTitle()}" /></td>
+          <td><c:out value="${bookBean.getAuthor()}" /></td>
+          <td><c:out value="${bookBean.getPublicationType()}" /></td>
+          <td><c:out value="${bookBean.getPublicationDate()}" /></td>
+          <td><c:out value="${bookBean.getVenues()}" /></td>
+          <form action="/book" method="get">
+            <input type="hidden" name="id" value=${bookBean.id}>
+            <td><input type="submit" class="btn btn-secondary btn-md" value="Details"></td>
+          </form>
+        </tr>
+      </c:forEach>
+    </table>
+  </div>
 </div>
 <script type="text/javascript">
   $(".dropdown-menu li a").click(function(){

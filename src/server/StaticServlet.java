@@ -28,8 +28,8 @@ public class StaticServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //System.out.println(request.getRequestURI());
         if(request.getRequestURI().equals("/")) {
-            System.out.println("Entered index...");
-            request.getRequestDispatcher("index.jsp").forward(request, response);
+            BookController controller = new BookController();
+            controller.viewRandomBooks(request, response);
         } else if (request.getRequestURI().startsWith("/search")) {
             SearchController controller = new SearchController();
             controller.search(request, response);

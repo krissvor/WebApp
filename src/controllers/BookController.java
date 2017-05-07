@@ -60,4 +60,17 @@ public class BookController {
             request.getRequestDispatcher("singleBook.jsp").forward(request, response);
         }
     }
+
+    public void viewRandomBooks(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int randomCount = 10;
+        int booksCount = 2871;
+        ArrayList<BookBean> books = new ArrayList<>();
+        SqlHandler handler = new SqlHandler();
+        while(books.size() < randomCount) {
+            int randId = new Double(Math.random() * booksCount).intValue();
+            books.add(handler.getSingleBook(randId, true));
+        }
+        request.setAttribute("randomBooks", books);
+        request.getRequestDispatcher("index.jsp").forward(request, response);
+    }
 }
