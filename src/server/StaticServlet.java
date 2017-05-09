@@ -128,7 +128,7 @@ public class StaticServlet extends HttpServlet {
             bookController.addBook(request);
         } else if (request.getRequestURI().startsWith("/register")) {
             UserRegController userReg = new UserRegController();
-            userReg.registerNewUser(request);
+            userReg.registerNewUser(request, response);
         } else if(request.getRequestURI().startsWith("/admin")) {
             System.out.println("trying to log in admin");
             AdminController controller = new AdminController();
