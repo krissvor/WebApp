@@ -10,6 +10,17 @@ public class BookBean implements Serializable{
 
     private String publicationType, publicationDate, venues, year, title, pages, journal, url, ee, price, picture;
     private int id;
+
+    public int getActive() {
+        return active;
+    }
+
+    public void setActive(int active) {
+        this.active = active;
+    }
+
+    private int active;
+
     private ArrayList<String> author;
 
     @Override

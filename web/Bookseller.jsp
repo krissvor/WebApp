@@ -4,8 +4,9 @@
 <html>
 <body>
 <%@include file="Header.jsp"%>
-<h1>Add books</h1>
-<form action="addBook"  METHOD="POST" onsubmit="return validateBookForm()">
+<div class="container">
+    <h1>Add books</h1>
+    <form action="addBook"  METHOD="POST" onsubmit="return validateBookForm()">
     <div class="form-horizontal">
         <div class="form-group">
             <div class="col-lg-6">
@@ -64,5 +65,6 @@
         </div>
     </div>
 </form>
+</div>
 </body>
 </html>

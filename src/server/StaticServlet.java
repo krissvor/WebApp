@@ -126,9 +126,17 @@ public class StaticServlet extends HttpServlet {
             System.out.println("trying to add book");
             BookController bookController = new BookController();
             bookController.addBook(request);
+            response.sendRedirect("/prefs");
         } else if (request.getRequestURI().startsWith("/register")) {
             UserRegController userReg = new UserRegController();
             userReg.registerNewUser(request, response);
+        }else if(request.getRequestURI().startsWith(("/toggleActive"))){
+                sqlHandler = new SqlHandler();
+                sqlHandler.connect();
+                sqlHandler.toggleActive(Integer.parseInt(request.getParameter("id")), Integer.parseInt(request.getParameter("isActive")));
+                sqlHandler.closeConnection();
+                response.sendRedirect("/prefs");
+            ;
         } else if(request.getRequestURI().startsWith("/admin")) {
             System.out.println("trying to log in admin");
             AdminController controller = new AdminController();

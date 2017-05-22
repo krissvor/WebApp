@@ -6,12 +6,7 @@
         <%@include file="Header.jsp"%>
         <div class="container">
             <h1 class="text-center">Shopping Cart</h1>
-            <div class="form-group">
-                <form action="/purchase" onsubmit="alert('Thanks for your purchase!')" method="post">
-                    <input type="hidden" value="purchase" name="action">
 
-                    <button type="submit" class="btn btn-secondary btn-md" value="purchase">Purchase</button>
-                </form>
             </div>
             <table class="table">
                 <c:choose>
@@ -20,10 +15,17 @@
                         <h3 class="text-center"> <a href="/"> Find some books to add them to the cart. </a> </h3>
                     </c:when>
                     <c:otherwise>
+                    <div class="form-group">
+                        <form action="/purchase" onsubmit="alert('Thanks for your purchase!')" method="post">
+                            <input type="hidden" value="purchase" name="action">
+                            <button type="submit" class="btn btn-secondary btn-md" value="purchase">Purchase</button>
+                        </form>
+
                         <c:forEach items="${cartBooks}" var="bookBean">
                             <tr>
                                 <td><c:out value="${bookBean.getTitle()}" /></td>
-                                <td><c:out value="${bookBean.getAuthor()}" /></td>
+                                <td><c:forEach items="${bookBean.getAuthor()}" var="author"><c:out value="${author}" />,
+                                    </br></c:forEach></td>
                                 <td><c:out value="${bookBean.getPublicationType()}" /></td>
                                 <td><c:out value="${bookBean.getPublicationDate()}" /></td>
                                 <td><c:out value="${bookBean.getVenues()}" /></td>
