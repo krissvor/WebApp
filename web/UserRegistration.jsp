@@ -4,6 +4,7 @@
 <html>
 <body>
 <%@include file="Header.jsp"%>
+<div class="container">
 <h1>User Registration</h1>
 <form action="/register" data-toggle="validator" onsubmit="return testUserForm()" METHOD="POST">
 
@@ -68,6 +69,7 @@
     </div>
 
 </form>
+</div>
 
 </body>
 </html>
