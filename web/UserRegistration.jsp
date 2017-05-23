@@ -4,8 +4,10 @@
 <html>
 <body>
 <%@include file="Header.jsp"%>
-<h1>User Registration</h1>
-<form action="/register" data-toggle="validator" onsubmit="return testUserForm()" METHOD="POST">
+<div class="container">
+    <h1>User Registration</h1>
+
+    <form action="/register" data-toggle="validator" onsubmit="return testUserForm()" METHOD="POST">
 
     <input type="hidden" name = "action" value = "UserRegistration">
     <div class="form-horizontal">
@@ -68,6 +70,7 @@
     </div>
 
 </form>
+</div>
 
 </body>
 </html>
