@@ -75,7 +75,7 @@ public class LoginController {
         session.setAttribute("userId", null);
         session.setAttribute("name", null);
         session.setAttribute("username", null);
-        //session.invalidate();
+        session.invalidate();
         response.sendRedirect("/");
     }
 }
