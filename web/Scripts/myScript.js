@@ -80,8 +80,8 @@ function validateReleaseDate(){
             field.setAttribute("style","border-color:rgba(0,0,0,.15)");
     }
     else{
-    field.setAttribute("style", "border-color:#ae030e");
-    formIsValid = false;
+        field.setAttribute("style", "border-color:#ae030e");
+        formIsValid = false;
     }
 
 }
@@ -297,26 +297,42 @@ function extractReview() {
         if(request.readyState === XMLHttpRequest.DONE && request.status === 200){
             var res = request.responseText;
             var jsonArray = JSON.parse(res);
-            var table = document.createElement("TABLE");
-            table.className += "table table-striped table-bordered"
-
-
-            for(var i=0;i<jsonArray.extracted.length;i++) {
-
-                var row = table.insertRow(0);
-
-                var cell1 = row.insertCell(0);
-                var cell2 = row.insertCell(1);
-                console.log(jsonArray.extracted[i].tag);
-
-                cell1.innerHTML = jsonArray.extracted[i].word;
-                cell2.innerHTML = jsonArray.extracted[i].tag;
-
-            }
+            var table = createTable(jsonArray.pos, "Part of speech");
             document.getElementById("extractedContainer").appendChild(table);
+            var table = createTable(jsonArray.synonyms, "Synonyms");
+            document.getElementById("extractedContainer").appendChild(table);
+            var table = createTable(jsonArray.named, "Named Entities");
+            document.getElementById("extractedContainer").appendChild(table);
+            var table = createTable(jsonArray.keywords, "Keywords");
+            document.getElementById("extractedContainer").appendChild(table);
+            // var table = createTable(jsonArray.pos);
+            // document.getElementById("extractedContainer").appendChild(table);
+
+
 
         }
     };
+}
+
+function createTable(jsonArray,  name){
+    var table = document.createElement("TABLE");
+
+    for(var i=0;i<jsonArray.length;i++) {
+
+        var row = table.insertRow(0);
+
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+        console.log(jsonArray[i].tag);
+
+        cell1.innerHTML = jsonArray[i].word;
+        cell2.innerHTML = jsonArray[i].tag;
+
+    }
+    table.className += "table table-striped table-bordered";
+    table.innerHTML+="<thead> <tr> <th>Word</th> <th>"+ name + "</th></tr>";
+
+    return table;
 }
 
 
