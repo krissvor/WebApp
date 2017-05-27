@@ -1,9 +1,7 @@
-package server;
-
-
 import Beans.UserBean;
 import controllers.*;
 import org.xml.sax.SAXException;
+import server.SqlHandler;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
