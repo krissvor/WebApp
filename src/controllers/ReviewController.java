@@ -1,7 +1,7 @@
 
 package controllers;
 
-import org.apache.commons.lang3.ArrayUtils;
+//import org.apache.commons.lang3.ArrayUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import server.SqlHandler;
@@ -10,7 +10,6 @@ import unsw.curation.api.domain.ExtractPosTag;
 import unsw.curation.api.extractnamedentity.ExtractEntitySentence;
 import unsw.curation.api.extractpostag.ExtractPosTagData;
 
-import javax.json.Json;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Array;
