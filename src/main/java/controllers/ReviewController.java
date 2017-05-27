@@ -37,6 +37,8 @@ public class ReviewController {
     public void extractReview(HttpServletRequest request, HttpServletResponse response){
         ArrayList<ExtractPosTag> posArray = new ArrayList<>();
         String review = request.getParameter("review");
+        JSONArray jsonArray = new JSONArray();
+        JSONObject mainObject = new JSONObject();
         try {
 
             ExtractEntitySentence sentenceEntity=new ExtractEntitySentence();
@@ -44,6 +46,10 @@ public class ReviewController {
             for(ExtractNamedEntity sEntity:lstSentenceEntities)
             {
                 System.out.println(sEntity.word+" "+sEntity.ner);
+                JSONObject json = new JSONObject();
+                json.put("tag", sEntity.ner);
+                json.put("word", sEntity.word);
+                jsonArray.put(json);
             }
 
 
@@ -57,10 +63,7 @@ public class ReviewController {
 
             List<ExtractPosTag> lstAdverb=posSentance.ExtractAdverb(review);
             posArray.addAll(lstAdverb);
-            JSONArray jsonArray = new JSONArray();
-            JSONObject mainObject = new JSONObject();
             for(ExtractPosTag e : posArray){
-                System.out.println("teller");
                 JSONObject json = new JSONObject();
                 json.put("word", e.getWordPart());
                 json.put("tag", e.getTag());

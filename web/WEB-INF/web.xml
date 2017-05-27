@@ -19,6 +19,14 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>WebappServlet</servlet-name>
+        <url-pattern>/addReview</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>WebappServlet</servlet-name>
+        <url-pattern>/extractReview</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>WebappServlet</servlet-name>
         <url-pattern>/index</url-pattern>
     </servlet-mapping>
     <servlet-mapping>

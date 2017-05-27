@@ -85,7 +85,8 @@
                 <button class="btn btn-primary" type="submit">Leave review</button>
             </form>
             <button class="btn btn-primary" onclick="extractReview()">Extract info</button>
-
+        </div>
+        <div id="extractedContainer">
 
         </div>
     </div>

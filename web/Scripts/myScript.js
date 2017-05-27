@@ -282,6 +282,43 @@ function validateLogin() {
     };
 }
 
+function extractReview() {
+    console.log("Extracting\n");
+    var request = new XMLHttpRequest();
+    var review = document.getElementById("inputReview").value;
+    var data = "review=" + review + "&action=extractReview";
+
+    request.open("POST", "/extractReview", true);
+    request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    request.send(data);
+    request.responseText;
+
+    request.onreadystatechange = function () {
+        if(request.readyState === XMLHttpRequest.DONE && request.status === 200){
+            var res = request.responseText;
+            var jsonArray = JSON.parse(res);
+            var table = document.createElement("TABLE");
+            table.className += "table table-striped table-bordered"
+
+
+            for(var i=0;i<jsonArray.extracted.length;i++) {
+
+                var row = table.insertRow(0);
+
+                var cell1 = row.insertCell(0);
+                var cell2 = row.insertCell(1);
+                console.log(jsonArray.extracted[i].tag);
+
+                cell1.innerHTML = jsonArray.extracted[i].word;
+                cell2.innerHTML = jsonArray.extracted[i].tag;
+
+            }
+            document.getElementById("extractedContainer").appendChild(table);
+
+        }
+    };
+}
+
 
 function validateYear(){
     var field = document.getElementById("year");
