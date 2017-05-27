@@ -2,5 +2,5 @@
 **/logs/
 **/.idea/
 .DS_Store
-lib/
+web/WEB-INF/lib/
 WebApp.iml

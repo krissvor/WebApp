@@ -1,7 +1,9 @@
+package server;
+
+
 import Beans.UserBean;
 import controllers.*;
 import org.xml.sax.SAXException;
-import server.SqlHandler;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,6 +16,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashSet;
+
 
 /**
  * Created by kriss on 01-May-17.
@@ -107,6 +110,9 @@ public class StaticServlet extends HttpServlet {
         String action = request.getParameter("action");
         SqlHandler sqlHandler;
 
+
+        //SKRIVER HER
+
         if(request.getRequestURI().startsWith("/cart")) {
             CartController controller = new CartController();
             controller.handleCartChange(request, response);
@@ -124,16 +130,15 @@ public class StaticServlet extends HttpServlet {
             System.out.println("trying to add book");
             BookController bookController = new BookController();
             bookController.addBook(request);
-            response.sendRedirect("/prefs");
         } else if (request.getRequestURI().startsWith("/register")) {
             UserRegController userReg = new UserRegController();
             userReg.registerNewUser(request, response);
         }else if(request.getRequestURI().startsWith(("/toggleActive"))){
-                sqlHandler = new SqlHandler();
-                sqlHandler.connect();
-                sqlHandler.toggleActive(Integer.parseInt(request.getParameter("id")), Integer.parseInt(request.getParameter("isActive")));
-                sqlHandler.closeConnection();
-                response.sendRedirect("/prefs");
+            sqlHandler = new SqlHandler();
+            sqlHandler.connect();
+            sqlHandler.toggleActive(Integer.parseInt(request.getParameter("id")), Integer.parseInt(request.getParameter("isActive")));
+            sqlHandler.closeConnection();
+            response.sendRedirect("/prefs");
             ;
         } else if(request.getRequestURI().startsWith("/admin")) {
             System.out.println("trying to log in admin");
@@ -187,10 +192,14 @@ public class StaticServlet extends HttpServlet {
                     PurchaseController purchase = new PurchaseController(books);
 
                     response.sendRedirect( "/cart.jsp");
-
-
-
                     break;
+                case("addReview"):
+                    ReviewController rc = new ReviewController();
+                    rc.postReview(request, response);
+                    break;
+                case("extractReview"):
+                    ReviewController rc1 = new ReviewController();
+                    rc1.extractReview(request, response);
             }
         }
     }

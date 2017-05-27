@@ -2,19 +2,15 @@ package server;
 
 import Beans.BookBean;
 import Beans.UserBean;
-import com.mysql.jdbc.Connection;
-import com.mysql.jdbc.Statement;
 import controllers.SearchController;
 
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
 import static controllers.SearchController.SEARCHATTRIBUTE.AUTHOR;
+import static java.sql.Statement.RETURN_GENERATED_KEYS;
 
 
 public class SqlHandler {
@@ -80,7 +76,7 @@ public class SqlHandler {
 		try {
 			statement = connection.createStatement();
 
-			java.sql.PreparedStatement get = connection.prepareStatement(
+			PreparedStatement get = connection.prepareStatement(
 					"SELECT user_id FROM book_user WHERE book_id = ?");
 
 			get.setInt(1, bookId);
@@ -107,7 +103,7 @@ public class SqlHandler {
 		try {
 			statement = connection.createStatement();
 
-			java.sql.PreparedStatement add = connection.prepareStatement(
+			PreparedStatement add = connection.prepareStatement(
 					"SELECT * FROM user WHERE id = ?");
 
 			add.setString(1, userId);
@@ -143,7 +139,7 @@ public class SqlHandler {
 		try {
 			statement = connection.createStatement();
 
-			java.sql.PreparedStatement add = connection.prepareStatement(
+			PreparedStatement add = connection.prepareStatement(
 					"SELECT * FROM user WHERE username = ?");
 
 			add.setString(1, username);
@@ -199,8 +195,8 @@ public class SqlHandler {
 
 			statement = connection.createStatement();
 
-			java.sql.PreparedStatement add = connection.prepareStatement(
-					"INSERT INTO book (publicationtype, publicationdate,title,pages,url,ee,price) VALUES(?, ?, ? ,? ,?, ?,?)", Statement.RETURN_GENERATED_KEYS);
+			PreparedStatement add = connection.prepareStatement(
+					"INSERT INTO book (publicationtype, publicationdate,title,pages,url,ee,price) VALUES(?, ?, ? ,? ,?, ?,?)", RETURN_GENERATED_KEYS);
 			add.setString(1, book.getPublicationType());
 			add.setString(2, book.getPublicationDate());
 			add.setString(3, book.getTitle());
@@ -266,7 +262,7 @@ public class SqlHandler {
 	}
 
 	public List<BookBean> findBooks(String term, SearchController.SEARCHATTRIBUTE attr, int page) {
-		List<BookBean> resultList = new ArrayList<>();
+		List<BookBean> resultList = new ArrayList<BookBean>();
 		try {
 			if(this.connection == null || this.connection.isClosed()) {
 				this.connect();
@@ -364,7 +360,7 @@ public class SqlHandler {
 			if(this.connection == null || this.connection.isClosed()) {
 				this.connect();
 			}
-			ArrayList<BookBean> wishedBooks = new ArrayList<>();
+			ArrayList<BookBean> wishedBooks = new ArrayList<BookBean>();
 			PreparedStatement wishStatement = connection.prepareStatement("SELECT book_id " +
 					"FROM user, user_wishes " +
 					"WHERE user.id = user_wishes.user_id " +
@@ -397,7 +393,7 @@ public class SqlHandler {
 
 
 	private ArrayList<String> getAuthors(int bookId) throws SQLException {
-		ArrayList<String> authors = new ArrayList<>();
+		ArrayList<String> authors = new ArrayList<String>();
 
 		PreparedStatement authorStatement = connection.prepareStatement("SELECT name FROM author, book_author " +
 				"WHERE book_author.author_id = author.id AND " +
@@ -447,7 +443,7 @@ public class SqlHandler {
 			}
 			statement = connection.createStatement();
 
-			java.sql.PreparedStatement add = connection.prepareStatement(
+			PreparedStatement add = connection.prepareStatement(
 					"SELECT * FROM user WHERE username = ? AND password = ?");
 			add.setString(1, username);
 			add.setString(2, password);
@@ -491,14 +487,14 @@ public class SqlHandler {
 		try {
 			statement = connection.createStatement();
 
-			PreparedStatement add = connection.prepareStatement("SELECT * FROM author WHERE name='"+author+"'", Statement.RETURN_GENERATED_KEYS);
+			PreparedStatement add = connection.prepareStatement("SELECT * FROM author WHERE name='"+author+"'", RETURN_GENERATED_KEYS);
 
 			add.execute();
 
 			ResultSet entries = add.getResultSet();
 
 			if(!entries.next()){
-				add = connection.prepareStatement("INSERT INTO author(name) VALUES(?)", Statement.RETURN_GENERATED_KEYS);
+				add = connection.prepareStatement("INSERT INTO author(name) VALUES(?)", RETURN_GENERATED_KEYS);
 				add.setString(1, author);
 				add.executeUpdate();
 
@@ -551,8 +547,8 @@ public class SqlHandler {
 	public int addUser(UserBean user) {
 		try {
 			statement = connection.createStatement();
-			java.sql.PreparedStatement add = connection.prepareStatement(
-					"INSERT INTO user (username, password,email,nickname,firstname,lastname,creditcardnumber,yearofbirth,address,is_active) VALUES(?, ?, ? ,? ,?, ?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+			PreparedStatement add = connection.prepareStatement(
+					"INSERT INTO user (username, password,email,nickname,firstname,lastname,creditcardnumber,yearofbirth,address,is_active) VALUES(?, ?, ? ,? ,?, ?,?,?,?,?)", RETURN_GENERATED_KEYS);
 			add.setString(1, user.getUsername());
 			add.setString(2, user.getPassword());
 			add.setString(3, user.getEmail());
@@ -589,7 +585,7 @@ public class SqlHandler {
 
 
 	public ArrayList<UserBean> getAllUsers(){
-		ArrayList<UserBean> users = new ArrayList<>();
+		ArrayList<UserBean> users = new ArrayList<UserBean>();
 
 		try {
 			statement = connection.createStatement();
@@ -636,14 +632,14 @@ public class SqlHandler {
 
 	private int addVenue(String venue){
 		try{
-			PreparedStatement add = connection.prepareStatement("SELECT * FROM venue WHERE name='"+venue+"'", Statement.RETURN_GENERATED_KEYS);
+			PreparedStatement add = connection.prepareStatement("SELECT * FROM venue WHERE name='"+venue+"'", RETURN_GENERATED_KEYS);
 
 			add.execute();
 
 			ResultSet entries = add.getResultSet();
 
 			if(!entries.next()){
-				add = connection.prepareStatement("INSERT INTO venue(name) VALUES(?)", Statement.RETURN_GENERATED_KEYS);
+				add = connection.prepareStatement("INSERT INTO venue(name) VALUES(?)", RETURN_GENERATED_KEYS);
 				add.setString(1, venue);
 				add.executeUpdate();
 
@@ -688,6 +684,33 @@ public class SqlHandler {
 
 		return -1;
 	}
+
+	public int addReview(int bookId, String review){
+
+
+		try {
+			statement = connection.createStatement();
+
+			PreparedStatement add = connection.prepareStatement("INSERT INTO review(review) VALUES(?)", RETURN_GENERATED_KEYS);
+			add.setString(1, review);
+			int reviewId = add.executeUpdate();
+
+			add = connection.prepareStatement("INSERT INTO book_review(book_id, review_id) VALUES(?,?)", RETURN_GENERATED_KEYS);
+			add.setInt(1, bookId);
+			add.setInt(2,reviewId);
+			int affectedRows = add.executeUpdate();
+
+			if(affectedRows >= 1){
+				return 1;
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return -1;
+	}
+
 
 
 	public int updateUser(UserBean user){
@@ -769,7 +792,7 @@ public class SqlHandler {
 			bookStatement.execute();
 			ResultSet rs = bookStatement.getResultSet();
 
-			List<BookBean> books = new ArrayList<>();
+			List<BookBean> books = new ArrayList<BookBean>();
 			while(rs.next()) {
 				books.add(getSingleBook(rs.getInt("book_id"), false));
 			}

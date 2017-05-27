@@ -79,6 +79,15 @@
                 </c:when>
             </c:choose>
         </div>
+        <div>
+            <form method="POST" action="addReview">
+            <textarea rows="6" cols="60" id="inputReview" placeholder="Have you read this book? leave a review!"></textarea>
+                <button class="btn btn-primary" type="submit">Leave review</button>
+            </form>
+            <button class="btn btn-primary" onclick="extractReview()">Extract info</button>
+
+
+        </div>
     </div>
 </body>
 </html>
